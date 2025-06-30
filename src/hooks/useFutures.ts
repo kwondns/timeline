@@ -35,7 +35,8 @@ export const useCreateFuture = () => {
 
   const { mutate: createFuture, isPending: isCreating } = useMutation({
     mutationFn: async (payload: FutureCreateType) => {
-      await PostFetch<FutureCreateType, FutureType>('time/future', payload);
+      const { priority, ...exceptPriorityPayload } = payload;
+      await PostFetch<Omit<FutureCreateType, 'priority'>, FutureType>('time/future', exceptPriorityPayload);
     },
     onMutate: () => {
       toast('미래를 만드는 중...', { autoClose: false, toastId: 'futureCreate' });
