@@ -39,7 +39,7 @@ export const useUpdatePresent = () => {
 };
 
 export const useSocketPresent = () => {
-  const socket = io(import.meta.env.VITE_WS_SERVER_URL);
+  const socket = io(`${import.meta.env.VITE_WS_SERVER_URL}/present`);
   const queryClient = useQueryClient();
   const setContent = useSetRecoilState(MarkdownAtom);
   const setStartTime = useSetRecoilState(StartTimeAtom);
