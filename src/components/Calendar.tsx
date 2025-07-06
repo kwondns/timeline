@@ -71,10 +71,10 @@ export default function Calendar() {
                   </span>
                   <div className="overflow-auto">
                     {data
-                      ? data[titleIndex]?.titles?.map((title, titleIndex) => (
+                      ? data[titleIndex]?.titles?.map((title, insideIndex) => (
                           <span
                             key={`${data[titleIndex].date}_${data[titleIndex].id}_${title}`}
-                            id={`${weekIndex}.${dayIndex}.${titleIndex}.${data[titleIndex].count}`}
+                            id={`${weekIndex}.${dayIndex}.${insideIndex}.${data[titleIndex].count}`}
                             onClick={onClickTitle}
                             className="mb-1.5 block cursor-pointer"
                           >

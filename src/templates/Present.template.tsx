@@ -82,6 +82,7 @@ export default function PresentTemplate() {
             id="title"
             type="text"
             placeholder="제목 입력"
+            onKeyDown={onSaveShortcut}
             {...register('title', { required: true, onChange: onChangeTitle })}
           />
           <input type="hidden" {...register('startTime', { required: true })} />
