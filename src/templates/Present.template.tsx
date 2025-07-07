@@ -126,10 +126,10 @@ export default function PresentTemplate() {
               setContent(value as string);
             }}
             onPaste={async (event) => {
-              await onImagePasted(event, event.clipboardData, 'time', startTimeString, setContent);
+              await onImagePasted(event, event.clipboardData, 'timeline', startTimeString, setContent);
             }}
             onDrop={async (event) => {
-              await onImagePasted(event, event.dataTransfer, 'time', startTimeString, setContent);
+              await onImagePasted(event, event.dataTransfer, 'timeline', startTimeString, setContent);
             }}
             textareaProps={{
               placeholder: '꾸준히 작성하자',
