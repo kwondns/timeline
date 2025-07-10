@@ -57,7 +57,8 @@ export const useUpdateFuture = () => {
 
   const { mutate: updateFuture, isPending: isUpdating } = useMutation({
     mutationFn: async (payload: FutureUpdateType) => {
-      await PatchFetch<FutureUpdateType, FutureType>('time/future', payload);
+      const { priority, ...exceptPriorityPayload } = payload;
+      await PatchFetch<Omit<FutureUpdateType, 'priority'>, FutureType>('time/future', exceptPriorityPayload);
     },
     onMutate: () => {
       toast('미래를 바꾸는 중...', { autoClose: false, toastId: 'futureUpdate' });
