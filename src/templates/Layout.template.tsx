@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { MobileSelector } from '@/stores/Layout.store';
 import Header from '@/components/Header';
 import CarouselContainer from '@/components/CarouselContainer';
+import Chat from '@/components/Chat';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export default function LayoutTemplate(props: LayoutProps) {
       <main className={mainHeight}>
         <CarouselContainer>{children}</CarouselContainer>
       </main>
+      <Chat />
     </div>
   );
 }

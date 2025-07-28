@@ -110,7 +110,7 @@ const router = createBrowserRouter([
 export default function Router() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
       <RouterProvider router={router} />
     </QueryClientProvider>
   );
