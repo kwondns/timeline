@@ -1,0 +1,22 @@
+{
+  "plugins": ["react", "react-hooks", "jsx-a11y"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "error"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "out/**",
+    "node_modules/**"
+  ]
+}
