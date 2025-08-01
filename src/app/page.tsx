@@ -1,3 +1,5 @@
+import { redirect, RedirectType } from 'next/navigation';
+
 export default function Page() {
-  return <h1>hello</h1>;
+  return redirect('/present', RedirectType.replace);
 }
