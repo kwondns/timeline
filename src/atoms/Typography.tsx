@@ -20,7 +20,7 @@ const typoType: { defaultClassName: string; component: TypographyComponentType }
     defaultClassName: 'scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance',
     component: 'h1',
   },
-  { defaultClassName: 'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0', component: 'h2' },
+  { defaultClassName: 'scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0', component: 'h2' },
   {
     defaultClassName: 'scroll-m-20 text-2xl font-semibold tracking-tight',
     component: 'h3',
