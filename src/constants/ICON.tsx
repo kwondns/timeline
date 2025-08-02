@@ -1,4 +1,4 @@
-import { CgSandClock, CgCalendar } from 'react-icons/cg';
+import { CgSandClock, CgCalendar, CgAdd } from 'react-icons/cg';
 import { SlRocket } from 'react-icons/sl';
 import { IoMdTime } from 'react-icons/io';
 
@@ -7,6 +7,7 @@ export const ICON = {
   time: IoMdTime,
   rocket: SlRocket,
   calendar: CgCalendar,
+  add: CgAdd,
 } as const;
 
 export type IconType = keyof typeof ICON;
