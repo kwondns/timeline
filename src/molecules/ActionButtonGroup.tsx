@@ -9,10 +9,12 @@ export default function ActionButtonGroup(props: ActionButtonGroupProps) {
   const { onTempSave, onSave } = props;
   return (
     <Container className="gap-2">
-      <Button variant="outline" onClick={onTempSave}>
+      <Button className="text-2xl py-6" size="lg" variant="outline" onClick={onTempSave}>
         임시 저장
       </Button>
-      <Button onClick={onSave}>저장</Button>
+      <Button className="text-2xl py-6" size="lg" onClick={onSave}>
+        저장
+      </Button>
     </Container>
   );
 }
