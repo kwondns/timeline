@@ -6,8 +6,8 @@ import Editor from '@/molecules/Editor';
 
 export default function Present() {
   return (
-    <Container direction="column" className="h-full">
-      <PresentInfo from={''} to={''} diff={''} onTempSave={() => {}} onSave={() => {}} />
+    <Container direction="column" className="h-full px-4 pt-8">
+      <PresentInfo from={new Date('2025/08/02 14:23:32')} onTempSave={() => {}} onSave={() => {}} />
       <Editor />
     </Container>
   );
