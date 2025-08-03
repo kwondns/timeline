@@ -1,5 +1,5 @@
-import Present from '@/templates/Present';
+import PresentTemplate from '@/templates/Present.template';
 
 export default function Page() {
-  return <Present />;
+  return <PresentTemplate />;
 }

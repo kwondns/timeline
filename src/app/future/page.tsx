@@ -1,6 +1,6 @@
-import Future, { FutureProps } from '@/templates/Future';
+import FutureTemplate, { FutureTemplateProps } from '@/templates/Future.template';
 
-const Mock: FutureProps['futureBoxs'] = [
+const Mock: FutureTemplateProps['futureBoxs'] = [
   {
     id: 'b13fb255-6865-4def-95a6-126565eff7f9',
     title: 'test check 1',
@@ -49,5 +49,5 @@ const Mock: FutureProps['futureBoxs'] = [
   },
 ];
 export default function Page() {
-  return <Future futureBoxs={Mock} />;
+  return <FutureTemplate futureBoxs={Mock} />;
 }

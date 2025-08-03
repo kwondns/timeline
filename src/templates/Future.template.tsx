@@ -2,8 +2,8 @@ import FutureBoxCard, { FutureBoxCardProps } from '@/organisms/FutureBoxCard';
 import Container from '@/atoms/Container';
 import Typography from '@/atoms/Typography';
 
-export type FutureProps = { futureBoxs: FutureBoxCardProps[] };
-export default function Future(props: FutureProps) {
+export type FutureTemplateProps = { futureBoxs: FutureBoxCardProps[] };
+export default function FutureTemplate(props: FutureTemplateProps) {
   const { futureBoxs } = props;
   return (
     <Container direction="column" className="gap-4 py-8 px-4">
