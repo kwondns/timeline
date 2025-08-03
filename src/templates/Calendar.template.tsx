@@ -1,0 +1,16 @@
+import Calendar from '@/organisms/Calendar';
+import Container from '@/atoms/Container';
+import CalendarController from '@/organisms/CalendarController';
+
+type CalendarTemplateProps = { current: Date };
+
+export default function CalendarTemplate(props: CalendarTemplateProps) {
+  const { current } = props;
+
+  return (
+    <Container direction="column" className="h-full">
+      <CalendarController current={current} />
+      <Calendar current={current} />
+    </Container>
+  );
+}
