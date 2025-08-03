@@ -3,7 +3,7 @@ import Typography from '@/atoms/Typography';
 import FutureContent, { FutureContentProps } from '@/molecules/FutureContent';
 import { Checkbox } from '@/components/ui/checkbox';
 import Container from '@/atoms/Container';
-import Icon from '@/atoms/Icon';
+import { Icon } from '@/atoms/Icon';
 
 export type FutureBoxCardProps = {
   title: string;
@@ -20,7 +20,7 @@ export default function FutureBoxCard(props: FutureBoxCardProps) {
         <Container className="justify-between">
           <Typography.h3>{title}</Typography.h3>
           <Container className="items-center gap-2">
-            <Icon name="add" />
+            {Icon['add']}
             <Checkbox checked={checked} />
           </Container>
         </Container>

@@ -13,33 +13,31 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import Typography from '@/atoms/Typography';
-import { CgSandClock, CgCalendar } from 'react-icons/cg';
-import { SlRocket } from 'react-icons/sl';
-import { IoMdTime } from 'react-icons/io';
 import { useEffect, useState } from 'react';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import Indicator from '@/molecules/Indicator';
+import { Icon } from '@/atoms/Icon';
 
 const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
   {
     title: '현재',
     url: '/present',
-    icon: <IoMdTime />,
+    icon: Icon['time'],
   },
   {
     title: '과거',
     url: '/past',
-    icon: <CgSandClock />,
+    icon: Icon['sandClock'],
   },
   {
     title: '달력',
     url: '/calendar',
-    icon: <CgCalendar />,
+    icon: Icon['calendar'],
   },
   {
     title: '미래',
     url: '/future',
-    icon: <SlRocket />,
+    icon: Icon['rocket'],
   },
 ];
 
