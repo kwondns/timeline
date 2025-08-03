@@ -6,6 +6,7 @@ import ActionButtonGroup, { ActionButtonGroupProps } from '@/molecules/ActionBut
 import { Card } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 import { calculateDateDiff } from '@/lib/date';
+import Indicator from '@/molecules/Indicator';
 
 type PresentInfoProps = {
   from: Date | null;
@@ -14,14 +15,10 @@ type PresentInfoProps = {
 export default function PresentInfo(props: PresentInfoProps) {
   const { from, onSave, onTempSave } = props;
   const diff = calculateDateDiff(from ?? '');
-  const indicatorStyle =
-    "before:content-[''] before:w-3 before:h-3 before:rounded-full before:absolute before:top-1/2 before:-translate-y-1/2 before:left-0 before:bg-blue-300";
   return (
     <Card className="gap-4 px-6 pt-6 bg-info-foreground/20 border-info/20">
       <Container className="justify-between items-center">
-        <Typography.p className={`relative text-blue-300 px-5 ${indicatorStyle} ${from ? 'before:animate-pulse' : ''}`}>
-          {from ? '진행중' : '휴식중'}
-        </Typography.p>
+        <Indicator active={!!from} />
         <Typography.h4 className="text-primary/70">{from?.toLocaleString('ko-kr')}</Typography.h4>
       </Container>
       {/* TODO 기본 Typo, 더블클릭 시 Input으로 변경 */}
