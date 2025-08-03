@@ -10,3 +10,6 @@ export const calculateDateDiff = (startDate: string | Date) => {
   result += `${Math.round(min)} 분`;
   return result;
 };
+
+export const calcPreviousMonth = (date: Date, firstDay: number) =>
+  new Date(date.getFullYear(), date.getMonth(), -firstDay + 1);

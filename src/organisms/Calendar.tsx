@@ -1,4 +1,4 @@
-import { calcPreviouseMonth } from '@/lib/date';
+import { calcPreviousMonth } from '@/lib/date';
 import { cache } from 'react';
 
 type CalendarProps = {
@@ -22,7 +22,7 @@ export default function Calendar(props: CalendarProps) {
   const { current } = props;
   const today = new Date();
   const firstDay = current.getDay();
-  const prev = calcPreviouseMonth(current, firstDay);
+  const prev = calcPreviousMonth(current, firstDay);
 
   const calendarArray = generateCalendar(prev);
   return (
