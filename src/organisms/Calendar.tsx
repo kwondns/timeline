@@ -1,8 +1,11 @@
 import { calcPreviousMonth } from '@/lib/date';
 import { cache } from 'react';
+import CalendarContent from '@/molecules/CalendarContent';
+import { PastType } from '@/types/past.type';
 
 type CalendarProps = {
   current: Date;
+  pasts: PastType[];
 };
 const generateCalendar = cache((startDate: Date) => {
   const calArr = [];
@@ -19,7 +22,7 @@ const generateCalendar = cache((startDate: Date) => {
 });
 
 export default function Calendar(props: CalendarProps) {
-  const { current } = props;
+  const { current, pasts } = props;
   const today = new Date();
   const firstDay = current.getDay();
   const prev = calcPreviousMonth(current, firstDay);
@@ -51,18 +54,7 @@ export default function Calendar(props: CalendarProps) {
                     {day.getDate() === 1 ? `${day.getMonth() + 1}월 ${day.getDate()}일` : `${day.getDate()}일`}
                   </span>
                   <div className="overflow-auto">
-                    {/* {data */}
-                    {/*   ? data[titleIndex]?.titles?.map((title, insideIndex) => ( */}
-                    {/*       <span */}
-                    {/*         key={`${data[titleIndex].date}_${data[titleIndex].id}_${title}`} */}
-                    {/*         id={`${weekIndex}.${dayIndex}.${insideIndex}.${data[titleIndex].count}`} */}
-                    {/*         onClick={onClickTitle} */}
-                    {/*         className="mb-1.5 block cursor-pointer" */}
-                    {/*       > */}
-                    {/*         {title} */}
-                    {/*       </span> */}
-                    {/*     )) */}
-                    {/*   : null} */}
+                    {pasts[titleIndex] && <CalendarContent past={pasts[titleIndex]} />}
                   </div>
                 </td>
               );

@@ -7,9 +7,10 @@ type TypographyComponentPropsType =
   | ComponentProps<'h3'>
   | ComponentProps<'h4'>
   | ComponentProps<'p'>
+  | ComponentProps<'span'>
   | Record<string, string>;
 
-type TypographyComponentType = 'h1' | 'h2' | 'h3' | 'h4' | 'p';
+type TypographyComponentType = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
 
 type TypographyPropsType = {
   [key in TypographyComponentType]: (props: TypographyComponentPropsType) => React.ReactNode;
@@ -32,6 +33,10 @@ const typoType: { defaultClassName: string; component: TypographyComponentType }
   {
     defaultClassName: '',
     component: 'p',
+  },
+  {
+    defaultClassName: 'text-sm',
+    component: 'span',
   },
 ];
 
