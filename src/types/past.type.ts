@@ -2,7 +2,7 @@ export type PastListType = {
   id: string;
   date: string;
   count: number;
-  titles: string[];
+  titles: string[] | [null];
   titles_count: number;
 };
 
