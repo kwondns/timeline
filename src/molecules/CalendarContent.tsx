@@ -3,10 +3,11 @@
 import Typography from '@/atoms/Typography';
 import { redirect } from 'next/navigation';
 import { MouseEvent } from 'react';
-import { PastType } from '@/types/past.type';
+import { PastListType } from '@/types/past.type';
+import { createPastLink } from '@/lib/date';
 
 type CalendarContentProps = {
-  past: PastType;
+  past: PastListType;
 };
 
 export default function CalendarContent(props: CalendarContentProps) {
@@ -14,8 +15,7 @@ export default function CalendarContent(props: CalendarContentProps) {
   const onClickTitle = (event: MouseEvent<HTMLSpanElement>) => {
     const { id } = event.currentTarget;
     const [date, index] = id.split('_');
-    const count = index === '0' ? '' : `?index=${index}`;
-    redirect(`/past/${new Date(date).toISOString().slice(0, 10)}${count}`);
+    redirect(createPastLink(date, index));
   };
 
   return past.titles.map((title, index) => (

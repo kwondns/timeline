@@ -23,3 +23,9 @@ export const fromToDiffDateFormat = (startDate: string | Date, endDate: string |
   const start = new Date(startDate).toLocaleTimeString('ko-KR', { timeStyle: 'short', hour12: false });
   return `${start} 부터 ${diff}`;
 };
+
+export const createPastLink = (date: string, index = '0') => {
+  const count = index === '0' ? '' : `?index=${index}`;
+
+  return `/past/${new Date(date).toISOString().slice(0, 10)}${count}`;
+};
