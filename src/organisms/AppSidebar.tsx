@@ -39,6 +39,11 @@ const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
     url: '/future',
     icon: Icon['rocket'],
   },
+  {
+    title: '시간',
+    url: '/time',
+    icon: Icon['analytics'],
+  },
 ];
 
 export default function AppSidebar() {

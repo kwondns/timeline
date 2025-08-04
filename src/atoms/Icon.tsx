@@ -3,6 +3,7 @@ import { SlRocket } from 'react-icons/sl';
 import { IoMdTime } from 'react-icons/io';
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import { RiResetLeftFill } from 'react-icons/ri';
+import { IoAnalytics } from 'react-icons/io5';
 
 export const Icon = {
   sandClock: <CgSandClock />,
@@ -13,6 +14,7 @@ export const Icon = {
   next: <MdNavigateNext />,
   before: <MdNavigateBefore />,
   reset: <RiResetLeftFill />,
+  analytics: <IoAnalytics />,
 } as const;
 
 export type IconType = keyof typeof Icon;
