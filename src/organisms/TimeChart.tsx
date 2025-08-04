@@ -5,10 +5,10 @@ import TimeChartTooltip from '@/molecules/TimeChartTooltip';
 import { MouseHandlerDataParam } from 'recharts/types/synchronisation/types';
 import { createPastLink } from '@/lib/date';
 import { useRouter } from 'next/navigation';
-import { PastListType } from '@/types/past.type';
+import { TimePastType } from '@/types/time.type';
 
 type TimeChartProps = {
-  pasts: PastListType[];
+  pasts: TimePastType[];
 };
 export default function TimeChart(props: TimeChartProps) {
   const { pasts } = props;

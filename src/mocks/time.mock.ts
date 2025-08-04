@@ -1,6 +1,6 @@
-import { PastListType } from '@/types/past.type';
+import { TimeFutureType, TimePastType } from '@/types/time.type';
 
-export default [
+export const PastMock = [
   {
     id: '33879718-c750-4ad2-9ba4-ee99ed57ef2d',
     date: '2025-07-06',
@@ -211,4 +211,34 @@ export default [
     titles: [null],
     titles_count: 0,
   },
-] as PastListType[];
+] as TimePastType[];
+
+export const FutureMock = [
+  {
+    id: 'd88c4f07-cf61-44c2-b74d-c230977ec18a',
+    title: 'Test',
+    order: 1,
+    checked: false,
+    progressRatio: 0,
+    totalFutures: 0,
+    completedFutures: 0,
+  },
+  {
+    id: 'b13fb255-6865-4def-95a6-126565eff7f9',
+    title: 'test check 1',
+    order: 3,
+    checked: false,
+    progressRatio: 0,
+    totalFutures: 3,
+    completedFutures: 0,
+  },
+  {
+    id: 'e4d31344-ab68-4a23-adeb-75092584c3fb',
+    title: 'test updated 1',
+    order: 2,
+    checked: false,
+    progressRatio: 0,
+    totalFutures: 1,
+    completedFutures: 0,
+  },
+] as TimeFutureType[];

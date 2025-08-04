@@ -1,8 +1,8 @@
 import ActivityCalendarItem from '@/molecules/ActivityCalendarItem';
-import { PastListType } from '@/types/past.type';
+import { TimePastType } from '@/types/time.type';
 
 type ActivityCalendarProps = {
-  pasts: PastListType[];
+  pasts: TimePastType[];
 };
 
 export default function ActivityCalendar(props: ActivityCalendarProps) {
