@@ -20,7 +20,7 @@ export default function CalendarContent(props: CalendarContentProps) {
 
   return past.titles.map((title, index) => (
     <Typography.span
-      key={`${past.id}_${title}`}
+      key={`${past.id}_${title}_${index}`}
       id={`${past.date}_${index}`}
       className="mb-1.5 block cursor-pointer"
       onClick={onClickTitle}
