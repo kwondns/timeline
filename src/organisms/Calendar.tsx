@@ -1,11 +1,11 @@
 import { calcPreviousMonth } from '@/lib/date';
 import { cache } from 'react';
 import CalendarContent from '@/molecules/CalendarContent';
-import { PastType } from '@/types/past.type';
+import { PastListType } from '@/types/past.type';
 
 type CalendarProps = {
   current: Date;
-  pasts: PastType[];
+  pasts: PastListType[];
 };
 const generateCalendar = cache((startDate: Date) => {
   const calArr = [];

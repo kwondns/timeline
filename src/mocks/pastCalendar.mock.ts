@@ -1,4 +1,4 @@
-import { PastType } from '@/types/past.type';
+import { PastListType } from '@/types/past.type';
 
 export default [
   {
@@ -57,4 +57,4 @@ export default [
     titles: [null],
     titles_count: 0,
   },
-] as PastType[];
+] as PastListType[];

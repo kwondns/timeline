@@ -1,4 +1,4 @@
-export type PastType = {
+export type PastListType = {
   id: string;
   date: string;
   count: number;

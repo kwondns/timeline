@@ -1,9 +1,9 @@
 import Calendar from '@/organisms/Calendar';
 import Container from '@/atoms/Container';
 import CalendarController from '@/organisms/CalendarController';
-import { PastType } from '@/types/past.type';
+import { PastListType } from '@/types/past.type';
 
-type CalendarTemplateProps = { current: Date; pasts: PastType[] };
+type CalendarTemplateProps = { current: Date; pasts: PastListType[] };
 
 export default function CalendarTemplate(props: CalendarTemplateProps) {
   const { current, pasts } = props;
