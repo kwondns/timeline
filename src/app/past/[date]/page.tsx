@@ -5,8 +5,8 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: { date: string };
-  searchParams: { index: string };
+  params: Promise<{ date: string }>;
+  searchParams: Promise<{ index: string }>;
 }) {
   const { date } = await params;
   const { index } = await searchParams;
