@@ -46,7 +46,7 @@ const FuturePercentageContent = (props: FuturePercentageContentProps) => {
 
 export default function FutureContent(props: FutureContentProps) {
   return (
-    <Card className="p-4 bg-brown hover:-translate-y-1 transition-transform">
+    <Card className="flex-1 p-4 bg-brown hover:-translate-y-1 transition-transform">
       {'checked' in props ? <FutureCheckContent {...props} /> : <FuturePercentageContent {...props} />}
     </Card>
   );
