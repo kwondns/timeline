@@ -2,25 +2,26 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 import FutureContent, { FutureContentProps } from '@/molecules/FutureContent';
 import Container from '@/atoms/Container';
-import { Icon } from '@/atoms/Icon';
 import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
+import NewFutureDialog from '@/organisms/NewFutureDialog';
 
 export type FutureBoxCardProps = {
   title: string;
   id: string;
   checked: boolean;
   order: number;
+  type: 'check' | 'progress';
   futures: FutureContentProps[];
 };
 export default function FutureBoxCard(props: FutureBoxCardProps) {
-  const { title, id, checked, futures } = props;
+  const { title, id, checked, type, futures } = props;
   return (
     <Card className="p-6" id={id}>
       <CardHeader>
         <Container className="justify-between">
           <Typography.h3>{title}</Typography.h3>
           <Container className="items-center gap-2">
-            {Icon['add']}
+            <NewFutureDialog boxId={id} type={type} />
             <CheckBoxWithAction id={id} initState={checked} category="box" />
           </Container>
         </Container>
