@@ -24,5 +24,5 @@ export default function CheckBoxWithAction(props: CheckBoxWithActionProps) {
       setChecked((prev) => !prev);
     }
   };
-  return <Checkbox checked={checked} onCheckedChange={onToggle} />;
+  return <Checkbox className="cursor-pointer" checked={checked} onCheckedChange={onToggle} />;
 }
