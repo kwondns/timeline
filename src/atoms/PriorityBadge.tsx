@@ -2,9 +2,10 @@ import { Badge } from '@/components/ui/badge';
 
 type PriorityBadgeProps = {
   priority: 1 | 2 | 3;
+  className?: string;
 };
 export default function PriorityBadge(props: PriorityBadgeProps) {
-  const { priority } = props;
+  const { priority, className = '' } = props;
   let badgeContent: string;
   let badgeColor: 'rose' | 'info' | 'green';
   switch (priority) {
@@ -21,5 +22,9 @@ export default function PriorityBadge(props: PriorityBadgeProps) {
       badgeColor = 'green';
   }
 
-  return <Badge variant={badgeColor}>{badgeContent}</Badge>;
+  return (
+    <Badge className={className} variant={badgeColor}>
+      {badgeContent}
+    </Badge>
+  );
 }
