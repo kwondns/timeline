@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 import FutureContent, { FutureContentProps } from '@/molecules/FutureContent';
-import { Checkbox } from '@/components/ui/checkbox';
 import Container from '@/atoms/Container';
 import { Icon } from '@/atoms/Icon';
+import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
 
 export type FutureBoxCardProps = {
   title: string;
@@ -21,7 +21,7 @@ export default function FutureBoxCard(props: FutureBoxCardProps) {
           <Typography.h3>{title}</Typography.h3>
           <Container className="items-center gap-2">
             {Icon['add']}
-            <Checkbox checked={checked} />
+            <CheckBoxWithAction id={id} initState={checked} category="box" />
           </Container>
         </Container>
       </CardHeader>

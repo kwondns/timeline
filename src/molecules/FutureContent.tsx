@@ -1,9 +1,9 @@
 import Typography from '@/atoms/Typography';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Card } from '@/components/ui/card';
 import Container from '@/atoms/Container';
 import PriorityBadge from '@/atoms/PriorityBadge';
 import { Slider } from '@/components/ui/slider';
+import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
 
 export type FutureContentProps = FutureCheckContentProps | FuturePercentageContentProps;
 
@@ -22,14 +22,14 @@ export type FuturePercentageContentProps = {
 } & FutureContentDefaultProps;
 
 const FutureCheckContent = (props: FutureCheckContentProps) => {
-  const { checked, content, priority } = props;
+  const { id, checked, content, priority } = props;
   return (
     <Container className="justify-between items-center">
       <Container className="gap-4">
         <PriorityBadge priority={priority} />
         <Typography.p>{content}</Typography.p>
       </Container>
-      <Checkbox checked={checked} />
+      <CheckBoxWithAction id={id} initState={checked} />
     </Container>
   );
 };
