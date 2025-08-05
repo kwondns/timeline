@@ -19,7 +19,7 @@ export default function PriorityRadio() {
   return (
     <Container className="gap-2">
       {PRIORITY.map((priority) => (
-        <Button key={priority} id={priority} variant="ghost" className="p-0 flex-1" onClick={onClick}>
+        <Button type="button" key={priority} id={priority} variant="ghost" className="p-0 flex-1" onClick={onClick}>
           <PriorityBadge
             priority={Number(priority) as PRIORITY}
             className={`size-full ${Number(priority) === currentPriority ? 'ring-2 ring-foreground/40' : 'ring-0'}`}
