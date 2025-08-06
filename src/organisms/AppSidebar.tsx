@@ -18,6 +18,10 @@ import { useSelectedLayoutSegments } from 'next/navigation';
 import Indicator from '@/molecules/Indicator';
 import { Icon } from '@/atoms/Icon';
 
+type AppSidebarProps = {
+  active: boolean;
+};
+
 const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
   {
     title: '현재',
@@ -46,7 +50,8 @@ const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
   },
 ];
 
-export default function AppSidebar() {
+export default function AppSidebar(props: AppSidebarProps) {
+  const { active } = props;
   const { setOpen, open } = useSidebar();
   const [isMounted, setIsMounted] = useState(false);
   const [transitionClass, setTransitionClass] = useState<string>('opacity-0');
@@ -81,7 +86,7 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent className="overflow-x-hidden">
             <Typography.h4 className="pl-0.5">
-              <Indicator className={`w-12 whitespace-nowrap`} />
+              <Indicator active={active} className={`w-12 whitespace-nowrap`} />
             </Typography.h4>
           </SidebarGroupContent>
         </SidebarGroup>
