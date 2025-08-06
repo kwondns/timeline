@@ -4,6 +4,7 @@ import FutureContent, { FutureContentProps } from '@/molecules/FutureContent';
 import Container from '@/atoms/Container';
 import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
 import NewFutureDialog from '@/organisms/NewFutureDialog';
+import InputOrDisplay from '@/atoms/InputOrDisplay';
 
 export type FutureBoxCardProps = {
   title: string;
@@ -19,7 +20,7 @@ export default function FutureBoxCard(props: FutureBoxCardProps) {
     <Card className="p-6" id={id}>
       <CardHeader>
         <Container className="justify-between">
-          <Typography.h3>{title}</Typography.h3>
+          <InputOrDisplay id={id} typo="h3" value={title} inputClassName="!text-2xl mr-2 pl-1" />
           <Container className="items-center gap-2">
             <NewFutureDialog boxId={id} type={type} />
             <CheckBoxWithAction id={id} initState={checked} category="box" />

@@ -29,7 +29,7 @@ export default function InputOrDisplay(props: InputOrDisplayProps) {
     setStatus('input');
   };
   const onEnterInputComponent = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' || e.key === 'Escape') {
       setStatus('typo');
     }
   };
@@ -39,7 +39,11 @@ export default function InputOrDisplay(props: InputOrDisplayProps) {
   };
   if (status === 'typo')
     return (
-      <TypoComponent className={`${className} ${typoClassName}`} onDoubleClick={onDoubleClickTypoComponent} {...others}>
+      <TypoComponent
+        className={`cursor-text ${className} ${typoClassName}`}
+        onDoubleClick={onDoubleClickTypoComponent}
+        {...others}
+      >
         {currentValue}
       </TypoComponent>
     );

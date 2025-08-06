@@ -1,9 +1,9 @@
-import Typography from '@/atoms/Typography';
 import { Card } from '@/components/ui/card';
 import Container from '@/atoms/Container';
 import PriorityBadge from '@/atoms/PriorityBadge';
 import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
 import SliderWithAction from '@/atoms/SliderWithAction';
+import InputOrDisplay from '@/atoms/InputOrDisplay';
 
 export type FutureContentProps = FutureCheckContentProps | FuturePercentageContentProps;
 
@@ -25,9 +25,9 @@ const FutureCheckContent = (props: FutureCheckContentProps) => {
   const { id, checked, content, priority } = props;
   return (
     <Container className="justify-between items-center">
-      <Container className="gap-4">
+      <Container className="gap-4 flex-1 pr-3">
         <PriorityBadge priority={priority} />
-        <Typography.p>{content}</Typography.p>
+        <InputOrDisplay id={id} typo="p" value={content} inputClassName="py-0 px-1 h-6" typoClassName="px-1 w-full" />
       </Container>
       <CheckBoxWithAction id={id} initState={checked} />
     </Container>
@@ -38,7 +38,7 @@ const FuturePercentageContent = (props: FuturePercentageContentProps) => {
   const { percentage, content, id } = props;
   return (
     <Container direction="column" className="gap-3">
-      <Typography.p>{content}</Typography.p>
+      <InputOrDisplay id={id} typo="p" value={content} inputClassName="py-0 px-1 h-6" typoClassName="px-1 w-full" />
       <SliderWithAction percentage={percentage} id={id} />
     </Container>
   );
