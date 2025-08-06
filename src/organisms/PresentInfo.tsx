@@ -6,10 +6,10 @@ import { Card } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 import { calculateDateDiff } from '@/lib/date';
 import Indicator from '@/molecules/Indicator';
-import InputOrDisplay from '@/atoms/InputOrDisplay';
+import PresentInputOrDisplay from '@/molecules/PresentInputOrDisplay';
 
 type PresentInfoProps = {
-  title: string;
+  title: string | null;
   from: Date | null;
 } & ActionButtonGroupProps;
 
@@ -22,17 +22,9 @@ export default function PresentInfo(props: PresentInfoProps) {
         <Indicator active={!!from} />
         <Typography.h4 className="text-primary/70">{from?.toLocaleString('ko-kr')}</Typography.h4>
       </Container>
-      <InputOrDisplay
-        value={title}
-        typo="h3"
-        className="!text-2xl"
-        inputClassName="!py-6 !px-2"
-        typoClassName="px-2 py-[9px]"
-        id="title"
-        placeholder="제목입력"
-      />
+      <PresentInputOrDisplay title={title} />
       <Container className="justify-between gap-6 items-center">
-        <Typography.h2 className="!pb-0">{diff}</Typography.h2>
+        {from ? <Typography.h2 className="!pb-0">{diff}</Typography.h2> : <div />}
         <ActionButtonGroup onTempSave={onTempSave} onSave={onSave} />
       </Container>
     </Card>
