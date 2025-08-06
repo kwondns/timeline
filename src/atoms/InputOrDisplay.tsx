@@ -1,12 +1,15 @@
 'use client';
 
 import Typography, { TypographyComponentType, TypographyPropsType } from '@/atoms/Typography';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Input } from '@/components/ui/input';
 
 type InputOrDisplayProps = {
   typo: TypographyComponentType;
+  action: () => void;
+  initValue?: string;
   value?: string;
+  setValue: Dispatch<SetStateAction<string>>;
   className?: string;
   inputClassName?: string;
   typoClassName?: string;
@@ -14,8 +17,11 @@ type InputOrDisplayProps = {
 } & (React.ComponentProps<'input'> | TypographyPropsType[TypographyComponentType]);
 export default function InputOrDisplay(props: InputOrDisplayProps) {
   const {
-    value = '',
     typo,
+    action,
+    initValue = '',
+    value = '',
+    setValue,
     className = '',
     inputClassName = '',
     typoClassName = '',
@@ -23,7 +29,6 @@ export default function InputOrDisplay(props: InputOrDisplayProps) {
     ...others
   } = props;
   const [status, setStatus] = useState<'typo' | 'input'>(value ? 'typo' : 'input');
-  const [currentValue, setCurrentValue] = useState(value);
   const TypoComponent = Typography[typo];
   const onDoubleClickTypoComponent = () => {
     setStatus('input');
@@ -32,10 +37,12 @@ export default function InputOrDisplay(props: InputOrDisplayProps) {
     if (e.key === 'Enter' || e.key === 'Escape') {
       setStatus('typo');
     }
+    if (e.key === 'Enter') action();
+    if (e.key === 'Escape') setValue(initValue);
   };
 
   const onChangeInputComponent = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(e.currentTarget.value);
+    setValue(e.currentTarget.value);
   };
   if (status === 'typo')
     return (
@@ -44,13 +51,13 @@ export default function InputOrDisplay(props: InputOrDisplayProps) {
         onDoubleClick={onDoubleClickTypoComponent}
         {...others}
       >
-        {currentValue}
+        {value}
       </TypoComponent>
     );
   return (
     <Input
       className={`${className} ${inputClassName}`}
-      value={currentValue}
+      value={value}
       onKeyDown={onEnterInputComponent}
       onChange={onChangeInputComponent}
       placeholder={placeholder}
