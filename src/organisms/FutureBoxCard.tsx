@@ -18,7 +18,7 @@ export type FutureBoxCardProps = {
 export default function FutureBoxCard(props: FutureBoxCardProps) {
   const { title, id, checked, type, futures } = props;
   return (
-    <Card className="p-6" id={id}>
+    <Card className="p-6 max-h-[450px]" id={id}>
       <CardHeader>
         <Container className="justify-between">
           <FutureInputOrDisplay id={id} value={title} category="box" />
