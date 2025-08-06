@@ -8,3 +8,9 @@ export const updatePresentTitleAction = async (title: string) => {
 
   revalidatePath('/present');
 };
+
+export const updatePresentStartAction = async () => {
+  await callFetch('/present', { startTime: new Date().toISOString() }, { method: 'PATCH' });
+
+  revalidatePath('/present');
+};

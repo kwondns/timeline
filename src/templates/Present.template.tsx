@@ -6,17 +6,17 @@ import Editor from '@/molecules/Editor';
 
 export type PresentTemplateProps = {
   title: string | null;
-  startDate: string | null;
+  startTime: string | null;
   content: string | null;
 };
 
 export default function PresentTemplate(props: PresentTemplateProps) {
-  const { title, startDate } = props;
+  const { title, startTime } = props;
   return (
     <Container direction="column" className="h-full px-4 pt-8">
       <PresentInfo
         title={title}
-        from={startDate ? new Date(startDate) : null}
+        from={startTime ? new Date(startTime) : null}
         onTempSave={() => {}}
         onSave={() => {}}
       />
