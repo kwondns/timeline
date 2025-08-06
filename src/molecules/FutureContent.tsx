@@ -2,8 +2,8 @@ import Typography from '@/atoms/Typography';
 import { Card } from '@/components/ui/card';
 import Container from '@/atoms/Container';
 import PriorityBadge from '@/atoms/PriorityBadge';
-import { Slider } from '@/components/ui/slider';
 import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
+import SliderWithAction from '@/atoms/SliderWithAction';
 
 export type FutureContentProps = FutureCheckContentProps | FuturePercentageContentProps;
 
@@ -35,11 +35,11 @@ const FutureCheckContent = (props: FutureCheckContentProps) => {
 };
 
 const FuturePercentageContent = (props: FuturePercentageContentProps) => {
-  const { percentage, content } = props;
+  const { percentage, content, id } = props;
   return (
     <Container direction="column" className="gap-3">
       <Typography.p>{content}</Typography.p>
-      <Slider value={[percentage]} min={0} max={100} />
+      <SliderWithAction percentage={percentage} id={id} />
     </Container>
   );
 };
