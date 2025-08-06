@@ -10,9 +10,9 @@ type TypographyComponentPropsType =
   | ComponentProps<'span'>
   | Record<string, string>;
 
-type TypographyComponentType = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
+export type TypographyComponentType = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span';
 
-type TypographyPropsType = {
+export type TypographyPropsType = {
   [key in TypographyComponentType]: (props: TypographyComponentPropsType) => React.ReactNode;
 };
 
