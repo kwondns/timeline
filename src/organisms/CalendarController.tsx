@@ -19,8 +19,6 @@ const ControllerButton = ({ icon, onClick }: { icon: IconType; onClick: () => vo
 export default function CalendarController(props: CalendarControllerProps) {
   const { current } = props;
   const today = new Date();
-  console.log(today.getMonth());
-  console.log(current.getMonth());
   const onClickPrevMonth = () => {
     redirect(`/calendar/${new Date(current.getFullYear(), current.getMonth() - 1, 2).toISOString().slice(0, 7)}`);
   };
