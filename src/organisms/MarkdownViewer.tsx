@@ -7,7 +7,7 @@ import { imgLazyLoading } from '@/lib/markdown';
 type MarkdownProps = {
   source: string;
 };
-export default function Markdown(props: MarkdownProps) {
+export default function MarkdownViewer(props: MarkdownProps) {
   const { source } = props;
   return (
     <MDEditor.Markdown

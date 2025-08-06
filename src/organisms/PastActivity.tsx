@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { PastActivityType } from '@/types/past.type';
 import Typography from '@/atoms/Typography';
-import Markdown from '@/organisms/Markdown';
+import MarkdownViewer from '@/organisms/MarkdownViewer';
 import Container from '@/atoms/Container';
 import { fromToDiffDateFormat } from '@/lib/date';
 
@@ -22,7 +22,7 @@ export default function PastActivity(props: PastActivityProps) {
             </Container>
           </AccordionTrigger>
           <AccordionContent>
-            <Markdown source={activity.content} />
+            <MarkdownViewer source={activity.content} />
           </AccordionContent>
         </AccordionItem>
       ))}
