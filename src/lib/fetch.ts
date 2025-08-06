@@ -3,9 +3,10 @@ export const callFetch = async <T extends Record<string, string | boolean | numb
   payload: T,
   options: RequestInit,
 ) => {
-  await fetch(`${process.env.API_SERVER_URL}${url}`, {
+  const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
     body: JSON.stringify(payload),
     headers: { 'Content-Type': 'application/json' },
     ...options,
   });
+  if (!response.ok) throw new Error(response.statusText);
 };
