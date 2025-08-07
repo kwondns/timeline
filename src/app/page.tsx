@@ -1,5 +1,5 @@
-import { redirect, RedirectType } from 'next/navigation';
+import SplashTemplate from '@/templates/Splash.template';
 
 export default function Page() {
-  return redirect('/present', RedirectType.replace);
+  return <SplashTemplate />;
 }
