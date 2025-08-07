@@ -10,3 +10,20 @@ export const callFetch = async <T extends Record<string, string | boolean | numb
   });
   if (!response.ok) throw new Error(response.statusText);
 };
+
+export const fileUpload = async (payload: File[] | File, uri?: string, num?: number) => {
+  const formData = new FormData();
+
+  if (payload instanceof Array) payload.forEach((file, index) => formData.append(`file-${index}`, file));
+  else formData.append('file', payload);
+
+  if (uri) formData.append('uri', `${uri.replaceAll(' ', '_').replaceAll('(', '<').replaceAll(')', '>')}/`);
+  formData.append('num', num ? String(num) : '1');
+
+  const result = await fetch(`${process.env.API_SERVER_URL}/upload/timeline`, {
+    body: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+    method: 'POST',
+  });
+  return result.json();
+};
