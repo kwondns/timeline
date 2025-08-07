@@ -27,7 +27,10 @@ export default function PresentTemplate(props: PresentTemplateProps) {
       .then(() => {
         toast.dismiss(loadingToast);
         toast.success('기록 완료!');
-        cleanUpImageAction(startTime).then((res) => toast.success(`${res}개 스토리지 정리!`));
+        setCurrentContent('');
+        cleanUpImageAction(startTime).then((res) => {
+          if (res) toast.success(`${res}개 스토리지 정리!`);
+        });
       })
       .catch(() => {
         toast.dismiss(loadingToast);

@@ -1,7 +1,7 @@
 'use client';
 
 import InputOrDisplay from '@/atoms/InputOrDisplay';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { callActionWithToast } from '@/lib/action';
 import { updatePresentTitleAction } from '@/actions/updatePresent';
 
@@ -15,6 +15,10 @@ export default function PresentInputOrDisplay(props: PresentInputOrDisplayProps)
     if (value === title) return;
     await callActionWithToast(() => updatePresentTitleAction(value));
   };
+
+  useEffect(() => {
+    setValue(title ?? '');
+  }, [title]);
   return (
     <InputOrDisplay
       value={value}

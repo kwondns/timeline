@@ -1,7 +1,7 @@
 'use client';
 
 import Typography, { TypographyComponentType, TypographyPropsType } from '@/atoms/Typography';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 
 type InputOrDisplayProps = {
@@ -28,11 +28,14 @@ export default function InputOrDisplay(props: InputOrDisplayProps) {
     placeholder = '',
     ...others
   } = props;
-  const [status, setStatus] = useState<'typo' | 'input'>(value ? 'typo' : 'input');
+  const [status, setStatus] = useState<'typo' | 'input'>(initValue ? 'typo' : 'input');
   const TypoComponent = Typography[typo];
   const onDoubleClickTypoComponent = () => {
     setStatus('input');
   };
+  useEffect(() => {
+    setStatus(initValue ? 'typo' : 'input');
+  }, [initValue]);
   const onEnterInputComponent = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.key === 'Escape') {
       setStatus('typo');
