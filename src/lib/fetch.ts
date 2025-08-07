@@ -20,9 +20,8 @@ export const fileUpload = async (payload: File[] | File, uri?: string, num?: num
   if (uri) formData.append('uri', `${uri.replaceAll(' ', '_').replaceAll('(', '<').replaceAll(')', '>')}/`);
   formData.append('num', num ? String(num) : '1');
 
-  const result = await fetch(`${process.env.API_SERVER_URL}/upload/timeline`, {
+  const result = await fetch(`${process.env.API_SERVER_URL.split('/time')[0]}/upload/timeline`, {
     body: formData,
-    headers: { 'Content-Type': 'multipart/form-data' },
     method: 'POST',
   });
   return result.json();
