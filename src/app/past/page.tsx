@@ -7,7 +7,7 @@ async function getActivities(date: string): Promise<PastActivityType[]> {
 }
 
 export default async function Page() {
-  const date = new Date().toLocaleDateString('ko-kr').split('/').join('');
+  const date = new Date().toISOString().slice(0, 10);
   const activities = await getActivities(date);
 
   return <PastTemplate date={date} activities={activities} />;

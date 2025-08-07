@@ -27,5 +27,5 @@ export const fromToDiffDateFormat = (startDate: string | Date, endDate: string |
 export const createPastLink = (date: string, index = '0') => {
   const count = index === '0' ? '' : `?index=${index}`;
 
-  return `/past/${new Date(date).toISOString().slice(0, 10)}${count}`;
+  return `/past/${new Date(new Date(date).getTime() + 9 * 1000 * 60 * 60).toISOString().slice(0, 10)}${count}`;
 };
