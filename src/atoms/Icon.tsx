@@ -5,6 +5,8 @@ import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import { RiResetLeftFill } from 'react-icons/ri';
 import { IoAnalytics } from 'react-icons/io5';
 import { TbMessage } from 'react-icons/tb';
+import { GoCheckbox } from 'react-icons/go';
+import { FaBarsProgress } from 'react-icons/fa6';
 
 export const Icon = {
   sandClock: <CgSandClock />,
@@ -19,6 +21,8 @@ export const Icon = {
   message: <TbMessage />,
   close: <IoIosClose />,
   send: <IoIosSend />,
+  check: <GoCheckbox />,
+  progress: <FaBarsProgress />,
 } as const;
 
 export type IconType = keyof typeof Icon;
