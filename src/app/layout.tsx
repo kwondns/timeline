@@ -3,11 +3,13 @@ import { ThemeProvider } from '@/components/ui/theme-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import AppSidebar from '@/organisms/AppSidebar';
 import { Toaster } from '@/components/ui/sonner';
-import { getPresent } from '@/app/present/page';
 import ChatbotTemplate from '@/templates/Chatbot.template';
+import { PresentTemplateProps } from '@/templates/Present.template';
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const present = await getPresent();
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const response = await fetch(`${process.env.API_SERVER_URL}/present`, { method: 'GET' });
+  const present = (await response.json()) as PresentTemplateProps;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background h-dvh">
