@@ -4,6 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import AppSidebar from '@/organisms/AppSidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { getPresent } from '@/app/present/page';
+import ChatbotTemplate from '@/templates/Chatbot.template';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const present = await getPresent();
@@ -13,6 +14,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <SidebarProvider className="block" defaultOpen={false}>
             <AppSidebar active={!!present.startTime} />
+            <ChatbotTemplate />
             <main className="p-2 pl-18 w-dvw h-dvh">{children}</main>
             <Toaster richColors expand={false} position="top-right" />
           </SidebarProvider>
