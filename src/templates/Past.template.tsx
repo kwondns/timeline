@@ -17,12 +17,18 @@ export default function PastTemplate(props: PastTemplateProps) {
     0,
   );
   return (
-    <Container direction="column" className="gap-4">
+    <Container direction="column" className="gap-4 h-full">
       <Container className="justify-between">
         <Typography.h2>{new Intl.DateTimeFormat('ko-kr').format(new Date(date))}</Typography.h2>
         <Typography.h4>{formattingDateDiff(Math.floor(totalActivityTime))}</Typography.h4>
       </Container>
-      <PastActivity activities={activities} defaultOpenIndex={defaultOpenIndex} />
+      {activities.length > 0 ? (
+        <PastActivity activities={activities} defaultOpenIndex={defaultOpenIndex} />
+      ) : (
+        <Container className="size-full justify-center items-center">
+          <Typography.span className="text-foreground/70 h-full content-center">작업내용이 없습니다!</Typography.span>
+        </Container>
+      )}
     </Container>
   );
 }
