@@ -36,7 +36,7 @@ export default function SplashTemplate({ duration = 800 }) {
   return (
     <div
       onClick={handleSkip}
-      className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center cursor-pointer"
+      className="fixed inset-0 z-[10000] bg-background flex flex-col items-center justify-center cursor-pointer"
     >
       <div className="text-center space-y-6">
         {/* 메인 로고 */}
