@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { forwardRef } from 'react';
 
 type ContainerProps = {
   children: React.ReactNode;
@@ -6,7 +7,13 @@ type ContainerProps = {
   className?: string;
 };
 
-export default function Container(props: ContainerProps) {
+const Container = forwardRef<HTMLDivElement, ContainerProps>((props, ref) => {
   const { children, direction = 'row', className = '' } = props;
-  return <div className={cn(`flex ${direction === 'column' ? 'flex-col' : ''} ${className}`)}>{children}</div>;
-}
+  return (
+    <div className={cn(`flex ${direction === 'column' ? 'flex-col' : ''} ${className}`)} ref={ref}>
+      {children}
+    </div>
+  );
+});
+
+export default Container;
