@@ -11,43 +11,30 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@/atoms/Icon';
-import { addFutureAction } from '@/actions/addFuture.action';
 import Container from '@/atoms/Container';
 import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import Typography from '@/atoms/Typography';
-import PriorityRadio from '@/molecules/PriorityRadio';
 import { useActionState } from 'react';
+import { addFutureBoxAction } from '@/actions/addFutureBox.action';
 import { useActionWithToast } from '@/hooks/useActionWithToast';
+import FutureBoxTypeRadio from '@/molecules/FutureBoxTypeRadio';
 
-type NewFutureDialogProps = { boxId: string; type: 'check' | 'progress' };
-export default function NewFutureDialog(props: NewFutureDialogProps) {
-  const { boxId, type } = props;
-
-  const [state, action, isPending] = useActionState(addFutureAction, false);
-
+export default function NewFutureBoxDialog() {
+  const [state, action, isPending] = useActionState(addFutureBoxAction, false);
   useActionWithToast(isPending, state);
-
   return (
     <Dialog>
-      <DialogTrigger className="hover:scale-125 cursor-pointer">{Icon['add']}</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button variant="outline">새로운 계획</Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form action={action}>
-          <input type="hidden" name="boxId" value={boxId} />
           <DialogHeader>
-            <DialogTitle>새로운 미래</DialogTitle>
+            <DialogTitle>새로운 미래 계획</DialogTitle>
             <DialogDescription className="pb-2">새로운 미래를 설계하세요!</DialogDescription>
           </DialogHeader>
           <Container className="grid gap-4">
-            <Input name="content" placeholder="내용 작성" />
-            {type === 'check' && (
-              <>
-                <Separator />
-                <Typography.p>우선순위</Typography.p>
-                <PriorityRadio />
-              </>
-            )}
+            <Input name="title" placeholder="계획 작성" />
+            <FutureBoxTypeRadio />
           </Container>
           <DialogFooter className="pt-6">
             <DialogClose asChild>
