@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogClose,
@@ -13,21 +11,18 @@ import {
 import { Button } from '@/components/ui/button';
 import Container from '@/atoms/Container';
 import { Input } from '@/components/ui/input';
-import { useActionState } from 'react';
 import { addFutureBoxAction } from '@/actions/addFutureBox.action';
-import { useActionWithToast } from '@/hooks/useActionWithToast';
 import FutureBoxTypeRadio from '@/molecules/FutureBoxTypeRadio';
+import FormWrapper from '@/molecules/FormWrapper';
 
 export default function NewFutureBoxDialog() {
-  const [state, action, isPending] = useActionState(addFutureBoxAction, false);
-  useActionWithToast(isPending, state);
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">새로운 계획</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form action={action}>
+        <FormWrapper serverAction={addFutureBoxAction}>
           <DialogHeader>
             <DialogTitle>새로운 미래 계획</DialogTitle>
             <DialogDescription className="pb-2">새로운 미래를 설계하세요!</DialogDescription>
@@ -44,7 +39,7 @@ export default function NewFutureBoxDialog() {
               <Button type="submit">생성하기</Button>
             </DialogClose>
           </DialogFooter>
-        </form>
+        </FormWrapper>
       </DialogContent>
     </Dialog>
   );

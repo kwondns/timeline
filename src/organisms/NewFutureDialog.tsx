@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Dialog,
   DialogClose,
@@ -18,22 +16,17 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import Typography from '@/atoms/Typography';
 import PriorityRadio from '@/molecules/PriorityRadio';
-import { useActionState } from 'react';
-import { useActionWithToast } from '@/hooks/useActionWithToast';
+import FormWrapper from '@/molecules/FormWrapper';
 
 type NewFutureDialogProps = { boxId: string; type: 'check' | 'progress' };
 export default function NewFutureDialog(props: NewFutureDialogProps) {
   const { boxId, type } = props;
 
-  const [state, action, isPending] = useActionState(addFutureAction, false);
-
-  useActionWithToast(isPending, state);
-
   return (
     <Dialog>
       <DialogTrigger className="hover:scale-125 cursor-pointer">{Icon['add']}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form action={action}>
+        <FormWrapper serverAction={addFutureAction}>
           <input type="hidden" name="boxId" value={boxId} />
           <DialogHeader>
             <DialogTitle>새로운 미래</DialogTitle>
@@ -57,7 +50,7 @@ export default function NewFutureDialog(props: NewFutureDialogProps) {
               <Button type="submit">생성하기</Button>
             </DialogClose>
           </DialogFooter>
-        </form>
+        </FormWrapper>
       </DialogContent>
     </Dialog>
   );
