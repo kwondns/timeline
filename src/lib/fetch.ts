@@ -8,7 +8,13 @@ export const callFetch = async <T extends Record<string, string | boolean | numb
     headers: { 'Content-Type': 'application/json' },
     ...options,
   });
-  if (!response.ok) throw new Error(response.statusText);
+  if (!response.ok) {
+    const errorBody = await response.json();
+    const errorMessage = errorBody.message || '알 수 없는 오류가 발생했습니다.';
+    throw new Error(errorMessage);
+  }
+  if (response.status === 204) return;
+  return await response.json();
 };
 
 export const fileUpload = async (payload: File[] | File, uri?: string, num?: number) => {
