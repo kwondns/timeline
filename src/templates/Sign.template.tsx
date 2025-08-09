@@ -8,8 +8,8 @@ import Container from '@/atoms/Container';
 
 export default function SignTemplate() {
   return (
-    <Container direction="column" className="h-dvh w-dvh justify-center align-center gap-6">
-      <Card className="w-sm mx-auto">
+    <Container direction="column" className="absolute inset-0 justify-center align-center gap-6">
+      <Card className="w-xs sm:w-sm mx-auto">
         <CardHeader>
           <Typography.h3>로그인</Typography.h3>
         </CardHeader>
