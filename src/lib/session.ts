@@ -41,7 +41,7 @@ export async function verifySession() {
 
   const now = Date.now();
   const timeLeft = session.expiresAt - now;
-  if (timeLeft <= 45 * 60 * 1000) {
+  if (timeLeft <= 47 * 60 * 1000) {
     const refreshResponse = await fetch(`${process.env.API_SERVER_URL}/user/refresh`, {
       method: 'POST',
       credentials: 'include',
