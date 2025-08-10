@@ -1,11 +1,14 @@
 import { Input } from '@/components/ui/input';
+import InputError from '@/molecules/InputError';
 
 type PasswordFieldProps = {
   onChangePassword: (v: string) => void;
   onChangePasswordConfirm: (v: string) => void;
+  passwordError: string | null;
+  passwordConfirmError: string | null;
 };
-export default function PasswordField(props: PasswordFieldProps) {
-  const { onChangePassword, onChangePasswordConfirm } = props;
+export default function PasswordField(props: Readonly<PasswordFieldProps>) {
+  const { onChangePassword, onChangePasswordConfirm, passwordConfirmError, passwordError } = props;
   return (
     <div className="grid gap-3">
       <div className="flex items-center">
@@ -18,6 +21,7 @@ export default function PasswordField(props: PasswordFieldProps) {
         onChange={(e) => onChangePassword(e.currentTarget.value)}
         required
       />
+      <InputError value={passwordError} />
       <Input
         id="password-confirm"
         type="password"
@@ -25,6 +29,7 @@ export default function PasswordField(props: PasswordFieldProps) {
         onChange={(e) => onChangePasswordConfirm(e.currentTarget.value)}
         required
       />
+      <InputError value={passwordConfirmError} />
     </div>
   );
 }

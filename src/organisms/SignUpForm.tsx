@@ -11,10 +11,24 @@ import EmailField from '@/molecules/EmailField';
 import NameField from '@/molecules/NameField';
 import PasswordField from '@/molecules/PasswordField';
 import useAsyncAction from '@/hooks/useAsyncAction';
+import { FADEIN_HIDDEN, FADEIN_VIEW } from '@/constants/TRANSITION';
 
-const FieldContainer = ({ className, children }: { className: string; children: React.ReactNode }) => (
-  <Container className={`items-bottom gap-2 transition-all delay-200 ${className} `}>{children} </Container>
-);
+const FieldContainer = ({
+  trigger,
+  children,
+  className,
+}: {
+  trigger: boolean;
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  const classNameFadeIn = trigger ? FADEIN_VIEW : FADEIN_HIDDEN;
+  return (
+    <Container className={`items-bottom gap-2 transition-all delay-200 ${className} ${classNameFadeIn}`}>
+      {children}
+    </Container>
+  );
+};
 
 export default function SignUpForm() {
   const [email, setEmail] = useState<string>('');
@@ -25,13 +39,10 @@ export default function SignUpForm() {
   const [isValidated, setIsValidated] = useState<boolean>(false);
   const [isEmailValidated, setIsEmailValidated] = useState<boolean>(false);
 
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(null);
   const route = useRouter();
 
-  const VIEW = 'max-h-[400px] opacity-100';
-  const HIDDEN = 'max-h-0 overflow-hidden opacity-0';
-
-  const isEmailValidatedClass = isEmailValidated ? VIEW : HIDDEN;
-  const isCodeValidatedClass = isValidated ? VIEW : HIDDEN;
   const { run, loading } = useAsyncAction(() => signUpAction({ email, password, passwordConfirm, name }), {
     onSuccess: () => {
       toast.success('가입 완료!');
@@ -39,6 +50,12 @@ export default function SignUpForm() {
     },
     onError: (e) => {
       toast.error(e.message);
+    },
+    onValidateError: (e) => {
+      if (e?.password) setPasswordError(e.password.errors[0]);
+      else setPasswordError(null);
+      if (e?.passwordConfirm) setPasswordConfirmError(e.passwordConfirm.errors[0]);
+      else setPasswordConfirmError(null);
     },
     loadingMessage: '가입 처리중...',
   });
@@ -52,7 +69,7 @@ export default function SignUpForm() {
           setIsEmailValidated(true);
         }}
       />
-      <FieldContainer className={isEmailValidatedClass}>
+      <FieldContainer trigger={isEmailValidated}>
         <CodeField
           email={email}
           code={code}
@@ -62,13 +79,18 @@ export default function SignUpForm() {
           onFailure={() => setIsEmailValidated(false)}
         />
       </FieldContainer>
-      <FieldContainer className={isCodeValidatedClass}>
+      <FieldContainer trigger={isValidated}>
         <Container direction="column" className="mt-6 w-full">
-          <PasswordField onChangePassword={setPassword} onChangePasswordConfirm={setPasswordConfirm} />
+          <PasswordField
+            onChangePassword={setPassword}
+            onChangePasswordConfirm={setPasswordConfirm}
+            passwordError={passwordError}
+            passwordConfirmError={passwordConfirmError}
+          />
           <NameField onChange={setName} action={run} />
         </Container>
       </FieldContainer>
-      <FieldContainer className={`mt-6 ${isCodeValidatedClass}`}>
+      <FieldContainer trigger={isValidated} className="mt-6">
         <Button
           type="button"
           className="w-full"
