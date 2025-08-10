@@ -56,7 +56,6 @@ export default function AppSidebar(props: AppSidebarProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [transitionClass, setTransitionClass] = useState<string>('opacity-0');
   const segment = useSelectedLayoutSegments('children');
-  if (segment[0] === 'sign') return null;
 
   useEffect(() => {
     if (isMounted && open) {
@@ -68,6 +67,8 @@ export default function AppSidebar(props: AppSidebarProps) {
       setTransitionClass('opacity-0');
     }
   }, [isMounted, open]);
+
+  if (segment[0] === 'sign') return null;
 
   return (
     <Sidebar
