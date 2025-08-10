@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch } from '@/lib/fetch';
+import { callFetch, withAuth } from '@/lib/fetch';
 
 type ToggleCheckBoxType = {
   category: 'future' | 'box';
@@ -8,8 +8,12 @@ type ToggleCheckBoxType = {
   id: string;
 };
 
-export const toggleCheckBoxAction = async (payload: ToggleCheckBoxType) => {
+export const toggleCheckBoxAction = withAuth(async (payload: ToggleCheckBoxType) => {
   const { category, checked, id } = payload;
   const url = category === 'box' ? '/future/box' : '/future';
-  await callFetch<Omit<ToggleCheckBoxType, 'category'>>(url, { id, checked }, { method: 'PATCH' });
-};
+  await callFetch<Omit<ToggleCheckBoxType, 'category'>>(
+    url,
+    { id, checked },
+    { method: 'PATCH', expectNoContent: true },
+  );
+});

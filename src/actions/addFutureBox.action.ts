@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch } from '@/lib/fetch';
+import { callFetch, withAuth } from '@/lib/fetch';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 
@@ -14,7 +14,7 @@ const AddFutureBoxActionSchema = z.object({
   type: z.enum(['check', 'progress']),
 });
 
-export const addFutureBoxAction = async (_: any, formData: FormData) => {
+export const addFutureBoxAction = withAuth(async (_: any, formData: FormData) => {
   const title = formData.get('title');
   const type = formData.get('type');
   const validatedData = AddFutureBoxActionSchema.parse({ title, type });
@@ -27,4 +27,4 @@ export const addFutureBoxAction = async (_: any, formData: FormData) => {
     console.error(e);
     return false;
   }
-};
+});

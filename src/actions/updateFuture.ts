@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch } from '@/lib/fetch';
+import { callFetch, withAuth } from '@/lib/fetch';
 import { revalidatePath } from 'next/cache';
 
 type UpdateFutureActionType = {
@@ -8,7 +8,7 @@ type UpdateFutureActionType = {
   category: 'future' | 'box';
   value: string;
 };
-export const updateFutureAction = async (payload: UpdateFutureActionType) => {
+export const updateFutureAction = withAuth(async (payload: UpdateFutureActionType) => {
   const { category, id, value } = payload;
   const url = category === 'box' ? '/future/box' : '/future';
   const body = { id };
@@ -16,4 +16,4 @@ export const updateFutureAction = async (payload: UpdateFutureActionType) => {
   else Object.assign(body, { content: value });
   await callFetch(url, body, { method: 'PATCH' });
   revalidatePath('/future');
-};
+});
