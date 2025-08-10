@@ -73,7 +73,6 @@ export function withAuth<T extends any[], R>(fn: (...args: T) => Promise<R>): (.
     const session = await verifySession();
     if (!session?.isAuth) redirect('/sign/in?toast=loginRequired');
 
-    const result = await fn(...args);
-    return result;
+    return await fn(...args);
   };
 }
