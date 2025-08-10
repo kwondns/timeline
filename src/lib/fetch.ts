@@ -1,8 +1,18 @@
-export const callFetch = async <T extends Record<string, string | boolean | number>>(
+// 204 응답인 경우 R=void
+export function callFetch<T extends Record<string, any>>(
   url: string,
   payload: T,
-  options: RequestInit,
-) => {
+  options?: RequestInit & { expectNoContent: true },
+): Promise<void>;
+
+// 콘텐츠 있는 경우
+export function callFetch<T extends Record<string, any>, R>(url: string, payload: T, options?: RequestInit): Promise<R>;
+
+export async function callFetch<T extends Record<string, string | boolean | number>, R>(
+  url: string,
+  payload: T,
+  options: RequestInit & { expectNoContent?: boolean } = {},
+): Promise<R | void> {
   const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
     body: JSON.stringify(payload),
     headers: { 'Content-Type': 'application/json' },
@@ -10,12 +20,14 @@ export const callFetch = async <T extends Record<string, string | boolean | numb
   });
   if (!response.ok) {
     const errorBody = await response.json();
-    const errorMessage = errorBody.message || '알 수 없는 오류가 발생했습니다.';
-    throw new Error(errorMessage);
+    throw new Error(errorBody.message || '알 수 없는 오류가 발생했습니다.');
   }
-  if (response.status === 204) return;
-  return await response.json();
-};
+  if (response.status === 204 || options.expectNoContent) {
+    return;
+  }
+
+  return (await response.json()) as R;
+}
 
 export const fileUpload = async (payload: File[] | File, uri?: string, num?: number) => {
   const formData = new FormData();
