@@ -1,14 +1,13 @@
 import TimeTemplate from '@/templates/Time.template';
 import { TimeFutureType, TimePastType } from '@/types/time.type';
+import { callGetWithAuth } from '@/lib/fetch';
 
 async function getPasts(): Promise<TimePastType[]> {
-  const result = await fetch(`${process.env.API_SERVER_URL}/past/count`, { method: 'GET' });
-  return await result.json();
+  return await callGetWithAuth<TimePastType[]>('/past/count');
 }
 
 async function getFutures(): Promise<TimeFutureType[]> {
-  const result = await fetch(`${process.env.API_SERVER_URL}/future/analysis`, { method: 'GET' });
-  return await result.json();
+  return await callGetWithAuth<TimeFutureType[]>('/future/analysis');
 }
 
 export default async function Page() {

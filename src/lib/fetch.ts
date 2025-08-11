@@ -49,6 +49,16 @@ export async function callFetch<T extends Record<string, string | boolean | numb
   return (await response.json()) as R;
 }
 
+export async function callGetWithAuth<T>(url: string): Promise<T> {
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get('auth-token')?.value;
+  const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${authToken}` },
+  });
+  return (await response.json()) as Promise<T>;
+}
+
 export const fileUpload = async (payload: File[] | File, uri?: string, num?: number) => {
   const formData = new FormData();
 
