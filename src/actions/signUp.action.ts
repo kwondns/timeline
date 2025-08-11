@@ -46,5 +46,8 @@ type SignUpActionResponse = {
 export const signUpAction = async (payload: SignUpActionType) => {
   const body = SignUpSchema.safeParse(payload);
   if (!body.success) return { errors: z.treeifyError(body.error).properties };
-  return await callFetch<SignUpActionType, SignUpActionResponse>('/user/sign-up', body.data, { method: 'POST' });
+  const { passwordConfirm, ...others } = body.data;
+  return await callFetch<Omit<SignUpActionType, 'passwordConfirm'>, SignUpActionResponse>('/user/sign-up', others, {
+    method: 'POST',
+  });
 };
