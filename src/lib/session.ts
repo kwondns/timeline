@@ -1,7 +1,9 @@
+'use server';
+
 import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { setCookie } from '@/lib/cookie';
-import { AuthResponseType } from '@/types/auth.type';
+import { refresh } from '@/lib/refresh';
 
 export interface SessionPayload extends JWTPayload {
   userId: string;
@@ -29,10 +31,14 @@ export async function decrypt(session: string | undefined = '') {
 
 export async function createSession(userId: string) {
   const expiresAt = 1000 * 60 * 60;
-  const session = await encrypt({ userId, expiresAt });
+  const session = await encrypt({ userId, expiresAt: Date.now() + expiresAt });
   await setCookie('session', session, expiresAt);
 }
 
+const SESSION_TTL = 1000 * 60 * 60;
+const ACCESS_TTL = 1000 * 60 * 15;
+const REFRESH_TTL = 1000 * 60 * 60 * 24 * 7;
+const REFRESH_THRESHOLD = 47 * 60 * 1000;
 export async function verifySession() {
   const cookieStore = await cookies();
   const cookie = cookieStore.get('session')?.value;
@@ -41,21 +47,47 @@ export async function verifySession() {
 
   const now = Date.now();
   const timeLeft = session.expiresAt - now;
-  if (timeLeft <= 47 * 60 * 1000) {
-    const refreshResponse = await fetch(`${process.env.API_SERVER_URL}/user/refresh`, {
-      method: 'POST',
-      credentials: 'include',
-    });
-    if (!refreshResponse.ok) return null;
-    const { accessToken, userId, refreshToken } = (await refreshResponse.json()) as AuthResponseType;
-    await createSession(userId);
-    await setCookie('refresh-token', refreshToken, 1000 * 60 * 60 * 24 * 7);
-    await setCookie('auth-token', accessToken, 1000 * 60 * 15);
-    const newCookie = cookieStore.get('session')?.value;
-    session = (await decrypt(newCookie)) as SessionPayload;
+  if (timeLeft > REFRESH_THRESHOLD) {
+    return { isAuth: true, userId: session.userId, expiresAt: session.expiresAt };
   }
+  const refreshToken = cookieStore.get('refresh-token')?.value;
+  if (!refreshToken) return null;
 
-  return { isAuth: true, userId: session.userId, expiresAt: session.expiresAt };
+  const refreshed = await refresh(refreshToken);
+  if (!refreshed) return null;
+
+  const { userId, accessToken, refreshToken: newRefreshToken } = refreshed;
+  const newExpiresAt = Date.now() + SESSION_TTL;
+  const sessionToken = await encrypt({ userId, expiresAt: newExpiresAt });
+  cookieStore.set({
+    name: 'session',
+    value: sessionToken,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(newExpiresAt),
+    sameSite: 'lax',
+    path: '/',
+  });
+  cookieStore.set({
+    name: 'refresh-token',
+    value: newRefreshToken,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(Date.now() + REFRESH_TTL),
+    sameSite: 'lax',
+    path: '/',
+  });
+  cookieStore.set({
+    name: 'auth-token',
+    value: accessToken,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    expires: new Date(Date.now() + ACCESS_TTL),
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  return { isAuth: true, userId, expiresAt: newExpiresAt };
 }
 
 export async function destroySession() {
