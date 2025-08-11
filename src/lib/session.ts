@@ -3,7 +3,7 @@
 import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { setCookie } from '@/lib/cookie';
-import { refresh } from '@/lib/dal/auth';
+import { AuthResponseType } from '@/types/auth.type';
 
 export interface SessionPayload extends JWTPayload {
   userId: string;
@@ -47,15 +47,22 @@ export async function verifySession() {
 
   const now = Date.now();
   const timeLeft = session.expiresAt - now;
+
   if (timeLeft > REFRESH_THRESHOLD) {
     return { isAuth: true, userId: session.userId, expiresAt: session.expiresAt };
   }
-  const refreshToken = cookieStore.get('refresh-token')?.value;
-  if (!refreshToken) return null;
 
-  const refreshed = await refresh(refreshToken);
-  if (!refreshed) return null;
+  return null;
+}
 
+export async function refreshSession(refreshed: AuthResponseType) {
+  const cookieStore = await cookies();
+  if (!refreshed) {
+    cookieStore.set({ name: 'session', value: '', expires: new Date(0), path: '/' });
+    cookieStore.set({ name: 'refresh-token', value: '', expires: new Date(0), path: '/' });
+    cookieStore.set({ name: 'auth-token', value: '', expires: new Date(0), path: '/' });
+    return null;
+  }
   const { userId, accessToken, refreshToken: newRefreshToken } = refreshed;
   const newExpiresAt = Date.now() + SESSION_TTL;
   const sessionToken = await encrypt({ userId, expiresAt: newExpiresAt });
