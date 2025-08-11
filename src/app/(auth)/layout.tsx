@@ -1,10 +1,10 @@
-import { getUser } from '@/lib/dal';
+import { getUser } from '@/lib/dal/user';
 import { redirect } from 'next/navigation';
 import AppSidebar from '@/organisms/AppSidebar';
 import ChatbotTemplate from '@/templates/Chatbot.template';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { PresentTemplateProps } from '@/templates/Present.template';
-import { callGetWithAuth } from '@/lib/fetch';
+import { callGetWithAuth } from '@/lib/dal/http';
 import AuthGuard from '@/molecules/AuthGuard';
 
 export const dynamic = 'force-dynamic';

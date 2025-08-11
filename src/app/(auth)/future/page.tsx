@@ -1,6 +1,6 @@
 import FutureTemplate from '@/templates/Future.template';
 import { FutureBoxCardProps } from '@/organisms/FutureBoxCard';
-import { callGetWithAuth } from '@/lib/fetch';
+import { callGetWithAuth } from '@/lib/dal/http';
 import { NextResponse } from 'next/server';
 
 export default async function Page() {

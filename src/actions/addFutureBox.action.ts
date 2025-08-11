@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch, withAuth } from '@/lib/fetch';
+import { callFetch, withAuth } from '@/lib/dal/http';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 

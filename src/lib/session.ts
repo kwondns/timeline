@@ -3,7 +3,7 @@
 import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { setCookie } from '@/lib/cookie';
-import { refresh } from '@/lib/refresh';
+import { refresh } from '@/lib/dal/auth';
 
 export interface SessionPayload extends JWTPayload {
   userId: string;

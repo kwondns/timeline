@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { callFetch } from '@/lib/fetch';
+import { callFetch } from '@/lib/dal/http';
 import { createSession } from '@/lib/session';
 import { setCookie } from '@/lib/cookie';
 import { SignInSchema } from '@/schemas/signIn.schema';

@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch } from '@/lib/fetch';
+import { callFetch } from '@/lib/dal/http';
 import { SignUpSchema } from '@/schemas/signUp.schema';
 import z from 'zod';
 

@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch, fileUpload, withAuth } from '@/lib/fetch';
+import { callFetch, fileUpload, withAuth } from '@/lib/dal/http';
 import { revalidatePath } from 'next/cache';
 
 export const updatePresentTitleAction = withAuth(async (title: string) => {

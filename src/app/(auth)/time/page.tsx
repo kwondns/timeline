@@ -1,6 +1,6 @@
 import TimeTemplate from '@/templates/Time.template';
 import { TimeFutureType, TimePastType } from '@/types/time.type';
-import { callGetWithAuth } from '@/lib/fetch';
+import { callGetWithAuth } from '@/lib/dal/http';
 
 async function getPasts(): Promise<TimePastType[]> {
   return await callGetWithAuth<TimePastType[]>('/past/count');
