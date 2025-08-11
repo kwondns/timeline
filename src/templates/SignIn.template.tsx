@@ -12,10 +12,10 @@ export default function SignInTemplate() {
       </CardHeader>
       <CardContent>
         <SignInForm />
-        <Button className="mt-1 w-full" variant="outline">
+        <Button className="mt-2 w-full" variant="outline">
           <Link href={'/sign/up'}>가입하기</Link>
         </Button>
-        <Button className="mt-4 w-full" variant="ghost">
+        <Button className="mt-6 w-full" variant="ghost">
           데모버전
         </Button>
       </CardContent>
