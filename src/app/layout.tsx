@@ -6,7 +6,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background h-dvh">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          themes={['light', 'dark', 'system']}
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
           <Toaster richColors expand={false} position="top-right" />
         </ThemeProvider>
