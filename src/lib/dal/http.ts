@@ -1,8 +1,9 @@
-// 204 응답인 경우 R=void
 import { cookies } from 'next/headers';
-import { verifySession } from '@/lib/session';
+import { refreshSession, verifySession } from '@/lib/session';
 import { redirect } from 'next/navigation';
+import { refresh, validateCookie } from '@/lib/dal/auth';
 
+// 204 응답인 경우 R=void
 export function callFetch<T extends Record<string, any>>(
   url: string,
   payload: T,
@@ -81,8 +82,12 @@ export const fileUpload = async (payload: File[] | File, uri?: string, num?: num
 export function withAuth<T extends any[], R>(fn: (...args: T) => Promise<R>): (...args: T) => Promise<R> {
   return async (...args: T) => {
     const session = await verifySession();
-    if (!session?.isAuth) redirect('/sign/in?toast=loginRequired');
-
+    if (!session) {
+      const token = await validateCookie();
+      const result = await refresh(token);
+      if (!result) redirect('/sign/in?toast=loginRequired');
+      await refreshSession(result);
+    }
     return await fn(...args);
   };
 }
