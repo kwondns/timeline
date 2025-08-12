@@ -148,8 +148,7 @@ export default function AppSidebar(props: Readonly<AppSidebarProps>) {
                 {Icon.setting}
               </Button>
             </DropdownMenuTrigger>
-
-            <DropdownMenuContent className="w-56 ml-6">
+            <DropdownMenuContent className="w-[214px] ml-6">
               <DropdownMenuGroup>
                 <DropdownMenuLabel>테마 변경</DropdownMenuLabel>
                 <DropdownMenuSeparator />
