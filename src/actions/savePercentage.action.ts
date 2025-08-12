@@ -8,7 +8,7 @@ type SavePercentageActionType = {
 };
 export const savePercentageAction = withAuth(async (payload: SavePercentageActionType) => {
   try {
-    await callFetch('/future', payload, { method: 'PATCH' });
+    await callFetch('/future', payload, { method: 'PATCH', auth: true });
   } catch (e) {
     throw new Error('에러가 발생했습니다.');
   }

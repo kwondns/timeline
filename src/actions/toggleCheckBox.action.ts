@@ -14,6 +14,6 @@ export const toggleCheckBoxAction = withAuth(async (payload: ToggleCheckBoxType)
   await callFetch<Omit<ToggleCheckBoxType, 'category'>>(
     url,
     { id, checked },
-    { method: 'PATCH', expectNoContent: true },
+    { method: 'PATCH', expectNoContent: true, auth: true },
   );
 });

@@ -20,11 +20,10 @@ export const addFutureBoxAction = withAuth(async (_: any, formData: FormData) =>
   const validatedData = AddFutureBoxActionSchema.parse({ title, type });
 
   try {
-    await callFetch<AddFutureType>('/future/box', validatedData, { method: 'POST', expectNoContent: true });
+    await callFetch<AddFutureType>('/future/box', validatedData, { method: 'POST', expectNoContent: true, auth: true });
     revalidatePath('/future');
     return true;
   } catch (e) {
-    console.error(e);
     return false;
   }
 });

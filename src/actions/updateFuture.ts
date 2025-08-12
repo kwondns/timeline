@@ -14,6 +14,6 @@ export const updateFutureAction = withAuth(async (payload: UpdateFutureActionTyp
   const body = { id };
   if (category === 'box') Object.assign(body, { title: value });
   else Object.assign(body, { content: value });
-  await callFetch(url, body, { method: 'PATCH' });
+  await callFetch(url, body, { method: 'PATCH', auth: true });
   revalidatePath('/future');
 });
