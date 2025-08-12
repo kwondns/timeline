@@ -72,7 +72,7 @@ export async function refreshSession(refreshed: AuthResponseType) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(newExpiresAt),
-    sameSite: 'none',
+    sameSite: 'lax',
     path: '/',
   });
   cookieStore.set({
@@ -81,7 +81,7 @@ export async function refreshSession(refreshed: AuthResponseType) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(Date.now() + REFRESH_TTL),
-    sameSite: 'none',
+    sameSite: 'lax',
     path: '/',
   });
   cookieStore.set({
@@ -90,7 +90,7 @@ export async function refreshSession(refreshed: AuthResponseType) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(Date.now() + ACCESS_TTL),
-    sameSite: 'none',
+    sameSite: 'lax',
     path: '/',
   });
 
