@@ -6,15 +6,20 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { PresentTemplateProps } from '@/templates/Present.template';
 import { callGetWithAuth } from '@/lib/dal/http';
 import AuthGuard from '@/molecules/AuthGuard';
+import { refresh, validateCookie } from '@/lib/dal/auth';
+import { refreshSession } from '@/lib/session';
 
 export const dynamic = 'force-dynamic';
 export default async function Layout({ children }: { children: React.ReactNode }) {
   let user = await getUser(true);
   if (!user) {
-    const res = await fetch('/api/refresh', { method: 'POST', credentials: 'include' });
-    if (res.status === 401) {
-      redirect('/sign/in');
+    const refreshToken = await validateCookie();
+    const result = await refresh(refreshToken);
+    if (!result) {
+      redirect('/sign/in?toast=loginRequired');
     }
+    await refreshSession(result);
+
     user = await getCallUser();
   }
   const present = await callGetWithAuth<PresentTemplateProps>('/present');
