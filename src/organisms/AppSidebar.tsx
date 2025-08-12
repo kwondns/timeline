@@ -3,6 +3,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -17,9 +18,24 @@ import { useEffect, useState } from 'react';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import Indicator from '@/molecules/Indicator';
 import { Icon } from '@/atoms/Icon';
+import Container from '@/atoms/Container';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { useTheme } from 'next-themes';
+import { signOutAction } from '@/actions/signOut.action';
 
 type AppSidebarProps = {
   active: boolean;
+  name: string;
 };
 
 const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
@@ -50,12 +66,17 @@ const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
   },
 ];
 
-export default function AppSidebar(props: AppSidebarProps) {
-  const { active } = props;
+export default function AppSidebar(props: Readonly<AppSidebarProps>) {
+  const { active, name } = props;
   const { setOpen, open } = useSidebar();
   const [isMounted, setIsMounted] = useState(false);
   const [transitionClass, setTransitionClass] = useState<string>('opacity-0');
   const segment = useSelectedLayoutSegments('children');
+  const { theme, setTheme } = useTheme();
+
+  const onClickSignOut = async () => {
+    await signOutAction();
+  };
 
   useEffect(() => {
     if (isMounted && open) {
@@ -115,6 +136,40 @@ export default function AppSidebar(props: AppSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="w-full">
+        <Container className="flex-1 gap-4 items-center overflow-x-hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="lg"
+                className="flex-shrink-0 w-8 h-8 focus-visible:ring-0 [&_svg]:!size-6" // 고정 크기
+              >
+                {Icon.setting}
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-56 ml-6">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>테마 변경</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuCheckboxItem checked={theme === 'light'} onCheckedChange={() => setTheme('light')}>
+                  Light
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={theme === 'dark'} onCheckedChange={() => setTheme('dark')}>
+                  Dark
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem checked={theme === 'system'} onCheckedChange={() => setTheme('system')}>
+                  System
+                </DropdownMenuCheckboxItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onClickSignOut}>로그아웃</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Typography.p className={`transition-all whitespace-nowrap ${open ? 'w-full' : 'w-0'}`}>{name}</Typography.p>
+        </Container>
+      </SidebarFooter>
     </Sidebar>
   );
 }

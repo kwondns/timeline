@@ -72,7 +72,7 @@ export async function refreshSession(refreshed: AuthResponseType) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(newExpiresAt),
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
   });
   cookieStore.set({
@@ -81,7 +81,7 @@ export async function refreshSession(refreshed: AuthResponseType) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(Date.now() + REFRESH_TTL),
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
   });
   cookieStore.set({
@@ -90,7 +90,7 @@ export async function refreshSession(refreshed: AuthResponseType) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     expires: new Date(Date.now() + ACCESS_TTL),
-    sameSite: 'lax',
+    sameSite: 'none',
     path: '/',
   });
 
@@ -100,4 +100,6 @@ export async function refreshSession(refreshed: AuthResponseType) {
 export async function destroySession() {
   const cookieStore = await cookies();
   cookieStore.delete('session');
+  cookieStore.delete('auth-token');
+  cookieStore.delete('refresh-token');
 }

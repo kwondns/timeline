@@ -1,6 +1,6 @@
 import { CgSandClock, CgCalendar } from 'react-icons/cg';
 import { SlRocket } from 'react-icons/sl';
-import { IoMdTime, IoMdAdd, IoIosClose, IoIosSend } from 'react-icons/io';
+import { IoMdTime, IoMdAdd, IoIosClose, IoIosSend, IoIosSettings } from 'react-icons/io';
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import { RiResetLeftFill } from 'react-icons/ri';
 import { IoAnalytics } from 'react-icons/io5';
@@ -23,6 +23,7 @@ export const Icon = {
   send: <IoIosSend />,
   check: <GoCheckbox />,
   progress: <FaBarsProgress />,
+  setting: <IoIosSettings size={28} />,
 } as const;
 
 export type IconType = keyof typeof Icon;
