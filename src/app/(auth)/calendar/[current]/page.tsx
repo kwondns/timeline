@@ -1,18 +1,26 @@
-import CalendarTemplate from '@/templates/Calendar.template';
 import { PastListType } from '@/types/past.type';
+import { headers } from 'next/headers';
+import CalendarContent from '@/organisms/CalendarContent';
+import { callGetWithAuth } from '@/lib/dal/http';
+import { Suspense } from 'react';
 
 export default async function Page({ params }: { params: Promise<{ current: string }> }) {
   const { current: currentString } = await params;
-  const current = new Date(currentString);
+  const userId = (await headers()).get('x-user-id') as string;
 
   const thisMonthString = new Date().toISOString().slice(0, 7);
 
-  const response = await fetch(`${process.env.API_SERVER_URL}/past/calendar/${currentString}`, {
-    method: 'GET',
-    next: { revalidate: thisMonthString === currentString ? 3600 : false },
+  const pasts = await callGetWithAuth<PastListType[]>(`/past/calendar/${currentString}`, {
+    headers: { 'x-user-id': userId },
+    next: {
+      revalidate: thisMonthString === currentString ? 3600 : false,
+      tags: [`calendar-${userId}-${currentString}`],
+    },
   });
 
-  const pasts = (await response.json()) as PastListType[];
-
-  return <CalendarTemplate current={current} pasts={pasts}></CalendarTemplate>;
+  return (
+    <Suspense>
+      <CalendarContent pasts={pasts} />
+    </Suspense>
+  );
 }

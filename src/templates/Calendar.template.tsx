@@ -1,17 +1,17 @@
-import Calendar from '@/organisms/Calendar';
 import Container from '@/atoms/Container';
 import CalendarController from '@/organisms/CalendarController';
-import { PastListType } from '@/types/past.type';
+import Calendar from '@/organisms/Calendar';
 
-type CalendarTemplateProps = { current: Date; pasts: PastListType[] };
+type CalendarTemplateProps = { current: Date; children: React.ReactNode };
 
-export default function CalendarTemplate(props: CalendarTemplateProps) {
-  const { current, pasts } = props;
+export default function CalendarTemplate(props: Readonly<CalendarTemplateProps>) {
+  const { current, children } = props;
 
   return (
     <Container direction="column" className="h-full">
       <CalendarController current={current} />
-      <Calendar current={current} pasts={pasts} />
+      <Calendar current={current} />
+      {children}
     </Container>
   );
 }
