@@ -1,11 +1,8 @@
 import { calcPreviousMonth } from '@/lib/date';
 import { cache } from 'react';
-import CalendarContent from '@/molecules/CalendarContent';
-import { PastListType } from '@/types/past.type';
 
 type CalendarProps = {
   current: Date;
-  pasts: PastListType[];
 };
 const generateCalendar = cache((startDate: Date) => {
   const calArr = [];
@@ -21,8 +18,8 @@ const generateCalendar = cache((startDate: Date) => {
   return calArr;
 });
 
-export default function Calendar(props: CalendarProps) {
-  const { current, pasts } = props;
+export default function Calendar(props: Readonly<CalendarProps>) {
+  const { current } = props;
   const today = new Date();
   const firstDay = current.getDay();
   const prev = calcPreviousMonth(current, firstDay);
@@ -32,20 +29,15 @@ export default function Calendar(props: CalendarProps) {
     <table className="grid h-full max-h-full grid-rows-[auto_1fr]">
       <thead className="">
         <tr className="grid grid-cols-7 text-lg">
-          <th>일</th>
-          <th>월</th>
-          <th>화</th>
-          <th>수</th>
-          <th>목</th>
-          <th>금</th>
-          <th>토</th>
+          {['일', '월', '화', '수', '목', '금', '토'].map((d) => (
+            <th key={d}>{d}</th>
+          ))}
         </tr>
       </thead>
       <tbody className="grid grid-rows-6">
         {calendarArray.map((week, weekIndex) => (
           <tr className="grid grid-cols-7" key={`${weekIndex} 주`}>
-            {week.map((day, dayIndex) => {
-              const titleIndex = weekIndex * 7 + dayIndex;
+            {week.map((day) => {
               return (
                 <td className="align-text-top" key={day.getTime()}>
                   <span
@@ -54,7 +46,11 @@ export default function Calendar(props: CalendarProps) {
                     {day.getDate() === 1 ? `${day.getMonth() + 1}월 ${day.getDate()}일` : `${day.getDate()}일`}
                   </span>
                   <div className="overflow-auto">
-                    {pasts[titleIndex] && <CalendarContent past={pasts[titleIndex]} />}
+                    <div
+                      id={`calendar-content-${new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1)
+                        .toISOString()
+                        .slice(0, 10)}`}
+                    />
                   </div>
                 </td>
               );
