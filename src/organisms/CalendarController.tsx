@@ -10,13 +10,21 @@ type CalendarControllerProps = {
   current: Date;
 };
 
-const ControllerButton = ({ icon, onClick }: { icon: IconType; onClick: () => void }) => (
-  <Button size="sm" onClick={onClick}>
+const ControllerButton = ({
+  icon,
+  onClick,
+  className = '',
+}: {
+  icon: IconType;
+  onClick: () => void;
+  className?: string;
+}) => (
+  <Button size="sm" onClick={onClick} className={className}>
     {Icon[icon] as React.ReactNode}
   </Button>
 );
 
-export default function CalendarController(props: CalendarControllerProps) {
+export default function CalendarController(props: Readonly<CalendarControllerProps>) {
   const { current } = props;
   const today = new Date();
   const onClickPrevMonth = () => {
@@ -30,13 +38,15 @@ export default function CalendarController(props: CalendarControllerProps) {
     redirect(`/calendar`);
   };
   return (
-    <Container className="justify-center gap-4">
-      <ControllerButton icon="before" onClick={onClickPrevMonth} />
-      <Typography.h3>{`${current.getFullYear()}. ${current.getMonth() + 1}`}</Typography.h3>
-      <ControllerButton icon="next" onClick={onClickNextMonth} />
-      {(current.getMonth() !== today.getMonth() || current.getFullYear() !== today.getFullYear()) && (
-        <ControllerButton icon="reset" onClick={onClickResetMonth} />
-      )}
+    <Container className="justify-center ">
+      <Container className="gap-4 relative">
+        <ControllerButton icon="before" onClick={onClickPrevMonth} />
+        <Typography.h3>{`${current.getFullYear()}. ${current.getMonth() + 1}`}</Typography.h3>
+        <ControllerButton icon="next" onClick={onClickNextMonth} />
+        {(current.getMonth() !== today.getMonth() || current.getFullYear() !== today.getFullYear()) && (
+          <ControllerButton className="absolute left-[calc(100%_+_20px)]" icon="reset" onClick={onClickResetMonth} />
+        )}
+      </Container>
     </Container>
   );
 }
