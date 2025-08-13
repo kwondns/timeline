@@ -50,12 +50,16 @@ export async function callFetch<T extends Record<string, string | boolean | numb
   return (await response.json()) as R;
 }
 
-export async function callGetWithAuth<T>(url: string): Promise<T> {
+export async function callGetWithAuth<T>(url: string, options?: RequestInit): Promise<T> {
   const cookieStore = await cookies();
   const authToken = cookieStore.get('auth-token')?.value;
+  const mergedHeaders = new Headers(options?.headers);
+  if (authToken) mergedHeaders.set('Authorization', `Bearer ${authToken}`);
   const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
     method: 'GET',
-    headers: { Authorization: `Bearer ${authToken}` },
+    credentials: 'include',
+    headers: mergedHeaders,
+    next: options?.next,
   });
   return (await response.json()) as Promise<T>;
 }
