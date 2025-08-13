@@ -69,6 +69,7 @@ const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
 export default function AppSidebar(props: Readonly<AppSidebarProps>) {
   const { active, name } = props;
   const { setOpen, open } = useSidebar();
+  const [init, setInit] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [transitionClass, setTransitionClass] = useState<string>('opacity-0');
   const segment = useSelectedLayoutSegments('children');
@@ -89,6 +90,9 @@ export default function AppSidebar(props: Readonly<AppSidebarProps>) {
     }
   }, [isMounted, open]);
 
+  useEffect(() => {
+    setInit(true);
+  }, []);
   if (segment[0] === 'sign') return null;
 
   return (
@@ -137,37 +141,41 @@ export default function AppSidebar(props: Readonly<AppSidebarProps>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="w-full">
-        <Container className="flex-1 gap-4 items-center overflow-x-hidden">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="lg"
-                className="flex-shrink-0 w-8 h-8 focus-visible:ring-0 [&_svg]:!size-6" // 고정 크기
-              >
-                {Icon.setting}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[214px] ml-6">
-              <DropdownMenuGroup>
-                <DropdownMenuLabel>테마 변경</DropdownMenuLabel>
+        {init && (
+          <Container className="flex-1 gap-4 items-center overflow-x-hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  className="flex-shrink-0 w-8 h-8 focus-visible:ring-0 [&_svg]:!size-6" // 고정 크기
+                >
+                  {Icon.setting}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[214px] ml-6">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>테마 변경</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem checked={theme === 'light'} onCheckedChange={() => setTheme('light')}>
+                    Light
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked={theme === 'dark'} onCheckedChange={() => setTheme('dark')}>
+                    Dark
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked={theme === 'system'} onCheckedChange={() => setTheme('system')}>
+                    System
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem checked={theme === 'light'} onCheckedChange={() => setTheme('light')}>
-                  Light
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem checked={theme === 'dark'} onCheckedChange={() => setTheme('dark')}>
-                  Dark
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem checked={theme === 'system'} onCheckedChange={() => setTheme('system')}>
-                  System
-                </DropdownMenuCheckboxItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onClickSignOut}>로그아웃</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Typography.p className={`transition-all whitespace-nowrap ${open ? 'w-full' : 'w-0'}`}>{name}</Typography.p>
-        </Container>
+                <DropdownMenuItem onClick={onClickSignOut}>로그아웃</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Typography.p className={`transition-all whitespace-nowrap ${open ? 'w-full' : 'w-0'}`}>
+              {name}
+            </Typography.p>
+          </Container>
+        )}
       </SidebarFooter>
     </Sidebar>
   );
