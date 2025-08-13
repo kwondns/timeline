@@ -35,7 +35,7 @@ export default function CalendarController(props: Readonly<CalendarControllerPro
   };
 
   const onClickResetMonth = () => {
-    redirect(`/calendar`);
+    redirect(`/calendar/${new Date().toISOString().slice(0, 7)}`);
   };
   return (
     <Container className="justify-center ">
