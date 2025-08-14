@@ -2,21 +2,23 @@
 
 import Container from '@/atoms/Container';
 import { onImagePasted } from '@/lib/markdown';
-import MDEditor from '@uiw/react-md-editor';
+import { usePresentActions } from '@/templates/PresentClient.template';
+import dynamic from 'next/dynamic';
+
+const MDEditor = dynamic(() => import('@uiw/react-md-editor').then((mod) => mod.default), { ssr: false });
 
 type EditorProps = {
-  content: string;
-  setContentAction: (value: string) => void;
   startTimeString: string;
-  tempSaveAction: () => void;
 };
 
 export default function Editor(props: EditorProps) {
-  const { content, setContentAction, startTimeString, tempSaveAction } = props;
+  const { startTimeString } = props;
+  const { currentContent, setCurrentContent, onTempSave } = usePresentActions();
+
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if ((event.metaKey || event.ctrlKey) && event.key === 's') {
       event.preventDefault();
-      tempSaveAction();
+      onTempSave();
     }
   };
   return (
@@ -25,15 +27,15 @@ export default function Editor(props: EditorProps) {
         id="content"
         className="flex h-full w-full flex-1 [&_img]:mx-auto [&_img]:!flex [&_img]:max-h-[500px] [&_ol]:list-decimal [&_ul]:list-disc"
         height="100%"
-        value={content}
+        value={currentContent}
         onChange={(value) => {
-          setContentAction(value as string);
+          setCurrentContent(value as string);
         }}
         onPaste={async (event) => {
-          await onImagePasted(event, event.clipboardData, startTimeString, setContentAction);
+          await onImagePasted(event, event.clipboardData, startTimeString, setCurrentContent);
         }}
         onDrop={async (event) => {
-          await onImagePasted(event, event.dataTransfer, startTimeString, setContentAction);
+          await onImagePasted(event, event.dataTransfer, startTimeString, setCurrentContent);
         }}
         textareaProps={{
           placeholder: '꾸준히 작성하자!',

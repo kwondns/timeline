@@ -1,15 +1,17 @@
+'use client';
+
 import Container from '@/atoms/Container';
 import { Button } from '@/components/ui/button';
-import { updatePresentStartAction } from '@/actions/updatePresent';
+import { usePresentActions } from '@/templates/PresentClient.template';
 
 export type ActionButtonGroupProps = {
-  onTempSave: () => void;
-  onSave: () => void;
   isStarted: boolean;
 };
 
 export default function ActionButtonGroup(props: ActionButtonGroupProps) {
-  const { onTempSave, onSave, isStarted } = props;
+  const { isStarted } = props;
+  const { onSave, onTempSave, onStart } = usePresentActions();
+
   return (
     <Container className="gap-2">
       {isStarted ? (
@@ -22,11 +24,9 @@ export default function ActionButtonGroup(props: ActionButtonGroupProps) {
           </Button>
         </>
       ) : (
-        <form action={updatePresentStartAction}>
-          <Button type="submit" className="text-xl py-5">
-            시작하기
-          </Button>
-        </form>
+        <Button className="text-xl py-5" onClick={onStart}>
+          시작하기
+        </Button>
       )}
     </Container>
   );
