@@ -1,6 +1,5 @@
 import CalendarTemplate from '@/templates/Calendar.template';
 
-export const experimental_ppr = true;
 export async function generateStaticParams() {
   const params: { current: string }[] = [];
   const today = new Date();

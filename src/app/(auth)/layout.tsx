@@ -9,7 +9,8 @@ import AuthGuard from '@/molecules/AuthGuard';
 import { refresh, validateCookie } from '@/lib/dal/auth';
 import { refreshSession } from '@/lib/session';
 
-export const dynamic = 'force-dynamic';
+export const experimental_ppr = true;
+
 export default async function Layout({ children }: { children: React.ReactNode }) {
   let user = await getUser(true);
   if (!user) {

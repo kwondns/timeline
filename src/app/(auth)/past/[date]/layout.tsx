@@ -2,7 +2,6 @@ import PastTemplate from '@/templates/Past.template';
 import PastSkeletonTemplate from '@/templates/Past.skeleton.template';
 import { Suspense } from 'react';
 
-export const experimental_ppr = true;
 export async function generateStaticParams() {
   const params: { date: string }[] = [];
   const today = new Date();
