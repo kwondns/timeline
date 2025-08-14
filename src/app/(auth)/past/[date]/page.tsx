@@ -1,20 +1,7 @@
-import PastTemplate from '@/templates/Past.template';
 import { PastActivityType } from '@/types/past.type';
-
-export const dynamic = 'force-static';
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  const params: { date: string }[] = [];
-  const today = new Date();
-  // 과거 31일 중 2일 이전 날짜만 SSG로 생성
-  for (let i = 2; i <= 31; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    params.push({ date: d.toISOString().slice(0, 10) });
-  }
-  return params;
-}
+import { headers } from 'next/headers';
+import { callGetWithAuth } from '@/lib/dal/http';
+import PastDynamic from '@/organisms/PastDynamic';
 
 export default async function Page({
   params,
@@ -26,6 +13,7 @@ export default async function Page({
   const { date } = await params;
   const { index } = await searchParams;
 
+  const userId = (await headers()).get('x-user-id') as string;
   const todayStr = new Date().toISOString().slice(0, 10);
 
   const yesterday = new Date();
@@ -39,11 +27,10 @@ export default async function Page({
     revalidate = 21600; // 어제: 6시간 ISR
   }
 
-  const response = await fetch(`${process.env.API_SERVER_URL}/past/${date}`, {
+  const activities = await callGetWithAuth<PastActivityType[]>(`/past/${date}?uid=${userId}`, {
     method: 'GET',
-    next: { revalidate },
+    next: { revalidate, tags: [`past-${userId}-${date}`] },
   });
-  const activities = (await response.json()) as PastActivityType[];
 
-  return <PastTemplate date={date} activities={activities} defaultOpenIndex={index} />;
+  return <PastDynamic activities={activities} defaultOpenIndex={index} />;
 }
