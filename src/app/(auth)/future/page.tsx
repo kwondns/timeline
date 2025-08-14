@@ -1,14 +1,19 @@
-import FutureTemplate from '@/templates/Future.template';
-import { FutureBoxCardProps } from '@/organisms/FutureBoxCard';
+import FutureBoxCard, { FutureBoxCardProps } from '@/organisms/FutureBoxCard';
 import { callGetWithAuth } from '@/lib/dal/http';
-import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+import Typography from '@/atoms/Typography';
+import { Card } from '@/components/ui/card';
 
 export default async function Page() {
-  const futureBoxes = await callGetWithAuth<FutureBoxCardProps[]>('/future');
-  NextResponse.next({
-    headers: {
-      'Cache-Control': 'private, max-age=60',
-    },
+  const userId = (await headers()).get('x-user-id') as string;
+  const futureBoxes = await callGetWithAuth<FutureBoxCardProps[]>('/future', {
+    next: { revalidate: false, tags: [`future-${userId}`] },
   });
-  return <FutureTemplate futureBoxes={futureBoxes} />;
+  return futureBoxes.length > 0 ? (
+    futureBoxes.map((futureBox) => <FutureBoxCard key={futureBox.id} {...futureBox} />)
+  ) : (
+    <Card className="p-6 max-h-[450px]">
+      <Typography.span>계획을 추가 해주세요!</Typography.span>
+    </Card>
+  );
 }
