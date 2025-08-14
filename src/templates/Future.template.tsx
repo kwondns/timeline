@@ -1,11 +1,10 @@
-import FutureBoxCard, { FutureBoxCardProps } from '@/organisms/FutureBoxCard';
 import Container from '@/atoms/Container';
 import Typography from '@/atoms/Typography';
 import NewFutureBoxDialog from '@/organisms/NewFutureBoxDialog';
 
-export type FutureTemplateProps = { futureBoxes: FutureBoxCardProps[] };
+export type FutureTemplateProps = { children: React.ReactNode };
 export default function FutureTemplate(props: FutureTemplateProps) {
-  const { futureBoxes } = props;
+  const { children } = props;
   return (
     <Container direction="column" className="gap-4 py-8 px-4">
       <Typography.h1 className="self-start">미래 계획</Typography.h1>
@@ -14,9 +13,7 @@ export default function FutureTemplate(props: FutureTemplateProps) {
         <NewFutureBoxDialog />
       </Container>
       <Container direction="column" className="gap-4">
-        {futureBoxes.map((futureBox) => (
-          <FutureBoxCard key={futureBox.id} {...futureBox} />
-        ))}
+        {children}
       </Container>
     </Container>
   );
