@@ -1,6 +1,5 @@
 import PresentTemplate from '@/templates/Present.template';
 import { Suspense } from 'react';
-import PresentInfo from '@/organisms/PresentInfo';
 import ActionButtonGroup from '@/molecules/ActionButtonGroup';
 import { headers } from 'next/headers';
 import { callGetWithAuth } from '@/lib/dal/http';
@@ -21,33 +20,27 @@ export default async function Page() {
       title={present.title}
       startTime={present.startTime}
       content={present.content}
-      presentInfoSlot={
+      indicatorSlot={
         <Suspense>
-          <PresentInfo
-            indicatorSlot={
-              <Suspense>
-                <Indicator active={!!present.startTime} />
-                <Typography.h4 className="text-primary/70">
-                  {present.startTime ? new Date(present.startTime).toLocaleString('ko-kr') : ''}
-                </Typography.h4>
-              </Suspense>
-            }
-            titleSlot={
-              <Suspense>
-                <PresentInputOrDisplay title={present.title} />
-              </Suspense>
-            }
-            presentTimeSlot={
-              <Suspense>
-                <PresentTime startTime={present.startTime ?? ''} />
-              </Suspense>
-            }
-            actionButtonSlot={
-              <Suspense>
-                <ActionButtonGroup isStarted={!!present.startTime} />
-              </Suspense>
-            }
-          />
+          <Indicator active={!!present.startTime} />
+          <Typography.h4 className="text-primary/70">
+            {present.startTime ? new Date(present.startTime).toLocaleString('ko-kr') : ''}
+          </Typography.h4>
+        </Suspense>
+      }
+      titleSlot={
+        <Suspense>
+          <PresentInputOrDisplay title={present.title} />
+        </Suspense>
+      }
+      presentTimeSlot={
+        <Suspense>
+          <PresentTime startTime={present.startTime ?? ''} />
+        </Suspense>
+      }
+      actionButtonSlot={
+        <Suspense>
+          <ActionButtonGroup isStarted={!!present.startTime} />
         </Suspense>
       }
       editorSlot={

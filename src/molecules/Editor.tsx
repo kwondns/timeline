@@ -1,6 +1,5 @@
 'use client';
 
-import Container from '@/atoms/Container';
 import { onImagePasted } from '@/lib/markdown';
 import { usePresentActions } from '@/templates/PresentClient.template';
 import dynamic from 'next/dynamic';
@@ -22,26 +21,24 @@ export default function Editor(props: EditorProps) {
     }
   };
   return (
-    <Container className="h-full w-full flex-1 overflow-auto pt-4">
-      <MDEditor
-        id="content"
-        className="flex h-full w-full flex-1 [&_img]:mx-auto [&_img]:!flex [&_img]:max-h-[500px] [&_ol]:list-decimal [&_ul]:list-disc"
-        height="100%"
-        value={currentContent}
-        onChange={(value) => {
-          setCurrentContent(value as string);
-        }}
-        onPaste={async (event) => {
-          await onImagePasted(event, event.clipboardData, startTimeString, setCurrentContent);
-        }}
-        onDrop={async (event) => {
-          await onImagePasted(event, event.dataTransfer, startTimeString, setCurrentContent);
-        }}
-        textareaProps={{
-          placeholder: '꾸준히 작성하자!',
-        }}
-        onKeyDown={onKeyDown}
-      />
-    </Container>
+    <MDEditor
+      id="content"
+      className="flex h-full w-full flex-1 [&_img]:mx-auto [&_img]:!flex [&_img]:max-h-[500px] [&_ol]:list-decimal [&_ul]:list-disc"
+      height="100%"
+      value={currentContent}
+      onChange={(value) => {
+        setCurrentContent(value as string);
+      }}
+      onPaste={async (event) => {
+        await onImagePasted(event, event.clipboardData, startTimeString, setCurrentContent);
+      }}
+      onDrop={async (event) => {
+        await onImagePasted(event, event.dataTransfer, startTimeString, setCurrentContent);
+      }}
+      textareaProps={{
+        placeholder: '꾸준히 작성하자!',
+      }}
+      onKeyDown={onKeyDown}
+    />
   );
 }
