@@ -3,6 +3,7 @@ import ActivitySlot from '@/app/(auth)/time/_slot/ActivitySlot';
 import TimeChartSlot from '@/app/(auth)/time/_slot/TimeChartSlot';
 import FuturesSlot from '@/app/(auth)/time/_slot/FuturesSlot';
 import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default async function Page() {
   return (
@@ -17,12 +18,12 @@ export default async function Page() {
         </Suspense>
       }
       timeChartSlot={
-        <Suspense>
+        <Suspense fallback={<Skeleton className="self-center m-auto h-[230px] mt-[50px] w-[350px] rounded-2xl" />}>
           <TimeChartSlot />
         </Suspense>
       }
       futuresSlot={
-        <Suspense>
+        <Suspense fallback={<Skeleton className="h-[200px] w-full rounded-xl" />}>
           <FuturesSlot />
         </Suspense>
       }
