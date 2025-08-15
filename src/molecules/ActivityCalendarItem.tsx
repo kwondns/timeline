@@ -30,7 +30,7 @@ export default function ActivityCalendarItem(props: ActivityProps) {
         <button type="button" className={`cursor-pointer size-full rounded-lg ${color} `} onClick={onClickButton} />
       </TooltipTrigger>
       <TooltipContent>
-        <Typography.span>{`${new Date(date).toLocaleDateString()} - ${formattingDateDiff(count)}`}</Typography.span>
+        <Typography.span>{`${date ? new Date(date).toLocaleDateString() : ''} - ${count ? formattingDateDiff(count) : ''}`}</Typography.span>
       </TooltipContent>
     </Tooltip>
   );
