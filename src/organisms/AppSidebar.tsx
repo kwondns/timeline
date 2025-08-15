@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
@@ -12,12 +11,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
 import Typography from '@/atoms/Typography';
-import { useEffect, useState } from 'react';
-import { useSelectedLayoutSegments } from 'next/navigation';
 import Indicator from '@/molecules/Indicator';
-import { Icon } from '@/atoms/Icon';
+import Link from 'next/link';
 import Container from '@/atoms/Container';
 import {
   DropdownMenu,
@@ -30,54 +26,32 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/atoms/Icon';
 import { useTheme } from 'next-themes';
 import { signOutAction } from '@/actions/signOut.action';
+import { useEffect, useState } from 'react';
+import { useSelectedLayoutSegments } from 'next/navigation';
+import MENU from '@/constants/MENU';
 
-type AppSidebarProps = {
+type AppSidebarWrapperProps = {
+  isMounted: boolean;
   active: boolean;
   name: string;
 };
-
-const Menu: { title: string; url: string; icon: React.ReactNode }[] = [
-  {
-    title: '현재',
-    url: '/present',
-    icon: Icon['time'],
-  },
-  {
-    title: '과거',
-    url: '/past',
-    icon: Icon['sandClock'],
-  },
-  {
-    title: '달력',
-    url: '/calendar',
-    icon: Icon['calendar'],
-  },
-  {
-    title: '미래',
-    url: '/future',
-    icon: Icon['rocket'],
-  },
-  {
-    title: '시간',
-    url: '/time',
-    icon: Icon['analytics'],
-  },
-];
-
-export default function AppSidebar(props: Readonly<AppSidebarProps>) {
-  const { active, name } = props;
-  const { setOpen, open } = useSidebar();
-  const [init, setInit] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [transitionClass, setTransitionClass] = useState<string>('opacity-0');
-  const segment = useSelectedLayoutSegments('children');
+export default function AppSidebar(props: AppSidebarWrapperProps) {
+  const { isMounted, active, name } = props;
   const { theme, setTheme } = useTheme();
+  const [transitionClass, setTransitionClass] = useState<string>('opacity-0');
+  const [init, setInit] = useState(false);
+  const { open } = useSidebar();
+  const segment = useSelectedLayoutSegments('children');
 
   const onClickSignOut = async () => {
     await signOutAction();
   };
+  useEffect(() => {
+    setInit(true);
+  }, []);
 
   useEffect(() => {
     if (isMounted && open) {
@@ -90,25 +64,8 @@ export default function AppSidebar(props: Readonly<AppSidebarProps>) {
     }
   }, [isMounted, open]);
 
-  useEffect(() => {
-    setInit(true);
-  }, []);
-  if (segment[0] === 'sign') return null;
-
   return (
-    <Sidebar
-      className="fixed"
-      variant="floating"
-      collapsible="icon"
-      onMouseEnter={() => {
-        setOpen(true);
-        setIsMounted(true);
-      }}
-      onMouseLeave={() => {
-        setOpen(false);
-        setIsMounted(false);
-      }}
-    >
+    <>
       <SidebarHeader>
         <SidebarGroup>
           <SidebarGroupContent className="overflow-x-hidden">
@@ -122,7 +79,7 @@ export default function AppSidebar(props: Readonly<AppSidebarProps>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {Menu.map((menu) => (
+              {MENU.map((menu) => (
                 <SidebarMenuItem key={menu.title}>
                   <SidebarMenuButton asChild isActive={segment[0] === menu.url.slice(1)}>
                     <Link href={menu.url}>
@@ -177,6 +134,6 @@ export default function AppSidebar(props: Readonly<AppSidebarProps>) {
           </Container>
         )}
       </SidebarFooter>
-    </Sidebar>
+    </>
   );
 }
