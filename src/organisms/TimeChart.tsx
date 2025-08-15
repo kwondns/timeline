@@ -17,7 +17,7 @@ export default function TimeChart(props: TimeChartProps) {
   if (!pasts) return <span>Error!</span>;
   const onClickChart = (event: MouseHandlerDataParam) => {
     const { activeTooltipIndex } = event;
-    if (activeTooltipIndex) {
+    if (pasts[Number(activeTooltipIndex)].date && activeTooltipIndex) {
       route.push(createPastLink(pasts[Number(activeTooltipIndex)].date));
     }
   };
