@@ -13,7 +13,7 @@ export default function TimeTemplate(props: TimeTemplateProps) {
   const { activitySlot, timeChartSlot, futuresSlot } = props;
   return (
     <Container direction="column" className="px-4">
-      <Container className="justify-center items-center">
+      <Container className="justify-center items-center flex-col md:flex-row">
         <ActivityCalendar activitySlot={activitySlot} />
         <div className="h-[300px] w-full overflow-x-hidden active:outline-none focus:outline-none">{timeChartSlot}</div>
       </Container>

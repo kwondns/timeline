@@ -18,16 +18,16 @@ export type TypographyPropsType = {
 
 const typoType: { defaultClassName: string; component: TypographyComponentType }[] = [
   {
-    defaultClassName: 'scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance',
+    defaultClassName: 'scroll-m-20 text-center text-xl md:text-4xl font-extrabold tracking-tight text-balance',
     component: 'h1',
   },
-  { defaultClassName: 'scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0', component: 'h2' },
+  { defaultClassName: 'scroll-m-20 pb-2 text-lg md:text-3xl font-semibold tracking-tight first:mt-0', component: 'h2' },
   {
-    defaultClassName: 'scroll-m-20 text-2xl font-semibold tracking-tight',
+    defaultClassName: 'scroll-m-20 text-base md:text-2xl font-semibold tracking-tight',
     component: 'h3',
   },
   {
-    defaultClassName: 'scroll-m-20 text-xl font-semibold tracking-tight',
+    defaultClassName: 'scroll-m-20 text-sm md:text-xl font-semibold tracking-tight',
     component: 'h4',
   },
   {

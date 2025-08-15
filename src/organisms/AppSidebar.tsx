@@ -85,7 +85,9 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
                     <Link href={menu.url}>
                       {menu.icon}
                       {open && (
-                        <Typography.p className={`transition-opacity duration-200 ease-in-out ${transitionClass}`}>
+                        <Typography.p
+                          className={`transition-opacity duration-200 ease-in-out ${transitionClass} text-foreground`}
+                        >
                           {menu.title}
                         </Typography.p>
                       )}

@@ -28,7 +28,7 @@ export default function FutureBoxCard(props: FutureBoxCardProps) {
           </Container>
         </Container>
       </CardHeader>
-      <CardContent className="overflow-x-auto grid grid-cols-[repeat(auto-fit,_minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(450px,1fr))] gap-4 p-4">
+      <CardContent className="overflow-x-auto grid md:grid-cols-[repeat(auto-fit,_minmax(300px,1fr))] lg:grid-cols-[repeat(auto-fit,_minmax(450px,1fr))] gap-4 p-4">
         {futures.map((future) => (
           <FutureContent key={future.id} {...future} />
         ))}

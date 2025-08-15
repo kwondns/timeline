@@ -26,7 +26,7 @@ export default function PresentInputOrDisplay(props: PresentInputOrDisplayProps)
       initValue={title ?? ''}
       action={handleUpdate}
       typo="h3"
-      className="!text-2xl"
+      className="!text-lg md:!text-2xl"
       inputClassName="!py-6 !px-2"
       typoClassName="px-2 py-[9px]"
       id="title"

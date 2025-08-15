@@ -17,7 +17,7 @@ export default function PresentTemplate(props: PresentTemplateProps) {
   const { indicatorSlot, presentTimeSlot, titleSlot, actionButtonSlot, editorSlot, title, startTime, content } = props;
   return (
     <PresentClientTemplate title={title} startTime={startTime} initialContent={content}>
-      <Container direction="column" className="h-full px-4 pt-8">
+      <Container direction="column" className="h-full px-2 pt-4 md:px-4 md:pt-8">
         <PresentInfo
           indicatorSlot={indicatorSlot}
           presentTimeSlot={presentTimeSlot}
