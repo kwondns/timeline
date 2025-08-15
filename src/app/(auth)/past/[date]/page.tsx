@@ -27,7 +27,7 @@ export default async function Page({
     revalidate = 21600; // 어제: 6시간 ISR
   }
 
-  const activities = await callGetWithAuth<PastActivityType[]>(`/past/${date}?uid=${userId}`, {
+  const activities = await callGetWithAuth<PastActivityType[]>(`/past/${date}`, {
     method: 'GET',
     next: { revalidate, tags: [`past-${userId}-${date}`] },
   });
