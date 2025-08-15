@@ -1,7 +1,7 @@
 import FutureBoxCard, { FutureBoxCardProps } from '@/organisms/FutureBoxCard';
 import { callGetWithAuth } from '@/lib/dal/http';
 import { headers } from 'next/headers';
-import NoFutureBox from '@/templates/NoFutureBox';
+import NoFutureBoxTemplate from '@/templates/NoFutureBox.template';
 
 export default async function Page() {
   const userId = (await headers()).get('x-user-id') as string;
@@ -11,6 +11,6 @@ export default async function Page() {
   return futureBoxes.length > 0 ? (
     futureBoxes.map((futureBox) => <FutureBoxCard key={futureBox.id} {...futureBox} />)
   ) : (
-    <NoFutureBox />
+    <NoFutureBoxTemplate />
   );
 }
