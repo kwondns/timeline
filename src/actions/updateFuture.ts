@@ -1,7 +1,8 @@
 'use server';
 
 import { callFetch, withAuth } from '@/lib/dal/http';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
+import { headers } from 'next/headers';
 
 type UpdateFutureActionType = {
   id: string;
@@ -10,10 +11,12 @@ type UpdateFutureActionType = {
 };
 export const updateFutureAction = withAuth(async (payload: UpdateFutureActionType) => {
   const { category, id, value } = payload;
+  const userId = (await headers()).get('x-user-id');
   const url = category === 'box' ? '/future/box' : '/future';
   const body = { id };
   if (category === 'box') Object.assign(body, { title: value });
   else Object.assign(body, { content: value });
   await callFetch(url, body, { method: 'PATCH', auth: true });
-  revalidatePath('/future');
+  revalidateTag(`future-${userId}`);
+  revalidateTag(`time-future-${userId}`);
 });

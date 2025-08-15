@@ -2,7 +2,8 @@
 
 import { callFetch, withAuth } from '@/lib/dal/http';
 import { z } from 'zod';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
+import { headers } from 'next/headers';
 
 type AddFutureType = {
   content: string;
@@ -17,6 +18,7 @@ const AddFutureActionSchema = z.object({
 });
 
 export const addFutureAction = withAuth(async (_: any, formData: FormData) => {
+  const userId = (await headers()).get('x-user-id');
   const content = formData.get('content');
   const boxId = formData.get('boxId');
   const priority = formData.get('priority');
@@ -24,7 +26,8 @@ export const addFutureAction = withAuth(async (_: any, formData: FormData) => {
 
   try {
     await callFetch<AddFutureType>('/future', validatedData, { method: 'POST', expectNoContent: true, auth: true });
-    revalidatePath('/future');
+    revalidateTag(`future-${userId}`);
+    revalidateTag(`time-future-${userId}`);
     return true;
   } catch (e) {
     return false;

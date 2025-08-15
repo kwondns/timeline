@@ -1,7 +1,8 @@
 'use server';
 
 import { callFetch, fileUpload, withAuth } from '@/lib/dal/http';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { headers } from 'next/headers';
 
 export const updatePresentTitleAction = withAuth(async (title: string) => {
   await callFetch('/present', { title }, { method: 'PATCH', auth: true });
@@ -10,9 +11,10 @@ export const updatePresentTitleAction = withAuth(async (title: string) => {
 });
 
 export const updatePresentStartAction = withAuth(async () => {
+  const userId = (await headers()).get('x-user-id');
   await callFetch('/present', { startTime: new Date().toISOString() }, { method: 'PATCH', auth: true });
 
-  revalidatePath('/present');
+  revalidateTag(`present-${userId}`);
 });
 
 export const updatePresentContentAction = withAuth(async (content: string) => {
@@ -26,8 +28,17 @@ type UpdatePresentEndActionType = {
   title: string;
 };
 export const updatePresentEndAction = withAuth(async (payload: UpdatePresentEndActionType) => {
+  const userId = (await headers()).get('x-user-id');
+  const { startTime } = payload;
   await callFetch('/past', payload, { method: 'POST', auth: true });
-  revalidatePath('/present');
+
+  const startTimeKSTDate = new Date(new Date(startTime).getTime() + 9 * 60 * 60 * 1000);
+  const revalidateCalendarTag = `calendar-${userId}-${startTimeKSTDate.toISOString().slice(0, 7)}`;
+  const revalidatePastTag = `past-${userId}-${startTimeKSTDate.toISOString().slice(0, 10)}`;
+
+  revalidateTag(`time-past-${userId}`);
+  revalidateTag(revalidateCalendarTag);
+  revalidateTag(revalidatePastTag);
 });
 
 export const cleanUpImageAction = async (startTime: string) => {

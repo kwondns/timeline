@@ -22,7 +22,7 @@ export default function SignInForm() {
       route.replace('/present');
     },
     onError: (e) => {
-      toast.error(e.message);
+      toast.error('인증 실패!');
     },
     onValidateError: (e) => {
       if (e?.email) setEmailError(e.email.errors[0]);

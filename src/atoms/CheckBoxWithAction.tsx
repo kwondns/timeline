@@ -19,7 +19,6 @@ export default function CheckBoxWithAction(props: CheckBoxWithActionProps) {
     try {
       await toggleCheckBoxAction({ id, checked: !checked, category });
     } catch (e) {
-      console.error(e);
       toast.error('업데이트에 실패하였습니다.');
       setChecked((prev) => !prev);
     }
