@@ -38,8 +38,8 @@ const isProtectedRoute = (pathname: string): boolean => {
 };
 const handleAuthPages = async (request: NextRequest) => {
   let session = await verifySessionInMiddleware(request);
-
-  if (session?.isAuth && session.userId) {
+  const access = request.cookies.get('auth-token')?.value;
+  if (session?.isAuth && session.userId && access) {
     return NextResponse.redirect(new URL('/present', request.url));
   }
 

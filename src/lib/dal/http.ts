@@ -24,7 +24,12 @@ async function safeParseJSON<T>(res: Response): Promise<T> {
 
 async function requestRefreshAndReturnToken(): Promise<string | undefined> {
   return await withGlobalRefreshSingleFlight(async () => {
-    const refreshRes = await fetch('/api/refresh', {
+    const h = await headers();
+    const host = h.get('host');
+    const proto = h.get('x-forwarded-proto') ?? 'https';
+    if (!host) throw new Error('Missing host header');
+    const base = `${proto}://${host}`;
+    const refreshRes = await fetch(`${base}/api/refresh`, {
       method: 'POST',
       credentials: 'include',
     });
