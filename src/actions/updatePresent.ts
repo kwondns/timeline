@@ -36,6 +36,7 @@ export const updatePresentEndAction = withAuth(async (payload: UpdatePresentEndA
   const revalidateCalendarTag = `calendar-${userId}-${startTimeKSTDate.toISOString().slice(0, 7)}`;
   const revalidatePastTag = `past-${userId}-${startTimeKSTDate.toISOString().slice(0, 10)}`;
 
+  revalidateTag(`present-${userId}`);
   revalidateTag(`time-past-${userId}`);
   revalidateTag(revalidateCalendarTag);
   revalidateTag(revalidatePastTag);
