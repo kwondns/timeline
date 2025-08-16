@@ -1,13 +1,14 @@
 'use server';
 
 import { callFetch, fileUpload, withAuth } from '@/lib/dal/http';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 
 export const updatePresentTitleAction = withAuth(async (title: string) => {
+  const userId = (await headers()).get('x-user-id');
   await callFetch('/present', { title }, { method: 'PATCH', auth: true });
 
-  revalidatePath('/present');
+  revalidateTag(`present-${userId}`);
 });
 
 export const updatePresentStartAction = withAuth(async () => {
