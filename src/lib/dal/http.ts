@@ -1,7 +1,42 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { refreshSession, verifySession } from '@/lib/session';
 import { redirect } from 'next/navigation';
-import { refresh, validateCookie } from '@/lib/dal/auth';
+import { refresh, validateRefreshToken } from '@/lib/dal/auth';
+import { NoRefreshTokenError } from '@/lib/error';
+
+function isJsonResponse(res: Response) {
+  const ct = res.headers.get('Content-Type') || '';
+  return ct.includes('application/json');
+}
+
+async function safeParseJSON<T>(res: Response): Promise<T> {
+  if (!isJsonResponse(res)) {
+    const txt = await res.text();
+    try {
+      return JSON.parse(txt) as T;
+    } catch {
+      throw new Error(`Unexpected content-type. Expected JSON. Status=${res.status}`);
+    }
+  }
+  return (await res.json()) as T;
+}
+
+async function requestRefreshAndReturnToken(): Promise<string | undefined> {
+  console.log(2);
+  try {
+    const refreshRes = await fetch(`${process.env.LOCAL}/api/refresh`, { method: 'POST', credentials: 'include' });
+    if (refreshRes.status === 401) {
+      redirect('/sign/in?toast=loginRequired');
+    }
+    const newToken = (await cookies()).get('auth-token')?.value;
+    if (!newToken) {
+      redirect('/sign/in?toast=loginRequired');
+    }
+    return newToken;
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 // 204 응답인 경우 R=void
 export function callFetch<T extends Record<string, any>>(
@@ -22,46 +57,68 @@ export async function callFetch<T extends Record<string, string | boolean | numb
   payload: T,
   options: RequestInit & { expectNoContent?: boolean; auth?: boolean } = {},
 ): Promise<R | void> {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string>),
+  const doRequest = async (token?: string) => {
+    const h = new Headers(options?.headers);
+    h.set('Content-Type', 'application/json');
+    if (options.auth && token) h.set('Authorization', `Bearer ${token}`);
+    return fetch(`${process.env.API_SERVER_URL}${url}`, {
+      ...options,
+      body: JSON.stringify(payload),
+      headers: h,
+    });
   };
 
-  if (options.auth) {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('auth-token')?.value;
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
+  const cookieStore = await cookies();
+  const token = cookieStore.get('auth-token')?.value;
+  let response = await doRequest(token);
+  if (response.status === 401 && options.auth) {
+    const newToken = await requestRefreshAndReturnToken();
+    response = await doRequest(newToken);
+    if (response.status === 401) {
+      redirect('/sign/in?toast=loginRequired');
     }
   }
-  const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
-    body: JSON.stringify(payload),
-    headers,
-    ...options,
-  });
-  if (!response.ok) {
-    const errorBody = await response.json();
-    throw new Error(errorBody.message || '알 수 없는 오류가 발생했습니다.');
-  }
+  if (!response.ok) throw new Error(`POST ${url} failed: ${response.status}`);
   if (response.status === 204 || options.expectNoContent) {
     return;
   }
+  if (response.status === 201 || isJsonResponse(response)) return (await safeParseJSON(response)) as R;
 
-  return (await response.json()) as R;
+  return undefined as unknown as R;
 }
 
 export async function callGetWithAuth<T>(url: string, options?: RequestInit): Promise<T> {
+  const userId = (await headers()).get('x-user-id') || 'guest';
+  const doRequest = async (token?: string) => {
+    const h = new Headers(options?.headers);
+    if (token) h.set('Authorization', `Bearer ${token}`);
+    h.set('x-cache-key', `uid-${userId}`);
+
+    return fetch(`${process.env.API_SERVER_URL}${url}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: h,
+      next: options?.next,
+    });
+  };
   const cookieStore = await cookies();
-  const authToken = cookieStore.get('auth-token')?.value;
-  const mergedHeaders = new Headers(options?.headers);
-  if (authToken) mergedHeaders.set('Authorization', `Bearer ${authToken}`);
-  const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: mergedHeaders,
-    next: options?.next,
-  });
-  return (await response.json()) as Promise<T>;
+  let authToken = cookieStore.get('auth-token')?.value;
+  let response = await doRequest(authToken);
+  // 401 Unauthorized 시 토큰 재발급
+  if (response.status === 401) {
+    console.log('1');
+    const newToken = await requestRefreshAndReturnToken();
+    const latest = (await cookies()).get('auth-token')?.value || newToken;
+    response = await doRequest(latest);
+    if (response.status === 401) {
+      redirect('/sign/in?toast=loginRequired');
+    }
+  }
+  if (!response.ok) {
+    const text = await response.text().catch(() => '');
+    throw new Error(`GET ${url} failed: ${response.status} ${text}`);
+  }
+  return (await safeParseJSON(response)) as T;
 }
 
 export const fileUpload = async (payload: File[] | File, uri?: string, num?: number) => {
@@ -87,10 +144,14 @@ export function withAuth<T extends any[], R>(fn: (...args: T) => Promise<R>): (.
   return async (...args: T) => {
     const session = await verifySession();
     if (!session) {
-      const token = await validateCookie();
-      const result = await refresh(token);
-      if (!result) redirect('/sign/in?toast=loginRequired');
-      await refreshSession(result);
+      try {
+        const token = await validateRefreshToken();
+        const result = await refresh(token);
+        if (!result) throw new NoRefreshTokenError();
+        await refreshSession(result);
+      } catch (e) {
+        if (e instanceof NoRefreshTokenError) redirect('/sign/in?toast=loginRequired');
+      }
     }
     return await fn(...args);
   };

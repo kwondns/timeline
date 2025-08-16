@@ -13,7 +13,19 @@ const PROTECTED_ROUTES = [
 ] as const;
 
 const AUTH_ROUTES = ['/sign/in', '/sign/up'] as const;
-
+const THROTTLE_MS = 60_000;
+async function canRefresh(request: NextRequest): Promise<boolean> {
+  const last = request.cookies.get('last_refresh')?.value;
+  if (!last) return true;
+  return Date.now() - parseInt(last, 10) >= THROTTLE_MS;
+}
+async function markRefresh(response: NextResponse) {
+  response.cookies.set('last_refresh', String(Date.now()), {
+    httpOnly: true,
+    path: '/',
+    maxAge: 24 * 60 * 60,
+  });
+}
 const isProtectedRoute = (pathname: string): boolean => {
   return PROTECTED_ROUTES.some((route) => {
     if (route.endsWith('/:path*')) {
@@ -23,14 +35,15 @@ const isProtectedRoute = (pathname: string): boolean => {
     return pathname === route;
   });
 };
-const handleAuthPages = async (request: NextRequest, pathname: string) => {
+const handleAuthPages = async (request: NextRequest) => {
   let session = await verifySessionInMiddleware(request);
-
-  if (!session) {
+  const canTryRefresh = await canRefresh(request);
+  if (!session && canTryRefresh) {
     const authResponse = await tryRefreshInMiddleware(request);
     if (authResponse) {
       const res = NextResponse.redirect(new URL('/present', request.url));
       await refreshSessionInMiddleware(res, authResponse);
+      await markRefresh(res);
       return res;
     }
   }
@@ -44,13 +57,15 @@ const handleAuthPages = async (request: NextRequest, pathname: string) => {
 
 const handleProtectedPages = async (request: NextRequest) => {
   let session = await verifySessionInMiddleware(request);
+  const canTryRefresh = await canRefresh(request);
 
-  if (!session) {
+  if (!session && canTryRefresh) {
     const authResponse = await tryRefreshInMiddleware(request);
     if (!authResponse) {
       return NextResponse.redirect(new URL('/sign/in', request.url));
     }
     const res = NextResponse.next();
+    await markRefresh(res);
     session = await refreshSessionInMiddleware(res, authResponse);
   }
 
@@ -67,7 +82,7 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (AUTH_ROUTES.includes(pathname as any)) {
-    return handleAuthPages(request, pathname);
+    return handleAuthPages(request);
   }
 
   if (isProtectedRoute(pathname)) {

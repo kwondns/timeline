@@ -7,13 +7,16 @@ export const formattingDateDiff = (diffMinute: number) => {
   result += `${Math.round(min)} 분`;
   return result;
 };
-export const calculateDateDiff = (startDate: string | Date, endDate?: string | Date, toNumber?: boolean) => {
+
+export function calculateDateDiff(startDate: string | Date, endDate?: string | Date, toNumber?: false): string;
+export function calculateDateDiff(startDate: string | Date, endDate?: string | Date, toNumber?: true): number;
+export function calculateDateDiff(startDate: string | Date, endDate?: string | Date, toNumber: boolean = false) {
   const start = new Date(startDate);
   const end = endDate ? new Date(endDate) : new Date();
   const diffMinute = (end.getTime() - start.getTime()) / 60 / 1000;
   if (toNumber) return diffMinute;
   return formattingDateDiff(diffMinute);
-};
+}
 
 export const calcPreviousMonth = (date: Date, firstDay: number) =>
   new Date(date.getFullYear(), date.getMonth(), -firstDay + 1);

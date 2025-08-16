@@ -2,23 +2,45 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { refresh } from '@/lib/dal/auth';
 import { refreshSession } from '@/lib/session';
+import { withRefreshSingleFlight } from '@/lib/single';
 
 export async function POST() {
   const cookieStore = await cookies();
-  const refreshToken = cookieStore.get('refresh-token')?.value;
-  if (!refreshToken) {
-    return NextResponse.json({}, { status: 401 });
-  }
+  try {
+    const lastRefreshed = cookieStore.get('last-refreshed')?.value;
+    if (lastRefreshed) {
+      const elapsed = Date.now() - parseInt(lastRefreshed, 10);
+      if (elapsed < 60_000) {
+        // 1분 이내 재호출 스킵
+        return NextResponse.json({ message: 'Too many requests' }, { status: 429 });
+      }
+    }
+    const refreshToken = cookieStore.get('refresh-token')?.value;
+    if (!refreshToken) {
+      return NextResponse.json({}, { status: 401 });
+    }
+    const refreshed = await withRefreshSingleFlight(async () => {
+      const r = await refresh(refreshToken);
+      return r || null;
+    });
+    if (!refreshed) {
+      return NextResponse.json({}, { status: 401 });
+    }
 
-  const refreshed = await refresh(refreshToken);
-  if (!refreshed) {
-    return NextResponse.json({}, { status: 401 });
-  }
+    const session = await refreshSession(refreshed);
+    if (!session) {
+      return NextResponse.json({}, { status: 401 });
+    }
+    cookieStore.set({
+      name: 'last-refreshed',
+      value: String(Date.now()),
+      httpOnly: true,
+      path: '/',
+      maxAge: 60 * 60 * 24,
+    });
 
-  const session = await refreshSession(refreshed);
-  if (!session) {
-    return NextResponse.json({}, { status: 401 });
+    return NextResponse.json(session);
+  } catch (e) {
+    console.error(e);
   }
-
-  return NextResponse.json(session);
 }
