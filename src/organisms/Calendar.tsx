@@ -45,7 +45,7 @@ export default function Calendar(props: Readonly<CalendarProps>) {
                   >
                     {day.getDate() === 1 ? `${day.getMonth() + 1}월 ${day.getDate()}일` : `${day.getDate()}일`}
                   </span>
-                  <div className="overflow-auto">
+                  <div className="overflow-visible ">
                     <div
                       id={`calendar-content-${new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1)
                         .toISOString()
