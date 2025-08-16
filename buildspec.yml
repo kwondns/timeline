@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "의존성 설치 시작"
+      - yarn install --frozen-lockfile
+  build:
+    commands:
+      - echo "NextJS 빌드 시작"
+      - yarn build
+  post_build:
+    commands:
+      - echo "빌드 완료"
+artifacts:
+  files:
+    - .next/**/*
+    - public/**/*           # 정적 자산 포함 권장
+    - next.config.js        # 런타임 설정 필요 시
+    - package.json
+    - yarn.lock
+    - appspec.yml
+    - scripts/**/*          # codedeploy 훅 스크립트
+    - ecosystem.config.js   # PM2 설정
