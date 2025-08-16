@@ -26,11 +26,23 @@ export async function verifySessionInMiddleware(request: NextRequest) {
 export async function tryRefreshInMiddleware(request: NextRequest): Promise<AuthResponseType | null> {
   const cookie = request.headers.get('cookie') ?? '';
   if (!cookie.includes('refresh-token=')) return null;
-  const res = await fetch(new URL('/api/refresh', request.url).toString(), {
-    method: 'POST',
-    headers: { cookie },
-  });
-  return res.ok ? ((await res.json()) as AuthResponseType) : null;
+  // 최근에 리프레시했으면 스킵
+  const lastRefreshed = RegExp(/last-refreshed=([^;]+)/).exec(cookie)?.[1];
+  if (lastRefreshed) {
+    const elapsed = Date.now() - parseInt(lastRefreshed, 10);
+    if (elapsed < 30_000) return null; // 30초 내 스킵
+  }
+  try {
+    const res = await fetch(new URL('/api/refresh', request.url).toString(), {
+      method: 'POST',
+      headers: { cookie },
+    });
+    return res.ok ? ((await res.json()) as AuthResponseType) : null;
+  } catch (error) {
+    // 네트워크 에러 시 무시하고 기존 토큰으로 진행
+    console.warn('Middleware refresh failed:', error);
+    return null;
+  }
 }
 
 export async function refreshSessionInMiddleware(response: NextResponse, refreshed: AuthResponseType) {

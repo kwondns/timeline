@@ -1,16 +1,20 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { refresh } from '@/lib/dal/auth';
-import { refreshSession } from '@/lib/session';
-import { withRefreshSingleFlight } from '@/lib/single';
+import { refreshSession, verifySession } from '@/lib/session';
+import { withGlobalRefreshSingleFlight } from '@/lib/single';
 
 export async function POST() {
   const cookieStore = await cookies();
   const lastRefreshed = cookieStore.get('last-refreshed')?.value;
   if (lastRefreshed) {
     const elapsed = Date.now() - parseInt(lastRefreshed, 10);
-    if (elapsed < 60_000) {
+    if (elapsed < 30_000) {
       // 1분 이내 재호출 스킵
+      const currentSession = await verifySession();
+      if (currentSession) {
+        return NextResponse.json(currentSession);
+      }
       return NextResponse.json({ message: 'Too many requests' }, { status: 429 });
     }
   }
@@ -18,7 +22,7 @@ export async function POST() {
   if (!refreshToken) {
     return NextResponse.json({}, { status: 401 });
   }
-  const refreshed = await withRefreshSingleFlight(async () => {
+  const refreshed = await withGlobalRefreshSingleFlight(async () => {
     const r = await refresh(refreshToken);
     return r || null;
   });

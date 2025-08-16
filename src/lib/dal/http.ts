@@ -3,6 +3,7 @@ import { refreshSession, verifySession } from '@/lib/session';
 import { redirect } from 'next/navigation';
 import { refresh, validateRefreshToken } from '@/lib/dal/auth';
 import { NoRefreshTokenError } from '@/lib/error';
+import { withGlobalRefreshSingleFlight } from '@/lib/single';
 
 function isJsonResponse(res: Response) {
   const ct = res.headers.get('Content-Type') || '';
@@ -22,15 +23,28 @@ async function safeParseJSON<T>(res: Response): Promise<T> {
 }
 
 async function requestRefreshAndReturnToken(): Promise<string | undefined> {
-  const refreshRes = await fetch('/api/refresh', { method: 'POST', credentials: 'include' });
-  if (refreshRes.status === 401) {
-    redirect('/sign/in?toast=loginRequired');
-  }
-  const newToken = (await cookies()).get('auth-token')?.value;
-  if (!newToken) {
-    redirect('/sign/in?toast=loginRequired');
-  }
-  return newToken;
+  return await withGlobalRefreshSingleFlight(async () => {
+    const refreshRes = await fetch('/api/refresh', {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    if (refreshRes.status === 401) {
+      redirect('/sign/in?toast=loginRequired');
+    }
+
+    if (refreshRes.status === 429) {
+      // 레이트 리밋에 걸린 경우 현재 토큰 그대로 사용
+      const cookieStore = await cookies();
+      return cookieStore.get('auth-token')?.value;
+    }
+
+    const newToken = (await cookies()).get('auth-token')?.value;
+    if (!newToken) {
+      redirect('/sign/in?toast=loginRequired');
+    }
+    return newToken;
+  });
 }
 
 // 204 응답인 경우 R=void
@@ -89,12 +103,27 @@ export async function callGetWithAuth<T>(url: string, options?: RequestInit): Pr
     if (token) h.set('Authorization', `Bearer ${token}`);
     h.set('x-cache-key', `uid-${userId}`);
 
-    return fetch(`${process.env.API_SERVER_URL}${url}`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: h,
-      next: options?.next,
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10초 타임아웃
+
+    try {
+      const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: h,
+        next: options?.next,
+        signal: controller.signal,
+      });
+      return response;
+    } catch (e) {
+      const error = e as object;
+      if ('name' in error && error.name === 'AbortError') {
+        throw new Error(`Request timeout: ${url}`);
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   };
   const cookieStore = await cookies();
   let authToken = cookieStore.get('auth-token')?.value;
