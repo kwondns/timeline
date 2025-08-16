@@ -107,14 +107,13 @@ export async function callGetWithAuth<T>(url: string, options?: RequestInit): Pr
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10초 타임아웃
 
     try {
-      const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
+      return await fetch(`${process.env.API_SERVER_URL}${url}`, {
         method: 'GET',
         credentials: 'include',
         headers: h,
         next: options?.next,
         signal: controller.signal,
       });
-      return response;
     } catch (e) {
       const error = e as object;
       if ('name' in error && error.name === 'AbortError') {

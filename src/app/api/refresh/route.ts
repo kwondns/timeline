@@ -4,13 +4,15 @@ import { refresh } from '@/lib/dal/auth';
 import { refreshSession, verifySession } from '@/lib/session';
 import { withGlobalRefreshSingleFlight } from '@/lib/single';
 
+const REFRESH_COOLDOWN_MS = 30_000; // 30초
+
 export async function POST() {
   const cookieStore = await cookies();
   const lastRefreshed = cookieStore.get('last-refreshed')?.value;
   if (lastRefreshed) {
     const elapsed = Date.now() - parseInt(lastRefreshed, 10);
-    if (elapsed < 30_000) {
-      // 1분 이내 재호출 스킵
+    if (elapsed < REFRESH_COOLDOWN_MS) {
+      // 30초 이내 재호출 스킵
       const currentSession = await verifySession();
       if (currentSession) {
         return NextResponse.json(currentSession);
@@ -27,6 +29,9 @@ export async function POST() {
     return r || null;
   });
   if (!refreshed) {
+    cookieStore.set({ name: 'session', value: '', expires: new Date(0), path: '/' });
+    cookieStore.set({ name: 'refresh-token', value: '', expires: new Date(0), path: '/' });
+    cookieStore.set({ name: 'auth-token', value: '', expires: new Date(0), path: '/' });
     return NextResponse.json({}, { status: 401 });
   }
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { refreshSessionInMiddleware, tryRefreshInMiddleware, verifySessionInMiddleware } from '@/lib/dal/middleware';
+
 const PROTECTED_ROUTES = [
   '/past',
   '/calendar',
@@ -20,7 +21,7 @@ async function canRefresh(request: NextRequest): Promise<boolean> {
   return Date.now() - parseInt(last, 10) >= THROTTLE_MS;
 }
 async function markRefresh(response: NextResponse) {
-  response.cookies.set('last_refreshed', String(Date.now()), {
+  response.cookies.set('last-refreshed', String(Date.now()), {
     httpOnly: true,
     path: '/',
     maxAge: 24 * 60 * 60,
@@ -37,6 +38,11 @@ const isProtectedRoute = (pathname: string): boolean => {
 };
 const handleAuthPages = async (request: NextRequest) => {
   let session = await verifySessionInMiddleware(request);
+
+  if (session?.isAuth && session.userId) {
+    return NextResponse.redirect(new URL('/present', request.url));
+  }
+
   const canTryRefresh = await canRefresh(request);
   if (!session && canTryRefresh) {
     const authResponse = await tryRefreshInMiddleware(request);
@@ -57,17 +63,6 @@ const handleAuthPages = async (request: NextRequest) => {
 
 const handleProtectedPages = async (request: NextRequest) => {
   let session = await verifySessionInMiddleware(request);
-  const canTryRefresh = await canRefresh(request);
-
-  if (!session && canTryRefresh) {
-    const authResponse = await tryRefreshInMiddleware(request);
-    if (!authResponse) {
-      return NextResponse.redirect(new URL('/sign/in', request.url));
-    }
-    const res = NextResponse.next();
-    await markRefresh(res);
-    session = await refreshSessionInMiddleware(res, authResponse);
-  }
 
   if (session?.isAuth && session.userId) {
     const res = NextResponse.next();

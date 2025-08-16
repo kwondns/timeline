@@ -1,27 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { decrypt, encrypt } from '@/lib/session';
+import { decrypt, encrypt, SessionPayload } from '@/lib/session';
 import { AuthResponseType } from '@/types/auth.type';
 
 const SESSION_TTL = 1000 * 60 * 60;
 const ACCESS_TTL = 1000 * 60 * 15;
 const REFRESH_TTL = 1000 * 60 * 60 * 24 * 7;
-const REFRESH_THRESHOLD = 47 * 60 * 1000;
 
-export async function verifySessionInMiddleware(request: NextRequest) {
+export async function verifySessionInMiddleware(request: NextRequest): Promise<SessionPayload | null> {
   const sessionCookie = request.cookies.get('session')?.value;
   if (!sessionCookie) return null;
 
-  const accessCookie = request.cookies.get('auth-token')?.value;
-  if (!accessCookie) return null;
+  let session = await decrypt(sessionCookie);
+  if (!session) return null;
 
-  const session = await decrypt(sessionCookie);
   if (!session?.userId) return null;
 
-  const now = Date.now();
-  if (session.expiresAt - now > REFRESH_THRESHOLD) {
-    return { isAuth: true, userId: session.userId, expiresAt: session.expiresAt };
-  }
-  return null;
+  const nowSec = Math.floor(Date.now() / 1000);
+  // 세션에 만료 필드가 있다면 이미 만료된 경우만 차단
+  if (session.exp && session.exp <= nowSec) return null;
+
+  return { isAuth: true, userId: session.userId, expiresAt: session.expiresAt };
 }
 export async function tryRefreshInMiddleware(request: NextRequest): Promise<AuthResponseType | null> {
   const cookie = request.headers.get('cookie') ?? '';
