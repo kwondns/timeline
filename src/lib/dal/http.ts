@@ -22,9 +22,7 @@ async function safeParseJSON<T>(res: Response): Promise<T> {
 }
 
 async function requestRefreshAndReturnToken(): Promise<string | undefined> {
-  let url = `${process.env.LOCAL}/api/refresh`;
-  if (process.env.VERCEL_URL) url = `https://${process.env.VERCEL_URL}/api/refresh`;
-  const refreshRes = await fetch(url, { method: 'POST', credentials: 'include' });
+  const refreshRes = await fetch('/api/refresh', { method: 'POST', credentials: 'include' });
   if (refreshRes.status === 401) {
     redirect('/sign/in?toast=loginRequired');
   }
