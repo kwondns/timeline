@@ -19,7 +19,9 @@ export const updatePresentStartAction = withAuth(async () => {
 });
 
 export const updatePresentContentAction = withAuth(async (content: string) => {
+  const userId = (await headers()).get('x-user-id');
   await callFetch('/present', { content }, { method: 'PATCH', auth: true });
+  revalidateTag(`present-${userId}`);
 });
 
 type UpdatePresentEndActionType = {
