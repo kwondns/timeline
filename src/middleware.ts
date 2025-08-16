@@ -20,7 +20,7 @@ async function canRefresh(request: NextRequest): Promise<boolean> {
   return Date.now() - parseInt(last, 10) >= THROTTLE_MS;
 }
 async function markRefresh(response: NextResponse) {
-  response.cookies.set('last_refresh', String(Date.now()), {
+  response.cookies.set('last_refreshed', String(Date.now()), {
     httpOnly: true,
     path: '/',
     maxAge: 24 * 60 * 60,
