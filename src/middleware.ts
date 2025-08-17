@@ -16,7 +16,7 @@ const PROTECTED_ROUTES = [
 const AUTH_ROUTES = ['/sign/in', '/sign/up'] as const;
 const THROTTLE_MS = 60_000;
 async function canRefresh(request: NextRequest): Promise<boolean> {
-  const last = request.cookies.get('last_refreshed')?.value;
+  const last = request.cookies.get('last-refreshed')?.value;
   if (!last) return true;
   return Date.now() - parseInt(last, 10) >= THROTTLE_MS;
 }

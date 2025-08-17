@@ -1,7 +1,7 @@
 import { PastActivityType } from '@/types/past.type';
-import { headers } from 'next/headers';
 import { callGetWithAuth } from '@/lib/dal/http';
 import PastDynamic from '@/organisms/PastDynamic';
+import { getTokenAndUserId } from '@/lib/dal/auth';
 
 export default async function Page({
   params,
@@ -13,7 +13,7 @@ export default async function Page({
   const { date } = await params;
   const { index } = await searchParams;
 
-  const userId = (await headers()).get('x-user-id') as string;
+  const { userId, token } = await getTokenAndUserId();
   const todayStr = new Date().toISOString().slice(0, 10);
 
   const yesterday = new Date();
@@ -30,6 +30,8 @@ export default async function Page({
   const activities = await callGetWithAuth<PastActivityType[]>(`/past/${date}`, {
     method: 'GET',
     next: { revalidate, tags: [`past-${userId}-${date}`] },
+    userId,
+    token,
   });
 
   return <PastDynamic activities={activities} defaultOpenIndex={index} />;

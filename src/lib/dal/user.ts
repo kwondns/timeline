@@ -8,15 +8,12 @@ type UserReturnType = {
   name: string;
 };
 
-export const getCallUser = cache(async () => {
-  return await callGetWithAuth<UserReturnType>('/user/me');
+export const getCallUser = cache(async (userId: string, token: string) => {
+  return await callGetWithAuth<UserReturnType>('/user/me', { next: { tags: [`user-${userId}`] }, userId, token });
 });
 
-export async function getUser(): Promise<null | boolean>;
-export async function getUser(callUser: true): Promise<UserReturnType | null>;
-export async function getUser(callUser: boolean = false): Promise<null | boolean | UserReturnType> {
+export async function getUser(userId: string, token: string): Promise<null | UserReturnType> {
   const session = await verifySession();
   if (!session) return null;
-  if (callUser) return getCallUser();
-  return true;
+  return getCallUser(userId, token);
 }

@@ -1,7 +1,7 @@
 'use server';
 
 import { AuthResponseType } from '@/types/auth.type';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { NoRefreshTokenError } from '@/lib/error';
 
 export async function refresh(refreshToken?: string): Promise<null | AuthResponseType> {
@@ -25,4 +25,10 @@ export async function validateRefreshToken() {
     throw new NoRefreshTokenError();
   }
   return refreshToken;
+}
+
+export async function getTokenAndUserId() {
+  const token = (await cookies()).get('auth-token')?.value ?? '';
+  const userId = (await headers()).get('x-user-id') ?? 'guest';
+  return { token, userId };
 }

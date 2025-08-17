@@ -1,12 +1,12 @@
 import { PastListType } from '@/types/past.type';
-import { headers } from 'next/headers';
 import CalendarContent from '@/organisms/CalendarContent';
 import { callGetWithAuth } from '@/lib/dal/http';
 import { Suspense } from 'react';
+import { getTokenAndUserId } from '@/lib/dal/auth';
 
 export default async function Page({ params }: { params: Promise<{ current: string }> }) {
   const { current: currentString } = await params;
-  const userId = (await headers()).get('x-user-id') as string;
+  const { userId, token } = await getTokenAndUserId();
 
   const thisMonthString = new Date().toISOString().slice(0, 7);
 
@@ -16,6 +16,8 @@ export default async function Page({ params }: { params: Promise<{ current: stri
       revalidate: thisMonthString === currentString ? 3600 : false,
       tags: [`calendar-${userId}-${currentString}`],
     },
+    userId,
+    token,
   });
 
   return (

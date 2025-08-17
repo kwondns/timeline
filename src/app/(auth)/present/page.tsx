@@ -1,7 +1,6 @@
 import PresentTemplate from '@/templates/Present.template';
 import { Suspense } from 'react';
 import ActionButtonGroup from '@/molecules/ActionButtonGroup';
-import { headers } from 'next/headers';
 import { callGetWithAuth } from '@/lib/dal/http';
 import { PresentType } from '@/types/present.type';
 import PresentInputOrDisplay from '@/molecules/PresentInputOrDisplay';
@@ -9,11 +8,14 @@ import Indicator from '@/molecules/Indicator';
 import Typography from '@/atoms/Typography';
 import Editor from '@/molecules/Editor';
 import PresentTime from '@/molecules/PresentTime';
+import { getTokenAndUserId } from '@/lib/dal/auth';
 
 export default async function Page() {
-  const userId = (await headers()).get('x-user-id') as string;
+  const { userId, token } = await getTokenAndUserId();
   const present = await callGetWithAuth<PresentType>(`/present`, {
     next: { revalidate: false, tags: [`present-${userId}`] },
+    userId,
+    token,
   });
   return (
     <PresentTemplate

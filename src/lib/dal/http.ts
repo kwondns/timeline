@@ -101,9 +101,12 @@ export async function callFetch<T extends Record<string, string | boolean | numb
   return undefined as unknown as R;
 }
 
-export async function callGetWithAuth<T>(url: string, options?: RequestInit): Promise<T> {
-  const userId = (await headers()).get('x-user-id') || 'guest';
-  const doRequest = async (token?: string) => {
+export async function callGetWithAuth<T>(
+  url: string,
+  options: RequestInit & { userId: string; token: string },
+): Promise<T> {
+  const { userId, token, ...option } = options;
+  const doRequest = async (userId: string, token?: string) => {
     const h = new Headers(options?.headers);
     if (token) h.set('Authorization', `Bearer ${token}`);
     h.set('x-cache-key', `uid-${userId}`);
@@ -116,7 +119,7 @@ export async function callGetWithAuth<T>(url: string, options?: RequestInit): Pr
         method: 'GET',
         credentials: 'include',
         headers: h,
-        next: options?.next,
+        next: option?.next,
         signal: controller.signal,
       });
     } catch (e) {
@@ -129,14 +132,11 @@ export async function callGetWithAuth<T>(url: string, options?: RequestInit): Pr
       clearTimeout(timeoutId);
     }
   };
-  const cookieStore = await cookies();
-  let authToken = cookieStore.get('auth-token')?.value;
-  let response = await doRequest(authToken);
+  let response = await doRequest(userId, token);
   // 401 Unauthorized 시 토큰 재발급
   if (response.status === 401) {
     const newToken = await requestRefreshAndReturnToken();
-    const latest = (await cookies()).get('auth-token')?.value || newToken;
-    response = await doRequest(latest);
+    response = await doRequest(userId, newToken);
     if (response.status === 401) {
       redirect('/sign/in?toast=loginRequired');
     }

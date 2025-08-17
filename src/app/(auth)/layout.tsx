@@ -4,12 +4,18 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { PresentTemplateProps } from '@/templates/Present.template';
 import { callGetWithAuth } from '@/lib/dal/http';
 import AppSidebarWrapper from '@/organisms/AppSidebarWrapper';
+import { getTokenAndUserId } from '@/lib/dal/auth';
 
 export const experimental_ppr = true;
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  let user = await getUser(true);
-  const present = await callGetWithAuth<PresentTemplateProps>('/present');
+  const { userId, token } = await getTokenAndUserId();
+  let user = await getUser(userId, token);
+  const present = await callGetWithAuth<PresentTemplateProps>('/present', {
+    next: { revalidate: false, tags: [`present-${userId}`] },
+    userId,
+    token,
+  });
 
   return (
     <SidebarProvider className="block" defaultOpen={false}>

@@ -1,10 +1,10 @@
 import ActivityCalendarItem from '@/molecules/ActivityCalendarItem';
-import { headers } from 'next/headers';
 import { getPasts } from '@/app/(auth)/time/_api/getPasts';
+import { getTokenAndUserId } from '@/lib/dal/auth';
 
 export default async function ActivitySlot() {
-  const userId = (await headers()).get('x-user-id') as string;
-  const pasts = await getPasts(userId);
+  const { userId, token } = await getTokenAndUserId();
+  const pasts = await getPasts(userId, token);
   const totalCalendarSlots = 30;
   const emptyCount = Math.max(0, totalCalendarSlots - pasts.length);
 
