@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 import { callFetch } from '@/lib/dal/http';
-import { createSession } from '@/lib/session';
-import { setCookie } from '@/lib/cookie';
+import { createSession } from '@/lib/auth/session';
+import { setCookie } from '@/lib/auth/cookie';
 import { SignInSchema } from '@/schemas/signIn.schema';
 import { AuthResponseType } from '@/types/auth.type';
 

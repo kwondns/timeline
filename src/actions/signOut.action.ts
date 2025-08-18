@@ -1,7 +1,7 @@
 'use server';
 
 import { callFetch } from '@/lib/dal/http';
-import { destroySession } from '@/lib/session';
+import { destroySession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
 
 export async function signOutAction() {

@@ -3,7 +3,7 @@
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import TimeChartTooltip from '@/molecules/TimeChartTooltip';
 import { MouseHandlerDataParam } from 'recharts/types/synchronisation/types';
-import { createPastLink } from '@/lib/date';
+import { createPastLink } from '@/lib/utils/date';
 import { useRouter } from 'next/navigation';
 import { TimePastType } from '@/types/time.type';
 

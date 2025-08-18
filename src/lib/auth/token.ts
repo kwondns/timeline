@@ -3,6 +3,7 @@
 import { AuthResponseType } from '@/types/auth.type';
 import { cookies, headers } from 'next/headers';
 import { NoRefreshTokenError } from '@/lib/error';
+import { verifySession } from '@/lib/auth/session';
 
 export async function refresh(refreshToken?: string): Promise<null | AuthResponseType> {
   if (!refreshToken) return null;
@@ -30,5 +31,6 @@ export async function validateRefreshToken() {
 export async function getTokenAndUserId() {
   const token = (await cookies()).get('auth-token')?.value ?? '';
   const userId = (await headers()).get('x-user-id') ?? 'guest';
-  return { token, userId };
+  const isValid = await verifySession();
+  return { token, userId, isAuth: isValid?.isAuth };
 }

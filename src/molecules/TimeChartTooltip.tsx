@@ -1,4 +1,4 @@
-import { formattingDateDiff } from '@/lib/date';
+import { formattingDateDiff } from '@/lib/utils/date';
 
 export default function TimeChartTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {

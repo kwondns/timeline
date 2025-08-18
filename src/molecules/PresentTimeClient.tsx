@@ -1,7 +1,7 @@
 'use client';
 import Typography from '@/atoms/Typography';
 import { useEffect, useRef, useState } from 'react';
-import { calculateDateDiff } from '@/lib/date';
+import { calculateDateDiff } from '@/lib/utils/date';
 
 export default function PresentTimeClient({ startTime, initialDiff }: { startTime: string; initialDiff: string }) {
   const [diff, setDiff] = useState(initialDiff);

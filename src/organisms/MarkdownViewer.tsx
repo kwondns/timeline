@@ -2,7 +2,7 @@
 
 import MDEditor from '@uiw/react-md-editor';
 
-import { imgLazyLoading } from '@/lib/markdown';
+import { imgLazyLoading } from '@/lib/utils/markdown';
 
 type MarkdownProps = {
   source: string;

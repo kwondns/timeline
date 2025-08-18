@@ -4,7 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { PresentTemplateProps } from '@/templates/Present.template';
 import { callGetWithAuth } from '@/lib/dal/http';
 import AppSidebarWrapper from '@/organisms/AppSidebarWrapper';
-import { getTokenAndUserId } from '@/lib/dal/auth';
+import { getTokenAndUserId } from '@/lib/auth/token';
 
 export const experimental_ppr = true;
 

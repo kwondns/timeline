@@ -1,9 +1,9 @@
 import { cookies, headers } from 'next/headers';
-import { refreshSession, verifySession } from '@/lib/session';
+import { refreshSession, verifySession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
-import { refresh, validateRefreshToken } from '@/lib/dal/auth';
+import { refresh, validateRefreshToken } from '@/lib/auth/token';
 import { NoRefreshTokenError } from '@/lib/error';
-import { withGlobalRefreshSingleFlight } from '@/lib/single';
+import { withGlobalRefreshSingleFlight } from '@/lib/core/single';
 
 function isJsonResponse(res: Response) {
   const ct = res.headers.get('Content-Type') || '';

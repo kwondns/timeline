@@ -1,4 +1,3 @@
-// lib/single.ts 수정
 let globalRefreshPromise: Promise<any> | null = null;
 let globalRefreshTimestamp = 0;
 

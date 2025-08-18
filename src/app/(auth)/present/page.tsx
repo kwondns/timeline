@@ -8,7 +8,7 @@ import Indicator from '@/molecules/Indicator';
 import Typography from '@/atoms/Typography';
 import Editor from '@/molecules/Editor';
 import PresentTime from '@/molecules/PresentTime';
-import { getTokenAndUserId } from '@/lib/dal/auth';
+import { getTokenAndUserId } from '@/lib/auth/token';
 
 export default async function Page() {
   const { userId, token } = await getTokenAndUserId();

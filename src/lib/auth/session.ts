@@ -2,7 +2,7 @@
 
 import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import { cookies } from 'next/headers';
-import { setCookie } from '@/lib/cookie';
+import { setCookie } from '@/lib/auth/cookie';
 import { AuthResponseType } from '@/types/auth.type';
 
 export interface SessionPayload extends JWTPayload {
@@ -56,43 +56,19 @@ export async function verifySession() {
 }
 
 export async function refreshSession(refreshed: AuthResponseType) {
-  const cookieStore = await cookies();
   if (!refreshed) {
-    cookieStore.set({ name: 'session', value: '', expires: new Date(0), path: '/' });
-    cookieStore.set({ name: 'refresh-token', value: '', expires: new Date(0), path: '/' });
-    cookieStore.set({ name: 'auth-token', value: '', expires: new Date(0), path: '/' });
+    await setCookie('session', '', 0);
+    await setCookie('refresh-token', '', 0);
+    await setCookie('auth-token', '', 0);
     return null;
   }
   const { userId, accessToken, refreshToken: newRefreshToken } = refreshed;
   const newExpiresAt = Date.now() + SESSION_TTL;
   const sessionToken = await encrypt({ userId, expiresAt: newExpiresAt });
-  cookieStore.set({
-    name: 'session',
-    value: sessionToken,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    expires: new Date(newExpiresAt),
-    sameSite: 'lax',
-    path: '/',
-  });
-  cookieStore.set({
-    name: 'refresh-token',
-    value: newRefreshToken,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    expires: new Date(Date.now() + REFRESH_TTL),
-    sameSite: 'lax',
-    path: '/',
-  });
-  cookieStore.set({
-    name: 'auth-token',
-    value: accessToken,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    expires: new Date(Date.now() + ACCESS_TTL),
-    sameSite: 'lax',
-    path: '/',
-  });
+
+  await setCookie('session', sessionToken, SESSION_TTL);
+  await setCookie('refresh-token', newRefreshToken, REFRESH_TTL);
+  await setCookie('auth-token', accessToken, ACCESS_TTL);
 
   return { isAuth: true, userId, expiresAt: newExpiresAt };
 }

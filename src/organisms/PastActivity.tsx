@@ -3,7 +3,7 @@ import { PastActivityType } from '@/types/past.type';
 import Typography from '@/atoms/Typography';
 import MarkdownViewer from '@/organisms/MarkdownViewer';
 import Container from '@/atoms/Container';
-import { fromToDiffDateFormat } from '@/lib/date';
+import { fromToDiffDateFormat } from '@/lib/utils/date';
 
 type PastActivityProps = {
   activities: PastActivityType[];

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { refresh } from '@/lib/dal/auth';
-import { refreshSession, verifySession } from '@/lib/session';
-import { withGlobalRefreshSingleFlight } from '@/lib/single';
+import { refresh } from '@/lib/auth/token';
+import { refreshSession, verifySession } from '@/lib/auth/session';
+import { withGlobalRefreshSingleFlight } from '@/lib/core/single';
+import { setCookie } from '@/lib/auth/cookie';
 
 const REFRESH_COOLDOWN_MS = 30_000; // 30초
 
@@ -29,9 +30,9 @@ export async function POST() {
     return r || null;
   });
   if (!refreshed) {
-    cookieStore.set({ name: 'session', value: '', expires: new Date(0), path: '/' });
-    cookieStore.set({ name: 'refresh-token', value: '', expires: new Date(0), path: '/' });
-    cookieStore.set({ name: 'auth-token', value: '', expires: new Date(0), path: '/' });
+    await setCookie('session', '', 0);
+    await setCookie('refresh-token', '', 0);
+    await setCookie('auth-token', '', 0);
     return NextResponse.json({}, { status: 401 });
   }
 
@@ -39,6 +40,7 @@ export async function POST() {
   if (!session) {
     return NextResponse.json({}, { status: 401 });
   }
+
   cookieStore.set({
     name: 'last-refreshed',
     value: String(Date.now()),

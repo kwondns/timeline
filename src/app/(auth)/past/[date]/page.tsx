@@ -1,7 +1,7 @@
 import { PastActivityType } from '@/types/past.type';
 import { callGetWithAuth } from '@/lib/dal/http';
 import PastDynamic from '@/organisms/PastDynamic';
-import { getTokenAndUserId } from '@/lib/dal/auth';
+import { getTokenAndUserId } from '@/lib/auth/token';
 
 export default async function Page({
   params,

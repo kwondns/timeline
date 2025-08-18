@@ -2,7 +2,7 @@
 
 import InputOrDisplay from '@/atoms/InputOrDisplay';
 import { useEffect, useState } from 'react';
-import { callActionWithToast } from '@/lib/action';
+import { callActionWithToast } from '@/lib/core/action';
 import { updatePresentTitleAction } from '@/actions/updatePresent';
 
 type PresentInputOrDisplayProps = {

@@ -1,6 +1,6 @@
 'use client';
 
-import { onImagePasted } from '@/lib/markdown';
+import { onImagePasted } from '@/lib/utils/markdown';
 import { usePresentActions } from '@/templates/PresentClient.template';
 import dynamic from 'next/dynamic';
 

@@ -1,5 +1,5 @@
 import Typography from '@/atoms/Typography';
-import { calculateDateDiff, formattingDateDiff } from '@/lib/date';
+import { calculateDateDiff, formattingDateDiff } from '@/lib/utils/date';
 import PastActivity from '@/organisms/PastActivity';
 import Container from '@/atoms/Container';
 import { PastActivityType } from '@/types/past.type';

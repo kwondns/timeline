@@ -1,4 +1,4 @@
-import { calculateDateDiff } from '@/lib/date';
+import { calculateDateDiff } from '@/lib/utils/date';
 import PresentTimeClient from '@/molecules/PresentTimeClient';
 
 type PresentTimeProps = {

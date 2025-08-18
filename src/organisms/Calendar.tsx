@@ -1,4 +1,4 @@
-import { calcPreviousMonth } from '@/lib/date';
+import { calcPreviousMonth } from '@/lib/utils/date';
 import { cache } from 'react';
 
 type CalendarProps = {

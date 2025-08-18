@@ -1,6 +1,6 @@
 'use server';
 import { cache } from 'react';
-import { verifySession } from '@/lib/session';
+import { verifySession } from '@/lib/auth/session';
 import { callGetWithAuth } from '@/lib/dal/http';
 
 type UserReturnType = {

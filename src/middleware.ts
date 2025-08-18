@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySessionInMiddleware } from '@/lib/dal/middleware';
+import { verifySessionInMiddleware } from '@/lib/middleware';
 
 const PROTECTED_ROUTES = [
   '/past',

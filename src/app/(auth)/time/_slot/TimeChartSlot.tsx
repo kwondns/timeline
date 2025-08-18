@@ -1,6 +1,6 @@
 import TimeChart from '@/organisms/TimeChart';
 import { getPasts } from '@/app/(auth)/time/_api/getPasts';
-import { getTokenAndUserId } from '@/lib/dal/auth';
+import { getTokenAndUserId } from '@/lib/auth/token';
 
 export default async function TimeChartSlot() {
   const { userId, token } = await getTokenAndUserId();

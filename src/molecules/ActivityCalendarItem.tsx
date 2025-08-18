@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { createPastLink, formattingDateDiff } from '@/lib/date';
+import { createPastLink, formattingDateDiff } from '@/lib/utils/date';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import Typography from '@/atoms/Typography';
 
