@@ -132,7 +132,13 @@ export async function callGetWithAuth<T>(
       clearTimeout(timeoutId);
     }
   };
-  let response = await doRequest(userId, token);
+  const validToken = await verifySession();
+  let response: Response;
+  if (validToken) response = await doRequest(userId, token);
+  else {
+    const newToken = await requestRefreshAndReturnToken();
+    response = await doRequest(userId, newToken);
+  }
   // 401 Unauthorized 시 토큰 재발급
   if (response.status === 401) {
     const newToken = await requestRefreshAndReturnToken();
