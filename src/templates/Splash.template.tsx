@@ -6,12 +6,12 @@ import { Icon } from '@/atoms/Icon';
 import Typography from '@/atoms/Typography';
 import { useRouter } from 'next/navigation';
 
-export default function SplashTemplate({ duration = 800 }) {
+export default function SplashTemplate({ duration = 500 }) {
   const route = useRouter();
   const [progress, setProgress] = useState(0);
 
   const handleComplete = () => {
-    setTimeout(() => route.replace('/present'), 300);
+    setTimeout(() => route.replace('/present'), 100);
   };
   useEffect(() => {
     const progressInterval = setInterval(() => {
