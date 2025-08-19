@@ -7,6 +7,6 @@ export default async function FuturesSlot() {
   const { userId, token } = await getTokenAndUserId();
   const futures = await getFutures(userId, token);
 
-  if (futures.length > 0) futures.map((future) => <TimeFutureProgress key={future.id} futureBox={future} />);
+  if (futures.length > 0) return futures.map((future) => <TimeFutureProgress key={future.id} futureBox={future} />);
   return <NoFutureBoxTemplate />;
 }
