@@ -60,7 +60,7 @@ export default function ChatbotArea(props: ChatbotAreaProps) {
     setIsChatGenerating(true);
     setChatHistory((prev) => prev.concat({ isBot: false, text: currentInput }));
     setCurrentInput('');
-    if (userId) callChat({ query: currentInput, userId });
+    if (userId) callChat({ query: currentInput, user_id: userId });
   };
 
   if (isMounted)

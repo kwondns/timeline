@@ -8,7 +8,7 @@ interface UseChatType {
 }
 const useChat = ({ setCurrentChat, setIsChatGenerating, setChatHistory }: UseChatType) => {
   const callChat = useCallback(
-    async (payload: { query: string; userId: string }) => {
+    async (payload: { query: string; user_id: string }) => {
       let responseContent = '';
       const response = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_URL}chat`, {
         method: 'POST',
