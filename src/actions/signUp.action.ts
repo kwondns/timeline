@@ -44,14 +44,22 @@ type SignUpActionResponse = {
   accessToken: string;
 };
 export const signUpAction = async (payload: SignUpActionType) => {
-  const body = SignUpSchema.safeParse(payload);
-  if (!body.success) return { errors: z.treeifyError(body.error).properties };
-  const { passwordConfirm: _passwordConfirm, ...others } = body.data;
-  return await callFetchForAction<Omit<SignUpActionType, 'passwordConfirm'>, SignUpActionResponse>(
-    '/user/sign-up',
-    others,
-    {
-      method: 'POST',
-    },
-  );
+  try {
+    const body = SignUpSchema.safeParse(payload);
+    if (!body.success) return { errors: z.treeifyError(body.error).properties };
+    const { passwordConfirm: _passwordConfirm, ...others } = body.data;
+    return await callFetchForAction<Omit<SignUpActionType, 'passwordConfirm'>, SignUpActionResponse>(
+      '/user/sign-up',
+      others,
+      {
+        method: 'POST',
+      },
+    );
+  } catch (e) {
+    const error = e as Error;
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
 };

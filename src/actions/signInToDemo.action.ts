@@ -1,22 +1,22 @@
 'use server';
 
-import { z } from 'zod';
 import { callFetchForAction } from '@/lib/dal/http';
+import { AuthResponseType } from '@/types/auth.type';
 import { createSession } from '@/lib/auth/session';
 import { setCookie } from '@/lib/auth/cookie';
+import { z } from 'zod';
 import { SignInSchema } from '@/schemas/signIn.schema';
-import { AuthResponseType } from '@/types/auth.type';
 
-type SignInType = z.infer<typeof SignInSchema>;
+type SignInDemoType = z.infer<typeof SignInSchema>;
 
-export default async function signInAction(payload: SignInType) {
+export default async function signInToDemoAction() {
   try {
-    const body = SignInSchema.safeParse(payload);
-    if (!body.success) return { errors: z.treeifyError(body.error).properties };
-
-    const { userId, accessToken, refreshToken } = await callFetchForAction<SignInType, AuthResponseType>(
+    const { userId, accessToken, refreshToken } = await callFetchForAction<SignInDemoType, AuthResponseType>(
       '/user/sign-in',
-      body.data,
+      {
+        email: process.env.DEMO_EMAIL,
+        password: process.env.DEMO_PASSWORD,
+      },
       {
         method: 'POST',
         credentials: 'include',

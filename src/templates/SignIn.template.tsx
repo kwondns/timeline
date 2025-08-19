@@ -3,6 +3,7 @@ import { CardContent, CardHeader } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 import SignInForm from '@/organisms/SignInForm';
 import Link from 'next/link';
+import DemoButton from '@/molecules/DemoButton';
 
 export default function SignInTemplate() {
   return (
@@ -15,9 +16,7 @@ export default function SignInTemplate() {
         <Button className="mt-2 w-full" variant="outline">
           <Link href={'/sign/up'}>가입하기</Link>
         </Button>
-        <Button className="mt-6 w-full" variant="ghost">
-          데모버전
-        </Button>
+        <DemoButton />
       </CardContent>
     </>
   );
