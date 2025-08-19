@@ -9,7 +9,11 @@ type UserReturnType = {
 };
 
 export const getCallUser = cache(async (userId: string, token: string) => {
-  return await callGetWithAuth<UserReturnType>('/user/me', { next: { tags: [`user-${userId}`] }, userId, token });
+  return await callGetWithAuth<UserReturnType>('/user/me', {
+    next: { revalidate: false, tags: [`user-${userId}`] },
+    userId,
+    token,
+  });
 });
 
 export async function getUser(userId: string, token: string): Promise<null | UserReturnType> {
