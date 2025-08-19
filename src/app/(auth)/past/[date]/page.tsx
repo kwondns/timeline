@@ -28,7 +28,6 @@ export default async function Page({
   }
 
   const activities = await callGetWithAuth<PastActivityType[]>(`/past/${date}`, {
-    method: 'GET',
     next: { revalidate, tags: [`past-${userId}-${date}`] },
     userId,
     token,
