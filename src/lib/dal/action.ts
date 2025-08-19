@@ -5,6 +5,18 @@ import { verifySession, refreshSession } from '@/lib/auth/session';
 import { refresh } from '@/lib/auth/token';
 import { TOKEN_EXPIRY } from '@/constants/TOKEN_TTL';
 
+/**
+ * 서버 액션에서 토큰 갱신이 필요한지 확인하는 함수
+ * @description auth-token의 존재 여부, 세션 유효성, 만료 시간을 확인하여 갱신 필요성을 판단합니다.
+ * @returns {Promise<boolean>} 토큰 갱신이 필요한 경우 true, 그렇지 않으면 false
+ * @example
+ * ```typescript
+ * const needsRefresh = await shouldRefreshTokenForAction();
+ * if (needsRefresh) {
+ *   // 토큰 갱신 로직 실행
+ * }
+ * ```
+ */
 async function shouldRefreshTokenForAction(): Promise<boolean> {
   try {
     // 1. auth-token이 없으면 갱신 필요
@@ -34,6 +46,20 @@ async function shouldRefreshTokenForAction(): Promise<boolean> {
   }
 }
 
+/**
+ * 서버 액션에서 토큰 갱신을 수행하는 함수
+ * @description refresh token을 사용하여 새로운 access token과 세션을 생성합니다.
+ * @returns {Promise<{success: boolean, userId?: string, accessToken?: string, error?: string}>} 갱신 결과 객체
+ * @example
+ * ```typescript
+ * const result = await performTokenRefreshForAction();
+ * if (result.success) {
+ *   console.log('갱신 성공:', result.userId, result.accessToken);
+ * } else {
+ *   console.error('갱신 실패:', result.error);
+ * }
+ * ```
+ */
 async function performTokenRefreshForAction(): Promise<{
   success: boolean;
   userId?: string;
@@ -68,8 +94,22 @@ async function performTokenRefreshForAction(): Promise<{
 
 /**
  * 서버 액션에서 사용할 토큰 검증/갱신 함수
- * @returns {Promise<{success: boolean, userId?: string, accessToken?: string}>}
+ * @description 현재 토큰이 유효한지 확인하고, 필요시 자동으로 갱신을 수행합니다.
+ * 토큰이 유효하거나 갱신에 성공하면 userId와 accessToken을 반환합니다.
+ * @returns {Promise<{success: boolean, userId?: string, accessToken?: string}>} 검증/갱신 결과
+ * @example
+ * ```typescript
+ * const tokenResult = await ensureValidTokenForAction();
+ * if (tokenResult.success) {
+ *   // 인증이 필요한 작업 수행
+ *   const { userId, accessToken } = tokenResult;
+ * } else {
+ *   // 로그인 페이지로 리다이렉트
+ *   redirect('/sign/in');
+ * }
+ * ```
  */
+
 export async function ensureValidTokenForAction(): Promise<{
   success: boolean;
   userId?: string;
