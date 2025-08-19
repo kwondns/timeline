@@ -1,6 +1,6 @@
 'use server';
 
-import { callFetch, withAuth } from '@/lib/dal/http';
+import { callFetchForAction, withTokenValidation } from '@/lib/dal/http';
 import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 
@@ -8,10 +8,10 @@ type SavePercentageActionType = {
   id: string;
   percentage: number;
 };
-export const savePercentageAction = withAuth(async (payload: SavePercentageActionType) => {
+export const savePercentageAction = withTokenValidation(async (payload: SavePercentageActionType) => {
   const userId = (await headers()).get('x-user-id');
   try {
-    await callFetch('/future', payload, { method: 'PATCH', auth: true });
+    await callFetchForAction('/future', payload, { method: 'PATCH', auth: true });
     revalidateTag(`future-${userId}`);
     revalidateTag(`time-future-${userId}`);
   } catch (e) {

@@ -1,7 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { callFetch } from '@/lib/dal/http';
+import { callFetchForAction } from '@/lib/dal/http';
 import { createSession } from '@/lib/auth/session';
 import { setCookie } from '@/lib/auth/cookie';
 import { SignInSchema } from '@/schemas/signIn.schema';
@@ -14,7 +14,7 @@ export default async function signInAction(payload: PayloadType) {
   const body = SignInSchema.safeParse(payload);
   if (!body.success) return { errors: z.treeifyError(body.error).properties };
 
-  const { userId, accessToken, refreshToken } = await callFetch<SignInType, AuthResponseType>(
+  const { userId, accessToken, refreshToken } = await callFetchForAction<SignInType, AuthResponseType>(
     '/user/sign-in',
     body.data,
     {
