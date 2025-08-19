@@ -3,7 +3,7 @@
 import { updateFutureAction } from '@/actions/updateFuture';
 import InputOrDisplay from '@/atoms/InputOrDisplay';
 import { useState } from 'react';
-import { callActionWithToast } from '@/lib/core/action';
+import { callActionWithToast } from '@/lib/utils/action';
 
 type FutureInputOrDisplayProps = {
   id: string;

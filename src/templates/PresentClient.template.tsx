@@ -6,7 +6,7 @@ import {
   updatePresentEndAction,
   updatePresentStartAction,
 } from '@/actions/updatePresent';
-import { callActionWithToast } from '@/lib/core/action';
+import { callActionWithToast } from '@/lib/utils/action';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
