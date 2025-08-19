@@ -27,6 +27,11 @@ export default function useAsyncAction<T extends Record<string, any> | void>(
     const toastId = options.loadingMessage ? toast.loading(options.loadingMessage) : undefined;
     try {
       const data = await action();
+      if (typeof data === 'object' && data && 'success' in data && !data.success) {
+        const errorMsg = (data as any).error || '알 수 없는 오류가 발생했습니다.';
+        options.onError?.(new Error(errorMsg));
+        return;
+      }
       if (typeof data === 'object' && data.errors) {
         (options.onValidateError as OnValidateErrorCallback<T>)?.(data.errors);
         return;
