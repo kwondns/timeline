@@ -1,11 +1,15 @@
 import SignInTemplate from '@/templates/SignIn.template';
 import SignInToastTemplate from '@/templates/SignInToast.template';
+import { Suspense } from 'react';
 
-export default async function Page({ searchParams }: Readonly<{ searchParams: Promise<{ toast?: string }> }>) {
-  const { toast } = await searchParams;
+export const revalidate = false;
+
+export default async function Page() {
   return (
-    <SignInToastTemplate needToast={toast === 'loginRequired'}>
-      <SignInTemplate />
-    </SignInToastTemplate>
+    <Suspense fallback={<SignInTemplate />}>
+      <SignInToastTemplate>
+        <SignInTemplate />
+      </SignInToastTemplate>
+    </Suspense>
   );
 }
