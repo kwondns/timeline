@@ -56,7 +56,11 @@ export async function callFetchForAction<T, R>(
     redirect('/sign/in?toast=loginRequired');
   }
 
-  if (!response.ok) throw new Error(`POST ${url} failed: ${response.status}`);
+  if (!response.ok) {
+    const error = await response.json();
+    const errorMessage = Array.isArray(error.message) ? error.message[0] : error.message;
+    throw new Error(errorMessage || '알 수 없는 오류');
+  }
 
   if (response.status === 204 || options.expectNoContent) {
     return;
