@@ -11,6 +11,9 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 import { toast } from 'sonner';
 
 type ContextType = {
+  title: string | null;
+  startTime: string | null;
+  initialContent: string | null;
   currentContent: string;
   setCurrentContent: (val: string) => void;
   onTempSave: () => Promise<void>;
@@ -77,8 +80,11 @@ export default function PresentClientTemplate(props: PresentClientTemplateProps)
       onTempSave,
       onSave,
       onStart,
+      startTime,
+      title,
+      initialContent,
     }),
-    [currentContent, onTempSave, onSave, onStart],
+    [currentContent, onTempSave, onSave, onStart, startTime, title, initialContent],
   );
   return <PresentActionsContext.Provider value={contextValue}>{children}</PresentActionsContext.Provider>;
 }
