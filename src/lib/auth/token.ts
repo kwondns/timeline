@@ -3,7 +3,6 @@
 import { AuthResponseType } from '@/types/auth.type';
 import { cookies, headers } from 'next/headers';
 import { NoRefreshTokenError } from '@/lib/error';
-import { verifySession } from '@/lib/auth/session';
 
 export async function refresh(refreshToken?: string): Promise<null | AuthResponseType> {
   if (!refreshToken) return null;
@@ -14,6 +13,7 @@ export async function refresh(refreshToken?: string): Promise<null | AuthRespons
       'Content-Type': 'application/json',
       Cookie: `refresh-token=${refreshToken}`,
     },
+    cache: 'no-cache',
   });
   if (!res.ok) return null;
   return (await res.json()) as AuthResponseType;
@@ -31,6 +31,5 @@ export async function validateRefreshToken() {
 export async function getTokenAndUserId() {
   const token = (await cookies()).get('auth-token')?.value ?? '';
   const userId = (await headers()).get('x-user-id') ?? 'guest';
-  const isValid = await verifySession();
-  return { token, userId, isAuth: isValid?.isAuth };
+  return { token, userId };
 }
