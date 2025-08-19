@@ -1,9 +1,6 @@
-import { cookies, headers } from 'next/headers';
-import { refreshSession, verifySession } from '@/lib/auth/session';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { refresh, validateRefreshToken } from '@/lib/auth/token';
-import { NoRefreshTokenError } from '@/lib/error';
-import { withGlobalRefreshSingleFlight } from '@/lib/core/single';
+import { ensureValidTokenForAction } from '@/lib/dal/action';
 
 function isJsonResponse(res: Response) {
   const ct = res.headers.get('Content-Type') || '';
@@ -22,81 +19,52 @@ async function safeParseJSON<T>(res: Response): Promise<T> {
   return (await res.json()) as T;
 }
 
-async function requestRefreshAndReturnToken(): Promise<string | undefined> {
-  return await withGlobalRefreshSingleFlight(async () => {
-    const h = await headers();
-    const host = h.get('host');
-    const proto = h.get('x-forwarded-proto') ?? 'https';
-    if (!host) throw new Error('Missing host header');
-    const base = `${proto}://${host}`;
-    const refreshRes = await fetch(`${base}/api/refresh`, {
-      method: 'POST',
-      credentials: 'include',
-    });
-
-    if (refreshRes.status === 401) {
-      redirect('/sign/in?toast=loginRequired');
-    }
-
-    if (refreshRes.status === 429) {
-      // 레이트 리밋에 걸린 경우 현재 토큰 그대로 사용
-      const cookieStore = await cookies();
-      return cookieStore.get('auth-token')?.value;
-    }
-
-    const newToken = (await cookies()).get('auth-token')?.value;
-    if (!newToken) {
-      redirect('/sign/in?toast=loginRequired');
-    }
-    return newToken;
-  });
-}
-
 // 204 응답인 경우 R=void
-export function callFetch<T extends Record<string, any>>(
+export function callFetchForAction<T extends Record<string, any>>(
   url: string,
   payload: T,
   options?: RequestInit & { expectNoContent: true; auth?: boolean },
 ): Promise<void>;
 
 // 콘텐츠 있는 경우
-export function callFetch<T extends Record<string, any>, R>(
+export function callFetchForAction<T extends Record<string, any>, R>(
   url: string,
   payload: T,
   options?: RequestInit & { auth?: boolean },
 ): Promise<R>;
 
-export async function callFetch<T extends Record<string, string | boolean | number>, R>(
+export async function callFetchForAction<T, R>(
   url: string,
   payload: T,
   options: RequestInit & { expectNoContent?: boolean; auth?: boolean } = {},
 ): Promise<R | void> {
-  const doRequest = async (token?: string) => {
-    const h = new Headers(options?.headers);
-    h.set('Content-Type', 'application/json');
-    if (options.auth && token) h.set('Authorization', `Bearer ${token}`);
-    return fetch(`${process.env.API_SERVER_URL}${url}`, {
-      ...options,
-      body: JSON.stringify(payload),
-      headers: h,
-    });
-  };
-
   const cookieStore = await cookies();
   const token = cookieStore.get('auth-token')?.value;
-  let response = await doRequest(token);
-  if (response.status === 401 && options.auth) {
-    const newToken = await requestRefreshAndReturnToken();
-    response = await doRequest(newToken);
-    if (response.status === 401) {
-      redirect('/sign/in?toast=loginRequired');
-    }
+
+  const header = new Headers(options?.headers);
+  header.set('Content-Type', 'application/json');
+  if (options.auth && token) header.set('Authorization', `Bearer ${token}`);
+
+  const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
+    ...options,
+    body: JSON.stringify(payload),
+    headers: header,
+  });
+
+  // 401은 미들웨어에서 이미 처리되었으므로 여기서는 간단히 리다이렉트
+  if (response.status === 401) {
+    redirect('/sign/in?toast=loginRequired');
   }
+
   if (!response.ok) throw new Error(`POST ${url} failed: ${response.status}`);
+
   if (response.status === 204 || options.expectNoContent) {
     return;
   }
-  if (response.status === 201 || isJsonResponse(response)) return (await safeParseJSON(response)) as R;
+
+  if (response.status === 201 || isJsonResponse(response)) {
+    return (await safeParseJSON(response)) as R;
+  }
 
   return undefined as unknown as R;
 }
@@ -132,20 +100,10 @@ export async function callGetWithAuth<T>(
       clearTimeout(timeoutId);
     }
   };
-  const validToken = await verifySession();
-  let response: Response;
-  if (validToken) response = await doRequest(userId, token);
-  else {
-    const newToken = await requestRefreshAndReturnToken();
-    response = await doRequest(userId, newToken);
-  }
+  let response = await doRequest(userId, token);
   // 401 Unauthorized 시 토큰 재발급
   if (response.status === 401) {
-    const newToken = await requestRefreshAndReturnToken();
-    response = await doRequest(userId, newToken);
-    if (response.status === 401) {
-      redirect('/sign/in?toast=loginRequired');
-    }
+    redirect('/sign/in?toast=loginRequired');
   }
   if (!response.ok) {
     const text = await response.text().catch(() => '');
@@ -154,7 +112,11 @@ export async function callGetWithAuth<T>(
   return (await safeParseJSON(response)) as T;
 }
 
-export const fileUpload = async (payload: File[] | File, uri?: string, num?: number) => {
+export const fileUpload = async (payload: File[] | File, uri?: string, num?: number): Promise<string[]> => {
+  const tokenResult = await ensureValidTokenForAction();
+  if (!tokenResult.success) {
+    redirect('/sign/in?toast=loginRequired');
+  }
   const formData = new FormData();
 
   if (payload instanceof Array) payload.forEach((file, index) => formData.append(`file-${index}`, file));
@@ -170,22 +132,22 @@ export const fileUpload = async (payload: File[] | File, uri?: string, num?: num
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
   });
+  if (result.status === 401) redirect('/sign/in?toast=loginRequired');
   return result.json();
 };
 
-export function withAuth<T extends any[], R>(fn: (...args: T) => Promise<R>): (...args: T) => Promise<R> {
+/**
+ * 서버 액션 wrapper - 토큰 검증 후 액션 실행
+ */
+export function withTokenValidation<T extends unknown[], R>(
+  action: (...args: T) => Promise<R>,
+): (...args: T) => Promise<R> {
   return async (...args: T) => {
-    const session = await verifySession();
-    if (!session) {
-      try {
-        const token = await validateRefreshToken();
-        const result = await refresh(token);
-        if (!result) throw new NoRefreshTokenError();
-        await refreshSession(result);
-      } catch (e) {
-        if (e instanceof NoRefreshTokenError) redirect('/sign/in?toast=loginRequired');
-      }
+    const tokenResult = await ensureValidTokenForAction();
+
+    if (!tokenResult.success || !tokenResult.userId || !tokenResult.accessToken) {
+      redirect('/sign/in?toast=loginRequired');
     }
-    return await fn(...args);
+    return await action(...args);
   };
 }
