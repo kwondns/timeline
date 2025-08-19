@@ -24,7 +24,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <AppSidebarWrapper active={!!present?.startTime} name={user?.name ?? ''} />
         <main className="p-2 md:pl-18 w-dvw h-dvh">{children}</main>
       </PresentClientTemplate>
-      <ChatbotTemplate />
+      <ChatbotTemplate userId={userId} />
     </SidebarProvider>
   );
 }

@@ -8,6 +8,7 @@ import ChatCard from '@/molecules/ChatCard';
 
 type ChatbotAreaProps = {
   isOpen: boolean;
+  userId: string | null;
 };
 
 const DESCRIBE = `과거의 작업을 검색할 수 있습니다.
@@ -24,7 +25,7 @@ const DESCRIBE = `과거의 작업을 검색할 수 있습니다.
 `;
 
 export default function ChatbotArea(props: ChatbotAreaProps) {
-  const { isOpen } = props;
+  const { isOpen, userId } = props;
   const [isMounted, setIsMounted] = useState(isOpen);
   const [currentChat, setCurrentChat] = useState('');
   const [chatHistory, setChatHistory] = useState<ChatBubbleProps[]>([]);
@@ -59,7 +60,7 @@ export default function ChatbotArea(props: ChatbotAreaProps) {
     setIsChatGenerating(true);
     setChatHistory((prev) => prev.concat({ isBot: false, text: currentInput }));
     setCurrentInput('');
-    callChat({ query: currentInput });
+    if (userId) callChat({ query: currentInput, userId });
   };
 
   if (isMounted)
