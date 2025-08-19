@@ -143,9 +143,9 @@ export function withTokenValidation<T extends unknown[], R>(
   action: (...args: T) => Promise<R>,
 ): (...args: T) => Promise<R> {
   return async (...args: T) => {
-    const tokenResult = await ensureValidTokenForAction();
+    const { success } = await ensureValidTokenForAction();
 
-    if (!tokenResult.success || !tokenResult.userId || !tokenResult.accessToken) {
+    if (!success) {
       redirect('/sign/in?toast=loginRequired');
     }
     return await action(...args);
