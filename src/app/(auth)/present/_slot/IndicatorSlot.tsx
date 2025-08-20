@@ -1,11 +1,7 @@
-'use client';
-
 import Indicator from '@/molecules/Indicator';
 import Typography from '@/atoms/Typography';
-import { usePresentActions } from '@/templates/PresentClient.template';
 
-export default function IndicatorSlot() {
-  const { startTime } = usePresentActions();
+export default function IndicatorSlot({ startTime }: { startTime: string }) {
   return (
     <>
       <Indicator active={!!startTime} />
