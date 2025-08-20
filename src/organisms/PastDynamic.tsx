@@ -11,10 +11,7 @@ type PastDynamicProps = {
 export default function PastDynamic(props: PastDynamicProps) {
   const { activities, defaultOpenIndex } = props;
   const totalActivityTime = activities.length
-    ? activities.reduce(
-        (acc, activity) => acc + (calculateDateDiff(activity.startTime, activity.endTime, true) as number),
-        0,
-      )
+    ? activities.reduce((acc, activity) => acc + calculateDateDiff(activity.startTime, activity.endTime, true), 0)
     : 0;
 
   return (
