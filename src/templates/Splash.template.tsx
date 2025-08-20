@@ -9,7 +9,9 @@ import { useRouter } from 'next/navigation';
 export default function SplashTemplate({ duration = 500 }) {
   const route = useRouter();
   const [progress, setProgress] = useState(0);
-
+  const expires = new Date();
+  expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
+  document.cookie = `splash=1;expires=${expires.toUTCString()};path=/`;
   const handleComplete = () => {
     setTimeout(() => route.replace('/present'), 100);
   };
