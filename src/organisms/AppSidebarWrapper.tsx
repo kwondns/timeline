@@ -23,10 +23,19 @@ export default function AppSidebarWrapper(props: Readonly<AppSidebarProps>) {
   };
 
   useEffect(() => {
-    if (isMounted && isMobile) {
-      document.body.style.overflow = 'hidden';
+    if (isMobile) {
+      if (isMounted && open) {
+        // 사이드바가 열릴 때 스크롤 방지
+        document.body.style.overflow = 'hidden';
+      } else {
+        // 사이드바가 닫힐 때 스크롤 복원
+        document.body.style.overflow = 'auto';
+      }
     }
-  }, [isMobile, isMounted]);
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobile, isMounted, open]);
 
   if (isMobile) {
     return (
