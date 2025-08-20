@@ -1,54 +1,20 @@
-import { Link, useLoaderData, useLocation } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import Container from '@/atoms/Container';
+import Typography from '@/atoms/Typography';
+import NewFutureBoxDialog from '@/organisms/NewFutureBoxDialog';
 
-import CardSet from '@/components/CardSet';
-import CardContainer from '@/components/CardContainer';
-import { useGetFutureHigh, useGetFutureLow, useGetFutureMiddle } from '@/hooks/useFutures';
-import { futureRecordLoader } from '@/pages/FutureRecord';
-
-export default function FutureTemplate() {
-  const { FutureHigh, FutureMiddle, FutureLow } = useLoaderData() as Awaited<
-    ReturnType<ReturnType<typeof futureRecordLoader>>
-  >;
-
-  const route = useLocation();
-  const [isRecord, setIsRecord] = useState(false);
-  useEffect(() => {
-    if (route.pathname.includes('record')) setIsRecord(true);
-  }, []);
-
-  const { data: futureHigh } = useQuery({ ...useGetFutureHigh(isRecord), initialData: FutureHigh && undefined });
-  const { data: futureMiddle } = useQuery({ ...useGetFutureMiddle(isRecord), initialData: FutureMiddle && undefined });
-  const { data: futureLow } = useQuery({ ...useGetFutureLow(isRecord), initialData: FutureLow && undefined });
+export type FutureTemplateProps = { children: React.ReactNode };
+export default function FutureTemplate(props: FutureTemplateProps) {
+  const { children } = props;
   return (
-    <div className="flex max-h-screen flex-col gap-y-4 overflow-y-auto">
-      <Link className="w-screen px-6 pt-4" to={isRecord ? '/future' : '/future-record'}>
-        <button type="button" className="btn w-full bg-base-300">
-          {isRecord ? '이전으로' : '기록 보기'}
-        </button>
-      </Link>
-      {futureHigh?.length ? (
-        <CardSet futureBoxes={futureHigh} priority={1} />
-      ) : (
-        <CardContainer priority={1} index={0}>
-          <span className="mr-4 p-4 text-2xl text-primary">우선순위 상급</span>
-        </CardContainer>
-      )}
-      {futureMiddle?.length ? (
-        <CardSet futureBoxes={futureMiddle} priority={2} />
-      ) : (
-        <CardContainer priority={2} index={0}>
-          <span className="mr-4 p-4 text-2xl text-secondary">우선순위 중급</span>
-        </CardContainer>
-      )}
-      {futureLow?.length ? (
-        <CardSet futureBoxes={futureLow} priority={3} />
-      ) : (
-        <CardContainer priority={3} index={0}>
-          <span className="mr-4 p-4 text-2xl text-success">우선순위 하급</span>
-        </CardContainer>
-      )}
-    </div>
+    <Container direction="column" className="gap-4 py-8 px-4">
+      <Typography.h1 className="self-start">미래 계획</Typography.h1>
+      <Container className="justify-between">
+        <Typography.h4 className="text-foreground/50 mb-4">목표 설정</Typography.h4>
+        <NewFutureBoxDialog />
+      </Container>
+      <Container direction="column" className="gap-4">
+        {children}
+      </Container>
+    </Container>
   );
 }

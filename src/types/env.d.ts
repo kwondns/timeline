@@ -1,11 +1,11 @@
-/// <reference types="vite/client" />
-
-interface ImportMetaEnv {
-  readonly VITE_API_SERVER_URL: string;
-  readonly VITE_IMAGE_URL: string;
-  readonly VITE_WS_SERVER_URL: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
+namespace NodeJS {
+  interface ProcessEnv {
+    API_SERVER_URL: string;
+    WS_SERVER_URL: string;
+    NEXT_PUBLIC_IMAGE_URL: string;
+    NEXT_PUBLIC_CHATBOT_URL: string;
+    LOCAL: string;
+    DEMO_EMAIL: string;
+    DEMO_PASSWORD: string;
+  }
 }

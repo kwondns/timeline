@@ -1,22 +1,21 @@
-import { useSetRecoilState } from 'recoil';
-import { useCallback } from 'react';
+import { ChatBubbleProps } from '@/molecules/ChatBubble';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 
-import { chatHistoryStore, currentChatStore, isChatGeneratingStore } from '@/stores/Chat.store';
-
-const useChat = () => {
-  const setCurrentChat = useSetRecoilState(currentChatStore);
-  const setIsChatGenerating = useSetRecoilState(isChatGeneratingStore);
-  const setChatHistory = useSetRecoilState(chatHistoryStore);
+interface UseChatType {
+  setCurrentChat: Dispatch<SetStateAction<string>>;
+  setChatHistory: Dispatch<SetStateAction<ChatBubbleProps[]>>;
+  setIsChatGenerating: Dispatch<SetStateAction<boolean>>;
+}
+const useChat = ({ setCurrentChat, setIsChatGenerating, setChatHistory }: UseChatType) => {
   const callChat = useCallback(
-    async (payload: { query: string }) => {
+    async (payload: { query: string; user_id: string }) => {
       let responseContent = '';
-      const response = await fetch(`${import.meta.env.VITE_CHATBOT_URL}chat`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_URL}chat`, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
           Accept: 'text/event-stream', // SSE 미디어 타입
           'Content-Type': 'application/json',
-          'is-legacy': 'true',
         },
       });
       if (!response.body) return;
@@ -35,7 +34,7 @@ const useChat = () => {
         }
       }
       setIsChatGenerating(false);
-      setChatHistory((prev) => prev.concat({ direction: 'start', content: responseContent }));
+      setChatHistory((prev) => prev.concat({ isBot: true, text: responseContent }));
       setCurrentChat('');
     },
     [setIsChatGenerating, setChatHistory, setCurrentChat],
