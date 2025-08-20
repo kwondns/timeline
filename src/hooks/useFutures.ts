@@ -13,15 +13,15 @@ import {
 
 export const useGetFutureHigh = (record = false) => ({
   queryKey: ['future', 'high', record],
-  queryFn: async () => GetFetch<FutureBoxType[]>(`time/future/1${record ? '/record' : ''}`),
+  queryFn: async () => GetFetch<FutureBoxType[]>(`/future/1${record ? '/record' : ''}`),
 });
 export const useGetFutureMiddle = (record = false) => ({
   queryKey: ['future', 'middle', record],
-  queryFn: async () => GetFetch<FutureBoxType[]>(`time/future/2${record ? '/record' : ''}`),
+  queryFn: async () => GetFetch<FutureBoxType[]>(`/future/2${record ? '/record' : ''}`),
 });
 export const useGetFutureLow = (record = false) => ({
   queryKey: ['future', 'low', record],
-  queryFn: async () => GetFetch<FutureBoxType[]>(`time/future/3${record ? '/record' : ''}`),
+  queryFn: async () => GetFetch<FutureBoxType[]>(`/future/3${record ? '/record' : ''}`),
 });
 
 const priority = (queryClient: QueryClient) => ({
@@ -36,7 +36,7 @@ export const useCreateFuture = () => {
   const { mutate: createFuture, isPending: isCreating } = useMutation({
     mutationFn: async (payload: FutureCreateType) => {
       const { priority, ...exceptPriorityPayload } = payload;
-      await PostFetch<Omit<FutureCreateType, 'priority'>, FutureType>('time/future', exceptPriorityPayload);
+      await PostFetch<Omit<FutureCreateType, 'priority'>, FutureType>('/future', exceptPriorityPayload);
     },
     onMutate: () => {
       toast('미래를 만드는 중...', { autoClose: false, toastId: 'futureCreate' });
@@ -58,7 +58,7 @@ export const useUpdateFuture = () => {
   const { mutate: updateFuture, isPending: isUpdating } = useMutation({
     mutationFn: async (payload: FutureUpdateType) => {
       const { priority, ...exceptPriorityPayload } = payload;
-      await PatchFetch<Omit<FutureUpdateType, 'priority'>, FutureType>('time/future', exceptPriorityPayload);
+      await PatchFetch<Omit<FutureUpdateType, 'priority'>, FutureType>('/future', exceptPriorityPayload);
     },
     onMutate: () => {
       toast('미래를 바꾸는 중...', { autoClose: false, toastId: 'futureUpdate' });
@@ -79,7 +79,7 @@ export const useCreateFutureBox = () => {
 
   const { mutate: createFutureBox, isPending: isCreating } = useMutation({
     mutationFn: async (payload: FutureBoxCreateType) => {
-      await PostFetch<FutureBoxCreateType, FutureBoxType>('time/future/box', payload);
+      await PostFetch<FutureBoxCreateType, FutureBoxType>('/future/box', payload);
     },
     onMutate: () => {
       toast('미래상자를 만드는 중...', { autoClose: false, toastId: 'futureBoxCreate' });
@@ -99,7 +99,7 @@ export const useUpdateFutureBox = () => {
 
   const { mutate: updateFutureBox, isPending: isUpdating } = useMutation({
     mutationFn: async (payload: FutureBoxUpdateType) => {
-      await PatchFetch<FutureBoxUpdateType, FutureBoxType>('time/future/box', payload);
+      await PatchFetch<FutureBoxUpdateType, FutureBoxType>('/future/box', payload);
     },
     onMutate: () => {
       toast('미래상자를 바꾸는 중...', { autoClose: false, toastId: 'futureUpdate' });
@@ -124,8 +124,8 @@ export const useSwapFutureBox = () => {
       const activePayload = { id: active.id, order: over.order, priority: active.priority };
       const overPayload = { id: over.id, order: active.order, priority: over.priority };
       await Promise.all([
-        PatchFetch<FutureBoxUpdateType, FutureBoxType>('time/future/box', activePayload),
-        PatchFetch<FutureBoxUpdateType, FutureBoxType>('time/future/box', overPayload),
+        PatchFetch<FutureBoxUpdateType, FutureBoxType>('/future/box', activePayload),
+        PatchFetch<FutureBoxUpdateType, FutureBoxType>('/future/box', overPayload),
       ]);
     },
     onMutate: () => {

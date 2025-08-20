@@ -8,14 +8,14 @@ import { PastCreateType, PastType } from '@/types/Past.type';
 export function usePast(date: string) {
   return {
     queryKey: ['past', date],
-    queryFn: async () => GetFetch<PastType[]>(`time/past/${date}`),
+    queryFn: async () => GetFetch<PastType[]>(`/past/${date}`),
   };
 }
 
 export function usePastCreate() {
   const queryClient = useQueryClient();
   const { mutate: createPast, isPending: isCreating } = useMutation({
-    mutationFn: (payload: PastCreateType) => PostFetch<PastCreateType, PastType>('time/past', payload),
+    mutationFn: (payload: PastCreateType) => PostFetch<PastCreateType, PastType>('/past', payload),
     onMutate: () => {
       toast('과거를 쓰는 중입니다...', { autoClose: false, toastId: 'past' });
     },
@@ -26,7 +26,7 @@ export function usePastCreate() {
         queryClient.invalidateQueries({ queryKey: ['present'] }),
       ]).then(async () => {
         toast.update('past', { render: '과거에 담았습니다.', autoClose: 1500, type: 'success' });
-        const cleanLength = await GetFetch(`time/past/cleanup/${variables.startTime}`);
+        const cleanLength = await GetFetch(`/past/cleanup/${variables.startTime}`);
         if (cleanLength)
           toast.update('past', { render: `${cleanLength}개 스토리지 청소완료!`, type: 'success', autoClose: 1500 });
       });
@@ -39,9 +39,9 @@ export function usePastCreate() {
 }
 export const usePastCalendar = (date: Date) => ({
   queryKey: ['past', 'calendar', date],
-  queryFn: async () => GetFetch<PastCountType[]>(`time/past/calendar/${date}`),
+  queryFn: async () => GetFetch<PastCountType[]>(`/past/calendar/${date}`),
 });
 export const usePastCountAll = () => ({
   queryKey: ['past', 'count'],
-  queryFn: async () => GetFetch<PastCountType[]>('time/past/count'),
+  queryFn: async () => GetFetch<PastCountType[]>('/past/count'),
 });

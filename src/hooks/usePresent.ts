@@ -9,7 +9,7 @@ import { GetFetch, PutFetch } from '@/libs/fetch.lib';
 
 export const useGetPresent = () => ({
   queryKey: ['present'],
-  queryFn: async () => GetFetch<PresentType>('time/present'),
+  queryFn: async () => GetFetch<PresentType>('/present'),
 });
 
 export const useUpdatePresent = () => {
@@ -19,7 +19,7 @@ export const useUpdatePresent = () => {
       if (!payload.endTime) delete payload.endTime;
       if (!payload.title) delete payload.title;
       if (!payload.content) delete payload.content;
-      return PutFetch<PresentType, PresentType>(`time/present`, payload);
+      return PutFetch<PresentType, PresentType>(`/present`, payload);
     },
     onMutate: () => {
       toast('현재 수정중...', { autoClose: false, toastId: 'present' });

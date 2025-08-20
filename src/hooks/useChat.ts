@@ -16,6 +16,7 @@ const useChat = () => {
         headers: {
           Accept: 'text/event-stream', // SSE 미디어 타입
           'Content-Type': 'application/json',
+          'is-legacy': 'true',
         },
       });
       if (!response.body) return;
