@@ -1,5 +1,7 @@
-import Mark from '@uiw/react-markdown-preview/nohighlight';
 import Container from '@/atoms/Container';
+import dynamic from 'next/dynamic';
+
+const Mark = dynamic(() => import('@uiw/react-markdown-preview/nohighlight'), { ssr: false });
 
 export type ChatBubbleProps = {
   isBot: boolean;
