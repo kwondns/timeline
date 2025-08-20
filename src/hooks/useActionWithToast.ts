@@ -31,8 +31,25 @@ export const useActionWithToast = (isPending: boolean, state: boolean, type: 'si
 
         timeoutRef.current = setTimeout(() => {
           toast.dismiss(id);
-          if (state) toast.success(TOAST_OPTIONS[type].SUCCESS);
-          else toast.error(TOAST_OPTIONS[type].ERROR);
+          if (state) {
+            toast.success(TOAST_OPTIONS[type].SUCCESS);
+            // 성공 시 다이얼로그 닫기 (create 타입일 때만)
+            if (type === 'create') {
+              // 다이얼로그의 닫기 버튼 찾아서 클릭
+              const closeButton = document.querySelector(
+                '[data-state="open"] button[data-state="closed"]',
+              ) as HTMLButtonElement;
+              if (closeButton) {
+                closeButton.click();
+              } else {
+                // 대안: ESC 키 이벤트 발생
+                const escEvent = new KeyboardEvent('keydown', { key: 'Escape' });
+                document.dispatchEvent(escEvent);
+              }
+            }
+          } else {
+            toast.error(TOAST_OPTIONS[type].ERROR);
+          }
         }, TOAST_DELAY);
       }
     }

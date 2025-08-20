@@ -46,9 +46,7 @@ export default function NewFutureDialog(props: NewFutureDialogProps) {
             <DialogClose asChild>
               <Button variant="outline">취소</Button>
             </DialogClose>
-            <DialogClose asChild>
-              <Button type="submit">생성하기</Button>
-            </DialogClose>
+            <Button type="submit">생성하기</Button>
           </DialogFooter>
         </FormWrapper>
       </DialogContent>
