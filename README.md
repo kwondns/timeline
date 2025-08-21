@@ -134,3 +134,6 @@ Partial PreRender(PPR) 도입으로 정적 셸 + 동적 데이터 병행 처리
 
 🔧 최신 기술 스택 도입
 Next.js 15, React 19, TypeScript strict, Bundle Analyzer, Vercel Analytics
+
+🚀 사용자 별 타임라인 작성
+기존 1인 사용으로 개발 → 유저 별 데이터 생성 가능
