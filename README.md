@@ -25,6 +25,7 @@
 6. [사용 예시](#사용-예시)
 7. [환경 변수](#환경-변수)
 8. [로드맵](#로드맵)
+9. [추가](#추가)
 
 ## 소개
 
@@ -86,8 +87,8 @@ yarn dev
 ## 사용 예시
 
 <p align="center">
-  <img width="45%" alt="img_1" src="https://github.com/user-attachments/assets/d7197b79-8b3c-4e0f-a214-b35fcdfdb690" />
-  <img width="45%" alt="img" src="https://github.com/user-attachments/assets/fa0b10ec-c571-4354-b032-af056fd240f0" />
+  <img width="45%" alt="img_1" src="https://github.com/user-attachments/assets/d7197b79-8b3c-4e0f-a214-b35fcdfdb690"/>
+  <img width="45%" alt="img" src="https://github.com/user-attachments/assets/fa0b10ec-c571-4354-b032-af056fd240f0"/>
 </p>
 
 <p align="center">
@@ -115,3 +116,21 @@ DEMO_PASSWORD=demo_password!@
 - [x] 다크/라이트 테마
 - [ ] 소셜 로그인 지원
 - [ ] 팀 협업 기능  
+
+## 추가
+
+### 2025/08/21 Next 마이그레이션
+
+🔄 Next.js 13 → 15 Canary
+Partial PreRender(PPR) 도입으로 정적 셸 + 동적 데이터 병행 처리
+
+⚡ 평균 응답시간 31% 개선
+원본 420ms → 마이그레이션 289ms
+
+🚀 로그인·현재 페이지 속도 40–57% 개선
+
+🆕 Next.js Server-Side Rendering + Vercel 배포
+정적 S3 호스팅 → SSR 환경 전환
+
+🔧 최신 기술 스택 도입
+Next.js 15, React 19, TypeScript strict, Bundle Analyzer, Vercel Analytics
