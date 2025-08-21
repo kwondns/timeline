@@ -24,6 +24,10 @@ import { calculateDateDiff } from '@/lib/utils/date/calculateDateDiff';
  */
 export const fromToDiffDateFormat = (startDate: string | Date, endDate: string | Date): string => {
   const diff = calculateDateDiff(startDate, endDate);
-  const start = new Date(startDate).toLocaleTimeString('ko-KR', { timeStyle: 'short', hour12: false });
+  const start = new Date(startDate).toLocaleTimeString('ko-KR', {
+    timeStyle: 'short',
+    hour12: false,
+    timeZone: 'Asia/Seoul',
+  });
   return `${start} 부터 ${diff}`;
 };
