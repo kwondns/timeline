@@ -26,6 +26,9 @@ export default function Editor(props: EditorProps) {
       className="flex h-full w-full flex-1 [&_img]:mx-auto [&_img]:!flex [&_img]:max-h-[500px] [&_ol]:list-decimal [&_ul]:list-disc"
       height="100%"
       value={currentContent}
+      previewOptions={{
+        components: { img: NextImage },
+      }}
       onChange={(value) => {
         setCurrentContent(value as string);
       }}
