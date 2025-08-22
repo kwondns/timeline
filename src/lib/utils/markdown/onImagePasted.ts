@@ -118,7 +118,7 @@ export const onImagePasted = async (
     }),
   );
   result.forEach((route: string) => {
-    const insertedMarkdown = insertToTextArea(`![](${process.env.NEXT_PUBLIC_IMAGE_URL}/${route})`);
+    const insertedMarkdown = insertToTextArea(`![](https://${process.env.NEXT_PUBLIC_IMAGE_URL}/${route})`);
     if (!insertedMarkdown) {
       return;
     }

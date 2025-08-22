@@ -2,7 +2,7 @@
 
 import { imgLazyLoading } from '@/lib/utils/markdown';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
+import NextImage from '@/atoms/NextImage';
 
 type MarkdownProps = {
   source: string;
@@ -12,10 +12,6 @@ const Editor = dynamic(async () => import('@uiw/react-md-editor').then((module) 
   ssr: false,
 });
 
-const NextImage = (props: any) => {
-  const { node: _node, ...rest } = props;
-  return <Image {...rest} />;
-};
 export default function MarkdownViewer(props: MarkdownProps) {
   const { source } = props;
   return (
