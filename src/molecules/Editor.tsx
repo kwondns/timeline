@@ -3,6 +3,7 @@
 import { onImagePasted } from '@/lib/utils/markdown';
 import { usePresentActions } from '@/templates/PresentClient.template';
 import dynamic from 'next/dynamic';
+import NextImage from '@/atoms/NextImage';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor').then((mod) => mod.default), { ssr: false });
 
