@@ -11,9 +11,17 @@ import {
 } from '@/components/ui/select';
 import Container from '@/atoms/Container';
 import LanguageTypo from '@/molecules/LanguageTypo';
-import { Locale } from '@/i18n/routing';
+import { LOCALE, Locale } from '@/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
+
+const SelectItemWrapper = ({ locale }: { locale: Locale }) => {
+  return (
+    <SelectItem value={locale}>
+      <LanguageTypo locale={locale} />
+    </SelectItem>
+  );
+};
 
 export default function SignSelectLanguage() {
   const locale = useLocale();
@@ -32,12 +40,9 @@ export default function SignSelectLanguage() {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>{t('language')}</SelectLabel>
-            <SelectItem value="ko">
-              <LanguageTypo locale="ko" text="한국어" />
-            </SelectItem>
-            <SelectItem value="en">
-              <LanguageTypo locale="en" text="English" />
-            </SelectItem>
+            {LOCALE.map((lang) => (
+              <SelectItemWrapper key={lang} locale={lang} />
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>

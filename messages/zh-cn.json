@@ -1,0 +1,171 @@
+{
+  "Navigation": {
+    "present": "现在",
+    "past": "过去",
+    "calendar": "日历",
+    "future": "未来",
+    "time": "时间",
+    "chatbot": "聊天",
+    "Setting": {
+      "theme": "更改主题",
+      "language": "更改语言"
+    },
+    "signOut": "登出"
+  },
+  "Auth": {
+    "signIn": "登录",
+    "name": "用户名",
+    "signUp": "注册",
+    "demo": "演示版本"
+  },
+  "SignUp": {
+    "title": "用户注册",
+    "back": "返回",
+    "Email": {
+      "emailPlaceholder": "输入邮箱",
+      "emailSubmit": "验证"
+    },
+    "Code": {
+      "code": "验证码",
+      "codePlaceholder": "输入验证码",
+      "codeSubmit": "确认"
+    },
+    "Password": {
+      "passwordPlaceholder": "输入密码",
+      "passwordConfirmPlaceholder": "确认密码"
+    },
+    "Name": {
+      "userName": "用户名",
+      "namePlaceholder": "输入用户名"
+    },
+    "signUpSubmit": "注册"
+  },
+  "Splash": {
+    "splashContent": "记录时间的流动",
+    "skip": "点击屏幕跳过"
+  },
+  "Present": {
+    "resting": "休息中",
+    "working": "进行中",
+    "titlePlaceholder": "输入标题",
+    "contentPlaceholder": "坚持记录！",
+    "tempSave": "临时保存",
+    "save": "结束",
+    "start": "开始"
+  },
+  "Past": {
+    "noContent": "暂无活动记录！",
+    "skeletonTime": "--时 --分",
+    "skeletonLoading": "加载中..."
+  },
+  "Calendar": {
+    "sun": "日",
+    "mon": "一",
+    "tue": "二",
+    "wed": "三",
+    "thu": "四",
+    "fri": "五",
+    "sat": "六"
+  },
+  "Future": {
+    "title": "未来计划",
+    "subTitle": "目标设定",
+    "newBoxButton": "新计划",
+    "newBoxTitle": "新的未来计划",
+    "newFutureTitle": "新的未来",
+    "newSubTitle": "设计您的新未来！",
+    "newBoxTitlePlaceholder": "编写计划",
+    "newFutureTitlePlaceholder": "编写内容",
+    "newBoxTypeCheckBox": "复选框",
+    "newBoxTypeProgress": "进度",
+    "cancelButton": "取消",
+    "submitButton": "创建",
+    "priority": "优先级",
+    "priorityHigh": "高",
+    "priorityMedium": "中",
+    "priorityLow": "低",
+    "noFutureBox": "请添加计划！",
+    "noFuture": "请添加任务！"
+  },
+  "Time": {
+    "lastOneMonthActivity": "最近一个月的活动",
+    "future": "未来",
+    "chartActivities": "创建的内容",
+    "chartTime": "工作时间",
+    "lastCompletedFuture": "最近完成的任务"
+  },
+  "ValidateInput": {
+    "email": "请输入正确的邮箱！",
+    "password": "请输入密码！",
+    "passwordMin": "密码至少需要8个字符！",
+    "passwordNum": "密码必须至少包含1个数字！",
+    "passwordSymbol": "密码必须至少包含1个特殊字符！",
+    "passwordDiff": "密码不匹配！",
+    "name": "请输入用户名！"
+  },
+  "Error": {
+    "unknownError": "发生未知错误。",
+    "GlobalErrorPage": {
+      "systemError": "系统错误",
+      "errorText": "时间线应用出现问题。",
+      "tryLater": "请稍后再试。",
+      "tryAgain": "重试",
+      "backToHome": "返回首页",
+      "description1": "如果问题持续存在，请刷新页面",
+      "description2": "或重启浏览器。"
+    },
+    "NotFoundPage": {
+      "title": "页面未找到",
+      "description1": "请求的页面不存在或可能已被移动。",
+      "description2": "在时间的流动中迷路了吗？",
+      "backToPresent": "返回现在",
+      "backToPast": "查看过去",
+      "subDescription1": "如果仍有问题，",
+      "subDescription2": "请从现在页面",
+      "subDescription3": "重新开始。"
+    }
+  },
+  "Toast": {
+    "Present": {
+      "loading": "记录中...",
+      "startSuccess": "记录开始！",
+      "saveSuccess": "记录完成！",
+      "cleanUpStorage": "个存储已清理！",
+      "error": "记录失败！",
+      "startFirst": "请先开始任务！"
+    },
+    "SignUp": {
+      "signUpLoadingToast": "注册处理中...",
+      "signUpSuccessToast": "注册完成！",
+      "codeLoadingToast": "验证码确认中...",
+      "codeSuccessToast": "验证完成！",
+      "emailLoadingToast": "邮件发送中...",
+      "emailSuccessToast": "请检查您的邮件！"
+    },
+    "Auth": {
+      "authLoadingToast": "认证中...",
+      "authSuccessToast": "认证完成！",
+      "authErrorToast": "认证失败！",
+      "loginRequiredToast": "需要登录！",
+      "demoAuthLoadingToast": "演示账户确认中...",
+      "demoAuthSuccessToast": "演示账户认证完成！"
+    },
+    "Future": {
+      "createLoading": "创建中...",
+      "createSuccess": "创建完成！",
+      "createError": "创建失败！",
+      "updateLoading": "修改中...",
+      "updateSuccess": "修改完成！",
+      "updateError": "修改失败！"
+    }
+  },
+  "Date": {
+    "diff": "从{start}开始，{diff}",
+    "minutes": "{minutes}分钟",
+    "hours": "{hours}小时",
+    "hoursMinutes": "{hours}小时{minutes}分钟"
+  },
+  "Chat": {
+    "description":"您可以搜索过去的工作。\n示例：\n- “2024年2月，我在GSAP相关工作了什么？”\n- “我最近做的 Markdown 样式是什么？”\n- “如何实现 CSS 动画？”\n- “请查找与时间线相关的过去工作”\n- “我最近的 React 工作是什么？”\n- “总结我最近的工作内容”\n- “我最后一个 React 工作是什么？”\n- “最后的工作内容”\n- “我什么时候在 Next 中处理缓存工作？”"
+  }
+}

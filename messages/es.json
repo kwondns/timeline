@@ -1,0 +1,171 @@
+{
+  "Navigation": {
+    "present": "Presente",
+    "past": "Pasado",
+    "calendar": "Calendario",
+    "future": "Futuro",
+    "time": "Tiempo",
+    "chatbot": "Asistente",
+    "Setting": {
+      "theme": "Cambiar Tema",
+      "language": "Cambiar Idioma"
+    },
+    "signOut": "Cerrar Sesión"
+  },
+  "Auth": {
+    "signIn": "Iniciar Sesión",
+    "name": "Nombre",
+    "signUp": "Registrarse",
+    "demo": "Versión Demo"
+  },
+  "SignUp": {
+    "title": "Crear Cuenta",
+    "back": "Atrás",
+    "Email": {
+      "emailPlaceholder": "Introducir Email",
+      "emailSubmit": "Verificar"
+    },
+    "Code": {
+      "code": "Código de Verificación",
+      "codePlaceholder": "Introducir Código de Verificación",
+      "codeSubmit": "Confirmar"
+    },
+    "Password": {
+      "passwordPlaceholder": "Introducir Contraseña",
+      "passwordConfirmPlaceholder": "Confirmar Contraseña"
+    },
+    "Name": {
+      "userName": "Nombre",
+      "namePlaceholder": "Introducir Nombre"
+    },
+    "signUpSubmit": "Registrarse"
+  },
+  "Splash": {
+    "splashContent": "Registrando el Flujo del Tiempo",
+    "skip": "Hacer clic para saltar"
+  },
+  "Present": {
+    "resting": "Descansando",
+    "working": "Trabajando",
+    "titlePlaceholder": "Introducir Título",
+    "contentPlaceholder": "¡Sigue adelante!",
+    "tempSave": "Guardar Borrador",
+    "save": "Finalizar Trabajo",
+    "start": "Comenzar Trabajo"
+  },
+  "Past": {
+    "noContent": "Sin actividades!",
+    "skeletonTime": "--h --m",
+    "skeletonLoading": "Cargando..."
+  },
+  "Calendar": {
+    "sun": "Dom",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mié",
+    "thu": "Jue",
+    "fri": "Vie",
+    "sat": "Sáb"
+  },
+  "Future": {
+    "title": "Planes Futuros",
+    "subTitle": "Establecer Objetivos",
+    "newBoxButton": "Nuevo Plan",
+    "newBoxTitle": "Nuevo Plan Futuro",
+    "newFutureTitle": "Nuevo Futuro",
+    "newSubTitle": "¡Diseña tu Nuevo Futuro!",
+    "newBoxTitlePlaceholder": "Escribir Plan",
+    "newFutureTitlePlaceholder": "Escribir Contenido",
+    "newBoxTypeCheckBox": "Casilla de Verificación",
+    "newBoxTypeProgress": "Progreso",
+    "cancelButton": "Cancelar",
+    "submitButton": "Crear",
+    "priority": "Prioridad",
+    "priorityHigh": "Alta",
+    "priorityMedium": "Media",
+    "priorityLow": "Baja",
+    "noFutureBox": "¡Por favor añade un plan!",
+    "noFuture": "¡Por favor añade una tarea!"
+  },
+  "Time": {
+    "lastOneMonthActivity": "Actividad del Último Mes",
+    "future": "Futuro",
+    "chartActivities": "Publicaciones Creadas",
+    "chartTime": "Horas de Trabajo",
+    "lastCompletedFuture": "Tareas Completadas Recientemente"
+  },
+  "ValidateInput": {
+    "email": "¡Por favor introduce un email válido!",
+    "password": "¡Por favor introduce tu contraseña!",
+    "passwordMin": "¡La contraseña debe tener al menos 8 caracteres!",
+    "passwordNum": "¡La contraseña debe incluir al menos 1 número!",
+    "passwordSymbol": "¡La contraseña debe incluir al menos 1 carácter especial!",
+    "passwordDiff": "¡Las contraseñas no coinciden!",
+    "name": "¡Por favor introduce tu nombre!"
+  },
+  "Error": {
+    "unknownError": "Ocurrió un error desconocido.",
+    "GlobalErrorPage": {
+      "systemError": "Error del Sistema",
+      "errorText": "Ha ocurrido un problema en la aplicación Timeline.",
+      "tryLater": "Por favor inténtalo de nuevo más tarde.",
+      "tryAgain": "Intentar de Nuevo",
+      "backToHome": "Ir al Inicio",
+      "description1": "Si el problema persiste, intenta refrescar la página",
+      "description2": "o reinicia tu navegador."
+    },
+    "NotFoundPage": {
+      "title": "Página No Encontrada",
+      "description1": "La página solicitada no existe o puede haber sido movida.",
+      "description2": "¿Perdido en el flujo del tiempo?",
+      "backToPresent": "Volver al Presente",
+      "backToPast": "Ver Pasado",
+      "subDescription1": "Si aún tienes problemas,",
+      "subDescription2": "reinicia desde la página Presente",
+      "subDescription3": "."
+    }
+  },
+  "Toast": {
+    "Present": {
+      "loading": "Registrando...",
+      "startSuccess": "¡Registro Iniciado!",
+      "saveSuccess": "¡Registro Completado!",
+      "cleanUpStorage": " ¡Almacenamiento Limpiado!",
+      "error": "¡Registro Fallido!",
+      "startFirst": "¡Por favor inicia la tarea primero!"
+    },
+    "SignUp": {
+      "signUpLoadingToast": "Procesando Registro...",
+      "signUpSuccessToast": "¡Registro Completado!",
+      "codeLoadingToast": "Verificando Código...",
+      "codeSuccessToast": "¡Verificación Completada!",
+      "emailLoadingToast": "Enviando Email...",
+      "emailSuccessToast": "¡Por favor revisa tu Email!"
+    },
+    "Auth": {
+      "authLoadingToast": "Autenticando...",
+      "authSuccessToast": "¡Autenticación Exitosa!",
+      "authErrorToast": "¡Autenticación Fallida!",
+      "loginRequiredToast": "¡Inicio de Sesión Requerido!",
+      "demoAuthLoadingToast": "Verificando Cuenta Demo...",
+      "demoAuthSuccessToast": "¡Autenticación Demo Completada!"
+    },
+    "Future": {
+      "createLoading": "Creando...",
+      "createSuccess": "¡Creación Completada!",
+      "createError": "¡Creación Fallida!",
+      "updateLoading": "Actualizando...",
+      "updateSuccess": "¡Actualización Completada!",
+      "updateError": "¡Actualización Fallida!"
+    }
+  },
+  "Date": {
+    "diff": "Desde {start}, {diff}",
+    "minutes": "{minutes} min",
+    "hours": "{hours} h",
+    "hoursMinutes": "{hours} h {minutes} min"
+  },
+  "Chat": {
+    "description": "Puedes buscar trabajos pasados.\nEjemplos:\n- \"¿Qué trabajé relacionado con GSAP en febrero de 2024?\"\n- \"¿Cuál fue el último estilo de Markdown que realicé?\"\n- \"¿Cómo puedo implementar animaciones CSS?\"\n- \"Encuentra trabajos anteriores relacionados con la línea de tiempo\"\n- \"¿Cuál fue mi trabajo más reciente en React?\"\n- \"Resume mis tareas más recientes\"\n- \"¿Cuál fue mi última tarea de React?\"\n- \"Detalles de la última tarea\"\n- \"¿Cuándo trabajé en el manejo de caché en Next?\""
+  }
+}

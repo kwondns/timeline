@@ -34,12 +34,28 @@ import { useSelectedLayoutSegments } from 'next/navigation';
 import MENU from '@/constants/MENU';
 import { useLocale, useTranslations } from 'next-intl';
 import LanguageTypo from '@/molecules/LanguageTypo';
-import { Locale } from '@/i18n/routing';
+import { LOCALE, Locale } from '@/i18n/routing';
 
 type AppSidebarWrapperProps = {
   isMounted: boolean;
   active: boolean;
   name: string;
+};
+
+const LanguageTypoWrapper = ({
+  checked,
+  locale,
+  onCheckedChange,
+}: {
+  checked: boolean;
+  locale: Locale;
+  onCheckedChange: () => void;
+}) => {
+  return (
+    <DropdownMenuCheckboxItem checked={checked} onCheckedChange={onCheckedChange}>
+      <LanguageTypo locale={locale} />
+    </DropdownMenuCheckboxItem>
+  );
 };
 export default function AppSidebar(props: AppSidebarWrapperProps) {
   const { isMounted, active, name } = props;
@@ -128,12 +144,14 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>{t('Setting.language')}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem checked={locale === 'ko'} onCheckedChange={() => onClickLanguage('ko')}>
-                    <LanguageTypo locale="ko" text="한국어" />
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem checked={locale === 'en'} onCheckedChange={() => onClickLanguage('en')}>
-                    <LanguageTypo locale="en" text="English" />
-                  </DropdownMenuCheckboxItem>
+                  {LOCALE.map((lang) => (
+                    <LanguageTypoWrapper
+                      key={lang}
+                      locale={lang}
+                      onCheckedChange={() => onClickLanguage(lang)}
+                      checked={locale === lang}
+                    />
+                  ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>

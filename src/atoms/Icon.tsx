@@ -4,7 +4,7 @@ import { IoMdTime, IoMdAdd, IoIosClose, IoIosSend, IoIosSettings } from 'react-i
 import { MdNavigateNext, MdNavigateBefore } from 'react-icons/md';
 import { RiResetLeftFill, RiEnglishInput } from 'react-icons/ri';
 import { IoAnalytics } from 'react-icons/io5';
-import { TbMessage, TbAlphabetKorean } from 'react-icons/tb';
+import { TbMessage, TbAlphabetKorean, TbLanguageHiragana, TbLetterE, TbLetterF, TbLetterZ } from 'react-icons/tb';
 import { GoCheckbox } from 'react-icons/go';
 import { FaBarsProgress } from 'react-icons/fa6';
 
@@ -26,6 +26,10 @@ export const Icon = {
   setting: <IoIosSettings size={28} />,
   ko: <TbAlphabetKorean />,
   en: <RiEnglishInput />,
+  ja: <TbLanguageHiragana />,
+  es: <TbLetterE />,
+  fr: <TbLetterF />,
+  'zh-cn': <TbLetterZ />,
 } as const;
 
 export type IconType = keyof typeof Icon;

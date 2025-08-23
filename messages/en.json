@@ -58,7 +58,7 @@
     "skeletonTime": "--h --m",
     "skeletonLoading": "Loading..."
   },
-  "Calender": {
+  "Calendar": {
     "sun": "Sun",
     "mon": "Mon",
     "tue": "Tue",
@@ -164,5 +164,8 @@
     "minutes": "{minutes} min",
     "hours": "{hours} hr",
     "hoursMinutes": "{hours} hr {minutes} min"
+  },
+  "Chat": {
+    "description": "You can search through past work.\nExamples:\n- \"What did I work on related to GSAP in February 2024?\"\n- \"What was the most recent markdown styling I did?\"\n- \"How can I implement CSS animations?\"\n- \"Find past timeline-related tasks.\"\n- \"What was my most recent work on React?\"\n- \"Summarize my most recent tasks.\"\n- \"What was my last React task?\"\n- \"Last task details.\"\n- \"When did I work on caching in Next?\""
   }
 }

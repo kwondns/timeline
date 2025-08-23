@@ -102,8 +102,8 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/:locale(en|ko)/(sign/in|sign/up)',
-    '/:locale(en|ko)/(past|calendar|present|future|time)(/:path*)?',
-    '/:locale(en|ko)/:path*',
+    '/:locale(en|ko|es|fr|ja|zh-cn)/(sign/in|sign/up)',
+    '/:locale(en|ko|es|fr|ja|zh-cn)/(past|calendar|present|future|time)(/:path*)?',
+    '/:locale(en|ko|es|fr|ja|zh-cn)/:path*',
   ],
 };

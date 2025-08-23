@@ -26,7 +26,7 @@ export default async function Calendar(props: Readonly<CalendarProps>) {
   const today = new Date();
   const firstDay = current.getDay();
   const prev = calcPreviousMonth(current, firstDay);
-  const t = await getTranslations({ locale, namespace: 'Calender' });
+  const t = await getTranslations({ locale, namespace: 'Calendar' });
   const monthDayFormatter = new Intl.DateTimeFormat(locale, {
     month: 'numeric',
     day: 'numeric',
