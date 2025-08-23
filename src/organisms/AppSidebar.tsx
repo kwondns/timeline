@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/sidebar';
 import Typography from '@/atoms/Typography';
 import Indicator from '@/molecules/Indicator';
-import Link from 'next/link';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import Container from '@/atoms/Container';
 import {
   DropdownMenu,
@@ -32,6 +32,9 @@ import { signOutAction } from '@/actions/signOut.action';
 import { useEffect, useState } from 'react';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import MENU from '@/constants/MENU';
+import { useLocale, useTranslations } from 'next-intl';
+import LanguageTypo from '@/molecules/LanguageTypo';
+import { Locale } from '@/i18n/routing';
 
 type AppSidebarWrapperProps = {
   isMounted: boolean;
@@ -45,6 +48,15 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
   const [init, setInit] = useState(false);
   const { open } = useSidebar();
   const segment = useSelectedLayoutSegments('children');
+  const t = useTranslations('Navigation');
+  const locale = useLocale();
+  const pathname = usePathname();
+  const route = useRouter();
+
+  const onClickLanguage = (locale: Locale) => {
+    route.replace(pathname, { locale });
+    route.refresh();
+  };
 
   const onClickSignOut = async () => {
     await signOutAction();
@@ -80,7 +92,7 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {MENU.map((menu) => (
-                <SidebarMenuItem key={menu.title}>
+                <SidebarMenuItem key={menu.key}>
                   <SidebarMenuButton asChild isActive={segment[0] === menu.url.slice(1)}>
                     <Link href={menu.url}>
                       {menu.icon}
@@ -88,7 +100,7 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
                         <Typography.p
                           className={`transition-opacity duration-200 ease-in-out ${transitionClass} text-foreground`}
                         >
-                          {menu.title}
+                          {t(menu.key)}
                         </Typography.p>
                       )}
                     </Link>
@@ -114,7 +126,18 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[214px] ml-6">
                 <DropdownMenuGroup>
-                  <DropdownMenuLabel>테마 변경</DropdownMenuLabel>
+                  <DropdownMenuLabel>{t('Setting.language')}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem checked={locale === 'ko'} onCheckedChange={() => onClickLanguage('ko')}>
+                    <LanguageTypo locale="ko" text="한국어" />
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked={locale === 'en'} onCheckedChange={() => onClickLanguage('en')}>
+                    <LanguageTypo locale="en" text="English" />
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>{t('Setting.theme')}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuCheckboxItem checked={theme === 'light'} onCheckedChange={() => setTheme('light')}>
                     Light
@@ -127,7 +150,7 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
                   </DropdownMenuCheckboxItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onClickSignOut}>로그아웃</DropdownMenuItem>
+                <DropdownMenuItem onClick={onClickSignOut}>{t('signOut')}</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Typography.p className={`transition-all whitespace-nowrap ${open ? 'w-full' : 'w-0'}`}>

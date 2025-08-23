@@ -1,11 +1,10 @@
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/navigation';
 import { safeParseJSON } from '@/lib/dal/http/core';
+import { getTokenAndUserId } from '@/lib/auth/token';
 
-export async function callGetWithAuth<T>(
-  url: string,
-  options: RequestInit & { userId: string; token: string },
-): Promise<T> {
-  const { userId, token, ...option } = options;
+export async function callGetWithAuth<T>(url: string, options: RequestInit & { tag: string }): Promise<T> {
+  const { tag, ...option } = options;
+  const { userId, token, locale } = await getTokenAndUserId();
   const doRequest = async (userId: string, token?: string) => {
     const h = new Headers(options?.headers);
     if (token) h.set('Authorization', `Bearer ${token}`);
@@ -19,7 +18,7 @@ export async function callGetWithAuth<T>(
         method: 'GET',
         credentials: 'include',
         headers: h,
-        next: option?.next,
+        next: { tags: [`${tag}-${userId}`], ...option?.next },
         signal: controller.signal,
       });
     } catch (e) {
@@ -35,7 +34,7 @@ export async function callGetWithAuth<T>(
   let response = await doRequest(userId, token);
   // 401 Unauthorized 시 토큰 재발급
   if (response.status === 401) {
-    redirect('/sign/in?toast=loginRequired');
+    redirect({ href: '/sign/in?toast=loginRequired', locale });
   }
   if (!response.ok) {
     const text = await response.text().catch(() => '');

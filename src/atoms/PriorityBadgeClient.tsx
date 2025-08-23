@@ -1,15 +1,17 @@
+'use client';
+
 import { Badge } from '@/components/ui/badge';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import generatePriorityBadgeContent from '@/lib/utils/generatePriorityBadgeContent';
 
 type PriorityBadgeProps = {
   priority: 1 | 2 | 3;
   className?: string;
 };
-export default async function PriorityBadge(props: PriorityBadgeProps) {
+export default function PriorityBadgeClient(props: PriorityBadgeProps) {
   const { priority, className = '' } = props;
 
-  const t = await getTranslations('Future');
+  const t = useTranslations('Future');
 
   const { badgeContent, badgeColor } = generatePriorityBadgeContent(t as (key: string) => string, priority);
 

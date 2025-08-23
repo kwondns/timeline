@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import useDebounce from '@/hooks/useDebounce';
 import { savePercentageAction } from '@/actions/savePercentage.action';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type SliderWithActionProps = {
   id: string;
@@ -17,15 +18,17 @@ export default function SliderWithAction(props: SliderWithActionProps) {
   const [currentPercentage, setCurrentPercentage] = useState<number>(percentage);
   const debouncedPercentage = useDebounce(currentPercentage, DEBOUNCE_TIME);
   const [rendered, setRendered] = useState<boolean>(false);
+
+  const t = useTranslations('Toast.Future');
   const callAction = async (percentage: number) => {
-    const loadingToast = toast.loading('수정중...');
+    const loadingToast = toast.loading(t('updateLoading'));
     try {
       await savePercentageAction({ id, percentage });
       toast.dismiss(loadingToast);
-      toast.success('수정 완료!');
+      toast.success(t('updateSuccess'));
     } catch (e) {
       toast.dismiss(loadingToast);
-      toast.error('수정 실패!');
+      toast.error(t('updateError'));
     }
   };
 

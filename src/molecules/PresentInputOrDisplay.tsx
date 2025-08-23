@@ -4,6 +4,7 @@ import InputOrDisplay from '@/atoms/InputOrDisplay';
 import { useEffect, useState } from 'react';
 import { callActionWithToast } from '@/lib/utils/action';
 import { updatePresentTitleAction } from '@/actions/updatePresent';
+import { useTranslations } from 'next-intl';
 
 type PresentInputOrDisplayProps = {
   title: string | null;
@@ -11,9 +12,11 @@ type PresentInputOrDisplayProps = {
 export default function PresentInputOrDisplay(props: PresentInputOrDisplayProps) {
   const { title } = props;
   const [value, setValue] = useState(title ?? '');
+  const t = useTranslations('Present');
+  const toastT = useTranslations('Toast.Future');
   const handleUpdate = async () => {
     if (value === title) return;
-    await callActionWithToast(() => updatePresentTitleAction(value));
+    await callActionWithToast(() => updatePresentTitleAction(value), toastT as (key: string) => string);
   };
 
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function PresentInputOrDisplay(props: PresentInputOrDisplayProps)
       inputClassName="!py-6 !px-2"
       typoClassName="px-2 py-[9px]"
       id="title"
-      placeholder="제목입력"
+      placeholder={t('titlePlaceholder')}
     />
   );
 }

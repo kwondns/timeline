@@ -6,6 +6,7 @@ import useAsyncAction from '@/hooks/useAsyncAction';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import InputError from '@/molecules/InputError';
+import { useTranslations } from 'next-intl';
 
 type EmailFieldProps = {
   email: string;
@@ -16,9 +17,10 @@ type EmailFieldProps = {
 export default function EmailField(props: Readonly<EmailFieldProps>) {
   const { email, isValidated, onEmailChange, onSuccess } = props;
   const [emailError, setEmailError] = useState<string | null>(null);
+  const t = useTranslations();
   const { run, loading } = useAsyncAction(() => requestValidateEmailAction({ email }), {
     onSuccess: () => {
-      toast.info('메일을 확인해주세요!');
+      toast.info(t('Toast.SignUp.emailSuccessToast'));
       onSuccess();
     },
     onError: (e) => {
@@ -28,7 +30,7 @@ export default function EmailField(props: Readonly<EmailFieldProps>) {
       if (e?.email) setEmailError(e.email.errors[0]);
       else setEmailError(null);
     },
-    loadingMessage: '메일 발송중...',
+    loadingMessage: t('Toast.SignUp.emailLoadingToast'),
   });
   return (
     <>
@@ -41,14 +43,14 @@ export default function EmailField(props: Readonly<EmailFieldProps>) {
               if (e.key === 'Enter') run();
             }}
             id="email"
-            placeholder="Email 입력"
+            placeholder={t('SignUp.Email.emailPlaceholder')}
             required
             disabled={loading || isValidated}
           />
         </div>
         {!isValidated && (
           <Button className="self-end" variant="outline" onClick={run} disabled={loading || isValidated}>
-            인증하기
+            {t('SignUp.Email.emailSubmit')}
           </Button>
         )}
       </Container>

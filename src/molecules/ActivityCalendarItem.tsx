@@ -1,9 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { createPastLink, formattingDateDiff } from '@/lib/utils/date';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import Typography from '@/atoms/Typography';
+import { useLocale } from 'next-intl';
 
 type ActivityProps = {
   date: string;
@@ -15,6 +16,8 @@ export default function ActivityCalendarItem(props: ActivityProps) {
   const onClickButton = () => {
     route.push(createPastLink(date));
   };
+
+  const locale = useLocale();
 
   let color: string;
   if (count === 0) {
@@ -30,7 +33,7 @@ export default function ActivityCalendarItem(props: ActivityProps) {
         <button type="button" className={`cursor-pointer size-full rounded-lg ${color} `} onClick={onClickButton} />
       </TooltipTrigger>
       <TooltipContent>
-        <Typography.span>{`${date ? new Date(date).toLocaleDateString() : ''} - ${count ? formattingDateDiff(count) : ''}`}</Typography.span>
+        <Typography.span>{`${date ? new Date(date).toLocaleDateString() : ''} - ${count ? formattingDateDiff(count, locale) : ''}`}</Typography.span>
       </TooltipContent>
     </Tooltip>
   );

@@ -1,14 +1,17 @@
 'use server';
 
 import { callFetchForAction } from '@/lib/dal/http';
-import { SignUpSchema } from '@/schemas/signUp.schema';
+import { createSignUpSchema } from '@/schemas/signUp.schema';
+import { getLocale } from 'next-intl/server';
 import z from 'zod';
 
 type RequestValidateEmailActionType = {
   email: string;
 };
 export const requestValidateEmailAction = async (payload: RequestValidateEmailActionType) => {
-  const body = SignUpSchema.pick({ email: true }).safeParse(payload);
+  const locale = await getLocale();
+  const signUpSchema = await createSignUpSchema(locale);
+  const body = signUpSchema.pick({ email: true }).safeParse(payload);
   if (!body.success) return { errors: z.treeifyError(body.error).properties };
   return await callFetchForAction<RequestValidateEmailActionType>('/user/email-verification', payload, {
     method: 'POST',
@@ -45,7 +48,9 @@ type SignUpActionResponse = {
 };
 export const signUpAction = async (payload: SignUpActionType) => {
   try {
-    const body = SignUpSchema.safeParse(payload);
+    const locale = await getLocale();
+    const signUpSchema = await createSignUpSchema(locale);
+    const body = signUpSchema.safeParse(payload);
     if (!body.success) return { errors: z.treeifyError(body.error).properties };
     const { passwordConfirm: _passwordConfirm, ...others } = body.data;
     return await callFetchForAction<Omit<SignUpActionType, 'passwordConfirm'>, SignUpActionResponse>(

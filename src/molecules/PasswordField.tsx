@@ -1,5 +1,6 @@
 import { Input } from '@/components/ui/input';
 import InputError from '@/molecules/InputError';
+import { useTranslations } from 'next-intl';
 
 type PasswordFieldProps = {
   onChangePassword: (v: string) => void;
@@ -8,6 +9,7 @@ type PasswordFieldProps = {
   passwordConfirmError: string | null;
 };
 export default function PasswordField(props: Readonly<PasswordFieldProps>) {
+  const t = useTranslations('SignUp.Password');
   const { onChangePassword, onChangePasswordConfirm, passwordConfirmError, passwordError } = props;
   return (
     <div className="grid gap-3">
@@ -17,7 +19,7 @@ export default function PasswordField(props: Readonly<PasswordFieldProps>) {
       <Input
         id="password"
         type="password"
-        placeholder="Password 입력"
+        placeholder={t('passwordPlaceholder')}
         onChange={(e) => onChangePassword(e.currentTarget.value)}
         required
       />
@@ -25,7 +27,7 @@ export default function PasswordField(props: Readonly<PasswordFieldProps>) {
       <Input
         id="password-confirm"
         type="password"
-        placeholder="Password 확인"
+        placeholder={t('passwordConfirmPlaceholder')}
         onChange={(e) => onChangePasswordConfirm(e.currentTarget.value)}
         required
       />

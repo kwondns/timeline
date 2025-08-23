@@ -3,6 +3,7 @@ import { validateCodeAction } from '@/actions/signUp.action';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type CodeFieldProps = {
   email: string;
@@ -15,34 +16,35 @@ type CodeFieldProps = {
 
 export default function CodeField(props: CodeFieldProps) {
   const { email, code, onCodeChange, isValidated, onSuccess, onFailure } = props;
+  const t = useTranslations();
   const { run, loading } = useAsyncAction(() => validateCodeAction({ email, code }), {
     onSuccess: () => {
-      toast.success('인증 완료!');
+      toast.success(t('Toast.SignUp.codeSuccessToast'));
       onSuccess();
     },
     onError: (e) => {
       toast.error(e.message);
       onFailure();
     },
-    loadingMessage: '인증번호 확인중...',
+    loadingMessage: t('Toast.SignUp.codeLoadingToast'),
   });
   return (
     <>
       <div className={`grid gap-3 grow mt-6`}>
-        <label htmlFor="code">인증번호</label>
+        <label htmlFor="code">{t('SignUp.Code.code')}</label>
         <Input
           onChange={(e) => onCodeChange(e.currentTarget.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') run();
           }}
           id="code"
-          placeholder="인증번호 입력"
+          placeholder={t('SignUp.Code.codePlaceholder')}
           required
           disabled={loading || isValidated}
         />
       </div>
       <Button className="self-end" variant="outline" onClick={run} disabled={loading || isValidated || !code}>
-        확인
+        {t('SignUp.Code.codeSubmit')}
       </Button>
     </>
   );

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/atoms/Icon';
 import Typography from '@/atoms/Typography';
 import { Dispatch, SetStateAction } from 'react';
+import { useTranslations } from 'next-intl';
 
 type ChatButtonProps = {
   isOpen: boolean;
@@ -15,6 +16,8 @@ export default function ChatButton(props: Readonly<ChatButtonProps>) {
   const onClickButton = () => {
     setIsOpenAction((prev) => !prev);
   };
+
+  const t = useTranslations('Navigation');
   return (
     <Button
       className="relative w-16 z-[1000] rounded-4xl !px-10 self-end dark:hover:bg-accent/90"
@@ -34,7 +37,7 @@ export default function ChatButton(props: Readonly<ChatButtonProps>) {
           `}
       >
         {Icon.message}
-        <Typography.span>챗봇</Typography.span>
+        <Typography.span>{t('chatbot')}</Typography.span>
       </div>
     </Button>
   );

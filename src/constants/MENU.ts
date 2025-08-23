@@ -2,27 +2,27 @@ import { Icon } from '@/atoms/Icon';
 
 export default [
   {
-    title: '현재',
+    key: 'present',
     url: '/present',
     icon: Icon['time'],
   },
   {
-    title: '과거',
+    key: 'past',
     url: '/past',
     icon: Icon['sandClock'],
   },
   {
-    title: '달력',
+    key: 'calendar',
     url: '/calendar',
     icon: Icon['calendar'],
   },
   {
-    title: '미래',
+    key: 'future',
     url: '/future',
     icon: Icon['rocket'],
   },
   {
-    title: '시간',
+    key: 'time',
     url: '/time',
     icon: Icon['analytics'],
   },

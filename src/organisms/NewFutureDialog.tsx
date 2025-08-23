@@ -17,10 +17,13 @@ import { Separator } from '@/components/ui/separator';
 import Typography from '@/atoms/Typography';
 import PriorityRadio from '@/molecules/PriorityRadio';
 import FormWrapper from '@/molecules/FormWrapper';
+import { getTranslations } from 'next-intl/server';
 
 type NewFutureDialogProps = { boxId: string; type: 'check' | 'progress' };
-export default function NewFutureDialog(props: NewFutureDialogProps) {
+export default async function NewFutureDialog(props: NewFutureDialogProps) {
   const { boxId, type } = props;
+
+  const t = await getTranslations('Future');
 
   return (
     <Dialog>
@@ -29,24 +32,24 @@ export default function NewFutureDialog(props: NewFutureDialogProps) {
         <FormWrapper serverAction={addFutureAction}>
           <input type="hidden" name="boxId" value={boxId} />
           <DialogHeader>
-            <DialogTitle>새로운 미래</DialogTitle>
-            <DialogDescription className="pb-2">새로운 미래를 설계하세요!</DialogDescription>
+            <DialogTitle>{t('newFutureTitle')}</DialogTitle>
+            <DialogDescription className="pb-2">{t('newSubTitle')}</DialogDescription>
           </DialogHeader>
           <Container className="grid gap-4">
-            <Input name="content" placeholder="내용 작성" />
+            <Input name="content" placeholder={t('newFutureTitlePlaceholder')} />
             {type === 'check' && (
               <>
                 <Separator />
-                <Typography.p>우선순위</Typography.p>
+                <Typography.p>{t('priority')}</Typography.p>
                 <PriorityRadio />
               </>
             )}
           </Container>
           <DialogFooter className="pt-6">
             <DialogClose asChild>
-              <Button variant="outline">취소</Button>
+              <Button variant="outline">{t('cancelButton')}</Button>
             </DialogClose>
-            <Button type="submit">생성하기</Button>
+            <Button type="submit">{t('submitButton')}</Button>
           </DialogFooter>
         </FormWrapper>
       </DialogContent>

@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { Icon } from '@/atoms/Icon';
 import Typography from '@/atoms/Typography';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 
 export default function SplashTemplate({ duration = 500 }) {
   const route = useRouter();

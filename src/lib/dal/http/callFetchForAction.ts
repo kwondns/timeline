@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import { redirect } from '@/i18n/navigation';
 import { isJsonResponse, safeParseJSON } from '@/lib/dal/http/core';
+import { getTokenAndUserId } from '@/lib/auth/token';
 
 // 204일 경우
 export function callFetchForAction<T extends Record<string, any>>(
@@ -55,8 +55,7 @@ export async function callFetchForAction<T, R>(
   payload: T,
   options: RequestInit & { expectNoContent?: boolean; auth?: boolean } = {},
 ): Promise<R | void> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('auth-token')?.value;
+  const { token, locale } = await getTokenAndUserId();
 
   const header = new Headers(options?.headers);
   header.set('Content-Type', 'application/json');
@@ -70,7 +69,7 @@ export async function callFetchForAction<T, R>(
 
   // 401은 미들웨어에서 이미 처리되었으므로 여기서는 간단히 리다이렉트
   if (response.status === 401) {
-    redirect('/sign/in?toast=loginRequired');
+    redirect({ href: '/sign/in?toast=loginRequired', locale });
   }
 
   if (!response.ok) {
