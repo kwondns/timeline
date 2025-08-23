@@ -20,7 +20,7 @@ export default function ChatButton(props: Readonly<ChatButtonProps>) {
   const t = useTranslations('Navigation');
   return (
     <Button
-      className="relative w-16 z-[1000] rounded-4xl !px-10 self-end dark:hover:bg-accent/90"
+      className="relative inline-flex z-[1000] rounded-4xl !px-4 self-end dark:hover:bg-accent/90"
       variant="outline"
       onClick={onClickButton}
     >
@@ -31,7 +31,7 @@ export default function ChatButton(props: Readonly<ChatButtonProps>) {
       </div>
       <div
         className={`
-            absolute inset-0 flex items-center justify-center space-x-1
+            flex items-center justify-center space-x-1
             transition-all duration-200 ease-in-out
             ${isOpen ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}
           `}
