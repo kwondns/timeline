@@ -5,17 +5,22 @@
     "calendar": "Calendar",
     "future": "Future",
     "time": "Time",
-    "chatbot": "Chatbot"
+    "chatbot": "Ask",
+    "Setting": {
+      "theme": "Change Theme",
+      "language" : "Change Language"
+    },
+    "signOut": "Sign Out"
   },
   "Auth": {
-    "signin": "Sign In",
+    "signIn": "Sign In",
     "name": "Name",
     "signUp": "Sign Up",
-    "demo": "Demo Version",
-    "signOut": "Sign Out"
+    "demo": "Demo Version"
   },
   "SignUp": {
     "title": "Sign Up",
+    "back": "Back",
     "Email": {
       "emailPlaceholder": "Enter Email",
       "emailSubmit": "Verify"
@@ -43,15 +48,15 @@
     "resting": "Resting",
     "working": "Working",
     "titlePlaceholder": "Enter Title",
-    "contentPlaceholder": "Keep writing consistently!",
+    "contentPlaceholder": "Keep Going!",
     "tempSave": "Save Draft",
-    "save": "Complete"
+    "save": "Finish Work",
+    "start": "Start Work"
   },
   "Past": {
-    "noContent": "No content available!",
+    "noContent": "No activities found!",
     "skeletonTime": "--h --m",
-    "skeletonLoading": "Loading...",
-    "noActivity": "No activities found!"
+    "skeletonLoading": "Loading..."
   },
   "Calender": {
     "sun": "Sun",
@@ -89,11 +94,9 @@
     "chartTime": "Working Hours",
     "lastCompletedFuture": "Recently Completed Tasks"
   },
-  "Setting": {
-    "theme": "Change Theme"
-  },
   "ValidateInput": {
     "email": "Please enter a valid email!",
+    "password": "Please enter your password!",
     "passwordMin": "Password must be at least 8 characters!",
     "passwordNum": "Password must include at least 1 number!",
     "passwordSymbol": "Password must include at least 1 special character!",
@@ -103,7 +106,7 @@
   "Error": {
     "unknownError": "An unknown error occurred.",
     "GlobalErrorPage": {
-      "SystemError": "System Error",
+      "systemError": "System Error",
       "errorText": "An issue has occurred in the Timeline app.",
       "tryLater": "Please try again later.",
       "tryAgain": "Try Again",
@@ -112,7 +115,7 @@
       "description2": "or restart your browser."
     },
     "NotFoundPage": {
-      "Title": "Page Not Found",
+      "title": "Page Not Found",
       "description1": "The requested page does not exist or may have been moved.",
       "description2": "Lost in the flow of time?",
       "backToPresent": "Return to Present",
@@ -127,8 +130,9 @@
       "loading": "Recording...",
       "startSuccess": "Recording Started!",
       "saveSuccess": "Recording Completed!",
-      "cleanUpStorage": "Storage Cleaned!",
-      "error": "Recording Failed!"
+      "cleanUpStorage": " Storage Cleaned!",
+      "error": "Recording Failed!",
+      "startFirst": "Please start the task first!"
     },
     "SignUp": {
       "signUpLoadingToast": "Processing Sign Up...",
@@ -139,6 +143,9 @@
       "emailSuccessToast": "Please Check Your Email!"
     },
     "Auth": {
+      "authLoadingToast": "Authenticating...",
+      "authSuccessToast": "Authentication Successful!",
+      "authErrorToast": "Authentication Failed!",
       "loginRequiredToast": "Login Required!",
       "demoAuthLoadingToast": "Checking Demo Account...",
       "demoAuthSuccessToast": "Demo Authentication Completed!"
@@ -151,5 +158,11 @@
       "updateSuccess": "Update Completed!",
       "updateError": "Update Failed!"
     }
+  },
+  "Date": {
+    "diff": "From {start}, {diff}",
+    "minutes": "{minutes} min",
+    "hours": "{hours} hr",
+    "hoursMinutes": "{hours} hr {minutes} min"
   }
 }
