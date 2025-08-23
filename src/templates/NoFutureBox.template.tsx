@@ -1,10 +1,12 @@
 import { Card } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
+import { getTranslations } from 'next-intl/server';
 
-export default function NoFutureBoxTemplate() {
+export default async function NoFutureBoxTemplate() {
+  const t = await getTranslations('Future');
   return (
     <Card className="p-6 max-h-[450px]">
-      <Typography.span>계획을 추가 해주세요!</Typography.span>
+      <Typography.span>{t('noFutureBox')}</Typography.span>
     </Card>
   );
 }

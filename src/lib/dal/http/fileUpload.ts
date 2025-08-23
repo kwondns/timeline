@@ -1,6 +1,7 @@
 import { ensureValidTokenForAction } from '@/lib/dal/action';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/navigation';
 import { cookies } from 'next/headers';
+import { Locale } from '@/i18n/routing';
 
 /**
  * @function fileUpload
@@ -22,10 +23,9 @@ import { cookies } from 'next/headers';
  * @see https://developer.mozilla.org/ko/docs/Web/API/Fetch_API
  */
 export const fileUpload = async (payload: File[] | File, uri?: string, num?: number): Promise<string[]> => {
+  const locale: Locale = ((await cookies()).get('NEXT_LOCALE')?.value as Locale) ?? 'ko';
   const tokenResult = await ensureValidTokenForAction();
-  if (!tokenResult.success) {
-    redirect('/sign/in?toast=loginRequired');
-  }
+  if (!tokenResult.success) redirect({ href: '/sign/in?toast=loginRequired', locale });
   const formData = new FormData();
 
   if (payload instanceof Array) payload.forEach((file, index) => formData.append(`file-${index}`, file));
@@ -41,6 +41,6 @@ export const fileUpload = async (payload: File[] | File, uri?: string, num?: num
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
   });
-  if (result.status === 401) redirect('/sign/in?toast=loginRequired');
+  if (result.status === 401) redirect({ href: '/sign/in?toast=loginRequired', locale });
   return result.json();
 };

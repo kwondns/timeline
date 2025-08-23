@@ -4,6 +4,7 @@ import Container from '@/atoms/Container';
 import { Button } from '@/components/ui/button';
 import { usePresentActions } from '@/templates/PresentClient.template';
 import Typography from '@/atoms/Typography';
+import { useTranslations } from 'next-intl';
 
 export type ActionButtonGroupProps = {
   isStarted: boolean;
@@ -27,18 +28,18 @@ const ActionButton = ({
 export default function ActionButtonGroup(props: ActionButtonGroupProps) {
   const { isStarted } = props;
   const { onSave, onTempSave, onStart } = usePresentActions();
-
+  const t = useTranslations('Present');
   return (
     <Container className="gap-2">
       {isStarted ? (
         <>
           <ActionButton isOutline onClick={onTempSave}>
-            임시 저장
+            {t('tempSave')}
           </ActionButton>
-          <ActionButton onClick={onSave}>종료</ActionButton>
+          <ActionButton onClick={onSave}>{t('save')}</ActionButton>
         </>
       ) : (
-        <ActionButton onClick={onStart}>시작하기</ActionButton>
+        <ActionButton onClick={onStart}>{t('start')}</ActionButton>
       )}
     </Container>
   );

@@ -4,12 +4,15 @@ import Typography from '@/atoms/Typography';
 import MarkdownViewer from '@/organisms/MarkdownViewer';
 import Container from '@/atoms/Container';
 import { fromToDiffDateFormat } from '@/lib/utils/date';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 type PastActivityProps = {
   activities: PastActivityType[];
   defaultOpenIndex?: string;
 };
-export default function PastActivity(props: PastActivityProps) {
+export default async function PastActivity(props: PastActivityProps) {
+  const locale = await getLocale();
+  const t = await getTranslations('Date');
   const { activities, defaultOpenIndex } = props;
   return (
     <Accordion type="multiple" defaultValue={defaultOpenIndex ? [defaultOpenIndex] : ['0']}>
@@ -18,7 +21,14 @@ export default function PastActivity(props: PastActivityProps) {
           <AccordionTrigger>
             <Container className="justify-between flex-1">
               <Typography.h4>{activity.title}</Typography.h4>
-              <Typography.p>{fromToDiffDateFormat(activity.startTime, activity.endTime)}</Typography.p>
+              <Typography.p>
+                {fromToDiffDateFormat(
+                  activity.startTime,
+                  activity.endTime,
+                  t as (key: string, values?: Record<string, any>) => string,
+                  locale,
+                )}
+              </Typography.p>
             </Container>
           </AccordionTrigger>
           <AccordionContent>

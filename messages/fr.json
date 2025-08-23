@@ -1,0 +1,171 @@
+{
+  "Navigation": {
+    "present": "Présent",
+    "past": "Passé",
+    "calendar": "Calendrier",
+    "future": "Futur",
+    "time": "Temps",
+    "chatbot": "Demander",
+    "Setting": {
+      "theme": "Changer le Thème",
+      "language": "Changer la Langue"
+    },
+    "signOut": "Se Déconnecter"
+  },
+  "Auth": {
+    "signIn": "Se Connecter",
+    "name": "Nom",
+    "signUp": "S'inscrire",
+    "demo": "Version Démo"
+  },
+  "SignUp": {
+    "title": "Inscription",
+    "back": "Retour",
+    "Email": {
+      "emailPlaceholder": "Entrer l'Email",
+      "emailSubmit": "Vérifier"
+    },
+    "Code": {
+      "code": "Code de Vérification",
+      "codePlaceholder": "Entrer le Code de Vérification",
+      "codeSubmit": "Confirmer"
+    },
+    "Password": {
+      "passwordPlaceholder": "Entrer le Mot de Passe",
+      "passwordConfirmPlaceholder": "Confirmer le Mot de Passe"
+    },
+    "Name": {
+      "userName": "Nom",
+      "namePlaceholder": "Entrer le Nom"
+    },
+    "signUpSubmit": "S'inscrire"
+  },
+  "Splash": {
+    "splashContent": "Enregistrer le Flux du Temps",
+    "skip": "Cliquer pour passer"
+  },
+  "Present": {
+    "resting": "Au repos",
+    "working": "En cours",
+    "titlePlaceholder": "Entrer le Titre",
+    "contentPlaceholder": "Continue comme ça !",
+    "tempSave": "Sauvegarder le Brouillon",
+    "save": "Terminer le Travail",
+    "start": "Commencer le Travail"
+  },
+  "Past": {
+    "noContent": "Aucune activité trouvée !",
+    "skeletonTime": "--h --m",
+    "skeletonLoading": "Chargement..."
+  },
+  "Calendar": {
+    "sun": "Dim",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mer",
+    "thu": "Jeu",
+    "fri": "Ven",
+    "sat": "Sam"
+  },
+  "Future": {
+    "title": "Plans Futurs",
+    "subTitle": "Définir les Objectifs",
+    "newBoxButton": "Nouveau Plan",
+    "newBoxTitle": "Nouveau Plan Futur",
+    "newFutureTitle": "Nouveau Futur",
+    "newSubTitle": "Concevez votre Nouveau Futur !",
+    "newBoxTitlePlaceholder": "Écrire le Plan",
+    "newFutureTitlePlaceholder": "Écrire le Contenu",
+    "newBoxTypeCheckBox": "Case à Cocher",
+    "newBoxTypeProgress": "Progrès",
+    "cancelButton": "Annuler",
+    "submitButton": "Créer",
+    "priority": "Priorité",
+    "priorityHigh": "Haute",
+    "priorityMedium": "Moyenne",
+    "priorityLow": "Basse",
+    "noFutureBox": "Veuillez ajouter un plan !",
+    "noFuture": "Veuillez ajouter une tâche !"
+  },
+  "Time": {
+    "lastOneMonthActivity": "Activité du Dernier Mois",
+    "future": "Futur",
+    "chartActivities": "Publications Créées",
+    "chartTime": "Heures de Travail",
+    "lastCompletedFuture": "Tâches Récemment Terminées"
+  },
+  "ValidateInput": {
+    "email": "Veuillez entrer un email valide !",
+    "password": "Veuillez entrer votre mot de passe !",
+    "passwordMin": "Le mot de passe doit contenir au moins 8 caractères !",
+    "passwordNum": "Le mot de passe doit inclure au moins 1 chiffre !",
+    "passwordSymbol": "Le mot de passe doit inclure au moins 1 caractère spécial !",
+    "passwordDiff": "Les mots de passe ne correspondent pas !",
+    "name": "Veuillez entrer votre nom !"
+  },
+  "Error": {
+    "unknownError": "Une erreur inconnue s'est produite.",
+    "GlobalErrorPage": {
+      "systemError": "Erreur Système",
+      "errorText": "Un problème est survenu dans l'application Timeline.",
+      "tryLater": "Veuillez réessayer plus tard.",
+      "tryAgain": "Réessayer",
+      "backToHome": "Aller à l'Accueil",
+      "description1": "Si le problème persiste, essayez de rafraîchir la page",
+      "description2": "ou redémarrez votre navigateur."
+    },
+    "NotFoundPage": {
+      "title": "Page Non Trouvée",
+      "description1": "La page demandée n'existe pas ou a pu être déplacée.",
+      "description2": "Perdu dans le flux du temps ?",
+      "backToPresent": "Retourner au Présent",
+      "backToPast": "Voir le Passé",
+      "subDescription1": "Si vous avez encore des problèmes,",
+      "subDescription2": "redémarrez depuis la page Présent",
+      "subDescription3": "."
+    }
+  },
+  "Toast": {
+    "Present": {
+      "loading": "Enregistrement...",
+      "startSuccess": "Enregistrement Commencé !",
+      "saveSuccess": "Enregistrement Terminé !",
+      "cleanUpStorage": " Stockage Nettoyé !",
+      "error": "Enregistrement Échoué !",
+      "startFirst": "Veuillez d'abord commencer la tâche !"
+    },
+    "SignUp": {
+      "signUpLoadingToast": "Traitement de l'Inscription...",
+      "signUpSuccessToast": "Inscription Terminée !",
+      "codeLoadingToast": "Vérification du Code...",
+      "codeSuccessToast": "Vérification Terminée !",
+      "emailLoadingToast": "Envoi de l'Email...",
+      "emailSuccessToast": "Veuillez Vérifier votre Email !"
+    },
+    "Auth": {
+      "authLoadingToast": "Authentification...",
+      "authSuccessToast": "Authentification Réussie !",
+      "authErrorToast": "Authentification Échouée !",
+      "loginRequiredToast": "Connexion Requise !",
+      "demoAuthLoadingToast": "Vérification du Compte Démo...",
+      "demoAuthSuccessToast": "Authentification Démo Terminée !"
+    },
+    "Future": {
+      "createLoading": "Création...",
+      "createSuccess": "Création Terminée !",
+      "createError": "Création Échouée !",
+      "updateLoading": "Mise à Jour...",
+      "updateSuccess": "Mise à Jour Terminée !",
+      "updateError": "Mise à Jour Échouée !"
+    }
+  },
+  "Date": {
+    "diff": "Depuis {start}, {diff}",
+    "minutes": "{minutes} min",
+    "hours": "{hours} h",
+    "hoursMinutes": "{hours} h {minutes} min"
+  },
+  "Chat": {
+    "description":"Vous pouvez rechercher les travaux passés.\nExemples :\n- « Qu'ai-je fait concernant GSAP en février 2024 ? »\n- « Quel a été mon dernier style Markdown ? »\n- « Comment implémenter des animations CSS ? »\n- « Trouvez les tâches passées liées à la timeline »\n- « Quel a été mon travail le plus récent sur React ? »\n- « Résumez mes tâches les plus récentes »\n- « Quelle a été ma dernière tâche React ? »\n- « Détails de la dernière tâche »\n- « Quand ai-je travaillé sur la mise en cache dans Next ? »"
+  }
+}

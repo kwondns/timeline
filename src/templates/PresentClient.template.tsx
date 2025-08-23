@@ -9,6 +9,7 @@ import {
 import { callActionWithToast } from '@/lib/utils/action';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type ContextType = {
   title: string | null;
@@ -33,26 +34,29 @@ export default function PresentClientTemplate(props: PresentClientTemplateProps)
   const { title, startTime, initialContent, children } = props;
   const [currentContent, setCurrentContent] = useState(initialContent ?? '');
 
+  const t = useTranslations('Toast.Present');
+  const toastT = useTranslations('Toast.Future');
+
   const onTempSave = useCallback(async () => {
-    await callActionWithToast(() => updatePresentContentAction(currentContent));
-  }, [currentContent]);
+    await callActionWithToast(() => updatePresentContentAction(currentContent), toastT as (key: string) => string);
+  }, [currentContent, toastT]);
 
   const onStart = useCallback(async () => {
-    const loadingToast = toast.loading('기록중...');
+    const loadingToast = toast.loading(t('loading'));
     updatePresentStartAction()
       .then(() => {
         toast.dismiss(loadingToast);
-        toast.success('기록 시작!');
+        toast.success(t('startSuccess'));
       })
       .catch(() => {
         toast.dismiss(loadingToast);
-        toast.error('기록 실패!');
+        toast.error(t('error'));
       });
-  }, []);
+  }, [t]);
 
   const onSave = useCallback(async () => {
     if (title === null || startTime === null) return;
-    const loadingToast = toast.loading('기록중...');
+    const loadingToast = toast.loading(t('loading'));
     updatePresentEndAction({
       title,
       startTime,
@@ -61,17 +65,17 @@ export default function PresentClientTemplate(props: PresentClientTemplateProps)
     })
       .then(() => {
         toast.dismiss(loadingToast);
-        toast.success('기록 완료!');
+        toast.success(t('saveSuccess'));
         setCurrentContent('');
         cleanUpImageAction(startTime).then((res) => {
-          if (res) toast.success(`${res}개 스토리지 정리!`);
+          if (res) toast.success(`${res}${t('cleanUpStorage')}`);
         });
       })
       .catch(() => {
         toast.dismiss(loadingToast);
-        toast.error('기록 실패!');
+        toast.error(t('error'));
       });
-  }, [title, startTime, currentContent]);
+  }, [title, startTime, currentContent, t]);
 
   const contextValue = useMemo(
     () => ({

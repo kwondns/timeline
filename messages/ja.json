@@ -1,0 +1,171 @@
+{
+  "Navigation": {
+    "present": "現在",
+    "past": "過去",
+    "calendar": "カレンダー",
+    "future": "未来",
+    "time": "時間",
+    "chatbot": "チャットボット",
+    "Setting": {
+      "theme": "テーマ変更",
+      "language": "言語変更"
+    },
+    "signOut": "ログアウト"
+  },
+  "Auth": {
+    "signIn": "ログイン",
+    "name": "名前",
+    "signUp": "登録",
+    "demo": "デモ版"
+  },
+  "SignUp": {
+    "title": "会員登録",
+    "back": "戻る",
+    "Email": {
+      "emailPlaceholder": "メールアドレス入力",
+      "emailSubmit": "認証"
+    },
+    "Code": {
+      "code": "認証番号",
+      "codePlaceholder": "認証番号入力",
+      "codeSubmit": "確認"
+    },
+    "Password": {
+      "passwordPlaceholder": "パスワード入力",
+      "passwordConfirmPlaceholder": "パスワード確認"
+    },
+    "Name": {
+      "userName": "名前",
+      "namePlaceholder": "名前入力"
+    },
+    "signUpSubmit": "登録"
+  },
+  "Splash": {
+    "splashContent": "時の流れを記録する",
+    "skip": "画面をクリックしてスキップ"
+  },
+  "Present": {
+    "resting": "休憩中",
+    "working": "進行中",
+    "titlePlaceholder": "タイトル入力",
+    "contentPlaceholder": "継続して作成しよう！",
+    "tempSave": "一時保存",
+    "save": "終了",
+    "start": "開始"
+  },
+  "Past": {
+    "noContent": "作業内容がありません！",
+    "skeletonTime": "--時 --分",
+    "skeletonLoading": "読み込み中..."
+  },
+  "Calendar": {
+    "sun": "日",
+    "mon": "月",
+    "tue": "火",
+    "wed": "水",
+    "thu": "木",
+    "fri": "金",
+    "sat": "土"
+  },
+  "Future": {
+    "title": "未来の計画",
+    "subTitle": "目標設定",
+    "newBoxButton": "新しい計画",
+    "newBoxTitle": "新しい未来計画",
+    "newFutureTitle": "新しい未来",
+    "newSubTitle": "新しい未来を設計しよう！",
+    "newBoxTitlePlaceholder": "計画作成",
+    "newFutureTitlePlaceholder": "内容作成",
+    "newBoxTypeCheckBox": "チェックボックス",
+    "newBoxTypeProgress": "進行率",
+    "cancelButton": "キャンセル",
+    "submitButton": "作成",
+    "priority": "優先順位",
+    "priorityHigh": "高",
+    "priorityMedium": "中",
+    "priorityLow": "低",
+    "noFutureBox": "計画を追加してください！",
+    "noFuture": "作業を追加してください！"
+  },
+  "Time": {
+    "lastOneMonthActivity": "最近1ヶ月の活動",
+    "future": "未来",
+    "chartActivities": "作成した投稿",
+    "chartTime": "作業時間",
+    "lastCompletedFuture": "最近完了した作業"
+  },
+  "ValidateInput": {
+    "email": "正しいメールアドレスを入力してください！",
+    "password": "パスワードを入力してください！",
+    "passwordMin": "パスワードは最低8文字以上である必要があります！",
+    "passwordNum": "パスワードに数字を最低1つ含める必要があります！",
+    "passwordSymbol": "パスワードに特殊文字を最低1つ含める必要があります！",
+    "passwordDiff": "パスワードが異なります！",
+    "name": "名前を入力してください！"
+  },
+  "Error": {
+    "unknownError": "不明なエラーが発生しました。",
+    "GlobalErrorPage": {
+      "systemError": "システムエラー",
+      "errorText": "タイムラインアプリで問題が発生しました。",
+      "tryLater": "しばらくしてから再試行してください。",
+      "tryAgain": "再試行",
+      "backToHome": "ホームに移動",
+      "description1": "問題が続く場合は、ページを更新するか",
+      "description2": "ブラウザを再起動してみてください。"
+    },
+    "NotFoundPage": {
+      "title": "ページが見つかりません",
+      "description1": "リクエストされたページが存在しないか、移動された可能性があります。",
+      "description2": "時の流れの中で道に迷いましたか？",
+      "backToPresent": "現在に戻る",
+      "backToPast": "過去を見る",
+      "subDescription1": "まだ問題がある場合は、",
+      "subDescription2": "現在のページ",
+      "subDescription3": "から再開してみてください。"
+    }
+  },
+  "Toast": {
+    "Present": {
+      "loading": "記録中...",
+      "startSuccess": "記録開始！",
+      "saveSuccess": "記録完了！",
+      "cleanUpStorage": "個のストレージ整理！",
+      "error": "記録失敗！",
+      "startFirst": "作業を先に開始してください！"
+    },
+    "SignUp": {
+      "signUpLoadingToast": "登録処理中...",
+      "signUpSuccessToast": "登録完了！",
+      "codeLoadingToast": "認証番号確認中...",
+      "codeSuccessToast": "認証完了！",
+      "emailLoadingToast": "メール送信中...",
+      "emailSuccessToast": "メールを確認してください！"
+    },
+    "Auth": {
+      "authLoadingToast": "認証中...",
+      "authSuccessToast": "認証完了！",
+      "authErrorToast": "認証失敗！",
+      "loginRequiredToast": "ログインが必要です！",
+      "demoAuthLoadingToast": "デモアカウント確認中...",
+      "demoAuthSuccessToast": "デモアカウントで認証完了！"
+    },
+    "Future": {
+      "createLoading": "作成中...",
+      "createSuccess": "作成完了！",
+      "createError": "作成失敗！",
+      "updateLoading": "修正中...",
+      "updateSuccess": "修正完了！",
+      "updateError": "修正失敗！"
+    }
+  },
+  "Date": {
+    "diff": "{start}から{diff}",
+    "minutes": "{minutes}分",
+    "hours": "{hours}時間",
+    "hoursMinutes": "{hours}時間{minutes}分"
+  },
+  "Chat": {
+    "description": "過去の作業を検索できます。\n例：\n- 「2024年2月にGSAPに関連して何を作業しましたか？」\n- 「一番最近に行ったマークダウンのスタイリングは何ですか？」\n- 「CSSアニメーションを実装する方法は何がありますか？」\n- 「タイムライン関連の過去作業を探してください」\n- 「最新のReact作業内容は何ですか？」\n- 「最近の作業内容を要約してください」\n- 「最後のReact作業は何でしたか？」\n- 「最後の作業内容」\n- 「Nextでキャッシュを扱った作業はいつでしたか？」"
+  }
+}

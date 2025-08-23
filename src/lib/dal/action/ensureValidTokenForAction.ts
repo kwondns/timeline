@@ -2,6 +2,8 @@
 
 import { performTokenRefreshForAction, shouldRefreshTokenForAction } from '@/lib/dal/action/core';
 import { verifySession } from '@/lib/auth/session';
+import { cookies } from 'next/headers';
+import { Locale } from '@/i18n/routing';
 
 /**
  * 서버 액션에서 사용할 토큰 검증/갱신 함수
@@ -23,9 +25,11 @@ import { verifySession } from '@/lib/auth/session';
 
 export async function ensureValidTokenForAction(): Promise<{
   success: boolean;
+  locale: Locale;
   userId?: string;
   accessToken?: string;
 }> {
+  const locale: Locale = ((await cookies()).get('NEXT_LOCALE')?.value as Locale) ?? 'ko';
   try {
     // 토큰 갱신 필요성 확인
     const needsRefresh = await shouldRefreshTokenForAction();
@@ -36,6 +40,7 @@ export async function ensureValidTokenForAction(): Promise<{
       return {
         success: true,
         userId: session?.userId,
+        locale: locale,
       };
     }
 
@@ -43,15 +48,16 @@ export async function ensureValidTokenForAction(): Promise<{
     const refreshResult = await performTokenRefreshForAction();
 
     if (!refreshResult.success) {
-      return { success: false };
+      return { success: false, locale };
     }
 
     return {
       success: true,
+      locale,
       userId: refreshResult.userId,
       accessToken: refreshResult.accessToken,
     };
   } catch (error) {
-    return { success: false };
+    return { success: false, locale };
   }
 }

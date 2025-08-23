@@ -1,3 +1,5 @@
+import { ensureDate } from '@/lib/utils/date/ensureDate';
+
 /**
  * @function createPastLink
  * @description 특정 날짜와 선택적 index를 기반으로 과거 링크를 생성합니다.
@@ -23,5 +25,5 @@
 export const createPastLink = (date: string, index: string = '0'): string => {
   const count = index === '0' ? '' : `?index=${index}`;
 
-  return `/past/${new Date(new Date(date).getTime() + 9 * 1000 * 60 * 60).toISOString().slice(0, 10)}${count}`;
+  return `/past/${new Date(ensureDate(date).getTime() + 9 * 1000 * 60 * 60).toISOString().slice(0, 10)}${count}`;
 };

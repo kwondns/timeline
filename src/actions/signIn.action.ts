@@ -4,14 +4,15 @@ import { z } from 'zod';
 import { callFetchForAction } from '@/lib/dal/http';
 import { createSession } from '@/lib/auth/session';
 import { setCookie } from '@/lib/auth/cookie';
-import { SignInSchema } from '@/schemas/signIn.schema';
+import { createSignInSchema, SignInType } from '@/schemas/signIn.schema';
 import { AuthResponseType } from '@/types/auth.type';
-
-type SignInType = z.infer<typeof SignInSchema>;
+import { getLocale } from 'next-intl/server';
 
 export default async function signInAction(payload: SignInType) {
   try {
-    const body = SignInSchema.safeParse(payload);
+    const locale = await getLocale();
+    const signInSchema = await createSignInSchema(locale);
+    const body = signInSchema.safeParse(payload);
     if (!body.success) return { errors: z.treeifyError(body.error).properties };
 
     const { userId, accessToken, refreshToken } = await callFetchForAction<SignInType, AuthResponseType>(

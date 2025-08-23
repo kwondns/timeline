@@ -4,14 +4,11 @@ import { callFetchForAction } from '@/lib/dal/http';
 import { AuthResponseType } from '@/types/auth.type';
 import { createSession } from '@/lib/auth/session';
 import { setCookie } from '@/lib/auth/cookie';
-import { z } from 'zod';
-import { SignInSchema } from '@/schemas/signIn.schema';
-
-type SignInDemoType = z.infer<typeof SignInSchema>;
+import { SignInType } from '@/schemas/signIn.schema';
 
 export default async function signInToDemoAction() {
   try {
-    const { userId, accessToken, refreshToken } = await callFetchForAction<SignInDemoType, AuthResponseType>(
+    const { userId, accessToken, refreshToken } = await callFetchForAction<SignInType, AuthResponseType>(
       '/user/sign-in',
       {
         email: process.env.DEMO_EMAIL,

@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifySessionInMiddleware, refreshTokenInMiddleware } from '@/lib/middleware';
+import { routing } from '@/i18n/routing';
+import createMiddleware from 'next-intl/middleware';
+import { getLocale, stripLocale } from '@/lib/middleware/i18n';
+
+const intlMiddleware = createMiddleware(routing);
 
 const PROTECTED_ROUTES = [
   '/past',
@@ -16,13 +21,10 @@ const PROTECTED_ROUTES = [
 const AUTH_ROUTES = ['/sign/in', '/sign/up'] as const;
 
 const isProtectedRoute = (pathname: string): boolean => {
-  return PROTECTED_ROUTES.some((route) => {
-    if (route.endsWith('/:path*')) {
-      const base = route.replace('/:path*', '');
-      return pathname.startsWith(`${base}/`);
-    }
-    return pathname === route;
-  });
+  const path = stripLocale(pathname);
+  return PROTECTED_ROUTES.some((route) =>
+    route.endsWith('/:path*') ? path.startsWith(route.replace('/:path*', '') + '/') : path === route,
+  );
 };
 
 const handleAuthPages = async (request: NextRequest) => {
@@ -31,7 +33,7 @@ const handleAuthPages = async (request: NextRequest) => {
 
   // 갱신 성공 시 즉시 present로 이동
   if (refreshResult.success && refreshResult.session?.userId) {
-    const response = NextResponse.redirect(new URL('/present', request.url));
+    const response = NextResponse.redirect(new URL(`/${request.nextUrl.locale}/present`, request.url));
     // 갱신된 쿠키를 응답에 복사
     if (refreshResult.response) {
       refreshResult.response.cookies.getAll().forEach((cookie) => {
@@ -52,7 +54,7 @@ const handleAuthPages = async (request: NextRequest) => {
   const access = request.cookies.get('auth-token')?.value;
 
   if (session?.isAuth && session.userId && access) {
-    return NextResponse.redirect(new URL('/present', request.url));
+    return NextResponse.redirect(new URL(`/${request.nextUrl.locale}/present`, request.url));
   }
 
   return NextResponse.next();
@@ -71,14 +73,23 @@ const handleProtectedPages = async (request: NextRequest) => {
       return res;
     }
   }
-
-  return NextResponse.redirect(new URL('/sign/in', request.url));
+  return NextResponse.redirect(new URL(`/${request.nextUrl.locale}/sign/in`, request.url));
 };
 
 export default async function middleware(request: NextRequest) {
+  const intlResponse = intlMiddleware(request);
+  if (intlResponse) {
+    const locale = getLocale(request.nextUrl.pathname);
+    intlResponse.cookies.set('NEXT_LOCALE', locale, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365,
+    });
+    return intlResponse;
+  }
+
   const { pathname } = request.nextUrl;
 
-  if (AUTH_ROUTES.includes(pathname as any)) {
+  if (AUTH_ROUTES.some((route) => stripLocale(pathname) === route)) {
     return handleAuthPages(request);
   }
 
@@ -91,16 +102,8 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/past',
-    '/calendar',
-    '/present',
-    '/future',
-    '/time',
-    '/past/:path*',
-    '/present/:path*',
-    '/future/:path*',
-    '/time/:path*',
-    '/sign/in',
-    '/sign/up',
+    '/:locale(en|ko|es|fr|ja|zh-cn)/(sign/in|sign/up)',
+    '/:locale(en|ko|es|fr|ja|zh-cn)/(past|calendar|present|future|time)(/:path*)?',
+    '/:locale(en|ko|es|fr|ja|zh-cn)/:path*',
   ],
 };

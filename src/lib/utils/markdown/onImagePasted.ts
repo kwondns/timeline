@@ -97,6 +97,7 @@ export const onImagePasted = async (
   dataTransfer: DataTransfer,
   uri: string,
   setMarkdown: (value: string) => void,
+  errorText: string,
 ) => {
   const files: File[] = [];
   for (let index = 0; index < dataTransfer.items.length; index += 1) {
@@ -106,7 +107,7 @@ export const onImagePasted = async (
       event.preventDefault();
       files.push(file);
       if (uri === '') {
-        toast.error('작업을 먼저 시작해주세요!');
+        toast.error(errorText);
         return;
       }
     }

@@ -1,5 +1,5 @@
 import { ensureValidTokenForAction } from '@/lib/dal/action';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/navigation';
 
 /**
  * @function withTokenValidation
@@ -34,10 +34,10 @@ export function withTokenValidation<T extends unknown[], R>(
   action: (...args: T) => Promise<R>,
 ): (...args: T) => Promise<R> {
   return async (...args: T) => {
-    const { success } = await ensureValidTokenForAction();
+    const { success, locale } = await ensureValidTokenForAction();
 
     if (!success) {
-      redirect('/sign/in?toast=loginRequired');
+      redirect({ href: '/sign/in?toast=loginRequired', locale });
     }
     return await action(...args);
   };

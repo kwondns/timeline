@@ -1,26 +1,17 @@
 import { Badge } from '@/components/ui/badge';
+import { getTranslations } from 'next-intl/server';
+import generatePriorityBadgeContent from '@/lib/utils/generatePriorityBadgeContent';
 
 type PriorityBadgeProps = {
   priority: 1 | 2 | 3;
   className?: string;
 };
-export default function PriorityBadge(props: PriorityBadgeProps) {
+export default async function PriorityBadge(props: PriorityBadgeProps) {
   const { priority, className = '' } = props;
-  let badgeContent: string;
-  let badgeColor: 'rose' | 'info' | 'green';
-  switch (priority) {
-    case 1:
-      badgeContent = '높음';
-      badgeColor = 'rose';
-      break;
-    case 2:
-      badgeContent = '중간';
-      badgeColor = 'info';
-      break;
-    case 3:
-      badgeContent = '낮음';
-      badgeColor = 'green';
-  }
+
+  const t = await getTranslations('Future');
+
+  const { badgeContent, badgeColor } = generatePriorityBadgeContent(t as (key: string) => string, priority);
 
   return (
     <Badge className={className} variant={badgeColor}>

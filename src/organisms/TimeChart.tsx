@@ -4,7 +4,7 @@ import { Legend } from 'recharts';
 import TimeChartTooltip from '@/molecules/TimeChartTooltip';
 import { MouseHandlerDataParam } from 'recharts/types/synchronisation/types';
 import { createPastLink } from '@/lib/utils/date';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { TimePastType } from '@/types/time.type';
 import dynamic from 'next/dynamic';
 

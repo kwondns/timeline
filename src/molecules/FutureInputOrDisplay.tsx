@@ -4,6 +4,7 @@ import { updateFutureAction } from '@/actions/updateFuture';
 import InputOrDisplay from '@/atoms/InputOrDisplay';
 import { useState } from 'react';
 import { callActionWithToast } from '@/lib/utils/action';
+import { useTranslations } from 'next-intl';
 
 type FutureInputOrDisplayProps = {
   id: string;
@@ -27,9 +28,13 @@ const FUTURE_INPUT_OR_DISPLAY_CONFIG = {
 export default function FutureInputOrDisplay(props: FutureInputOrDisplayProps) {
   const { id, value, category } = props;
   const [currentValue, setCurrentValue] = useState(value);
+  const t = useTranslations('Toast.Future');
   const handleUpdate = async () => {
     if (currentValue === value) return;
-    await callActionWithToast(() => updateFutureAction({ id, value: currentValue, category }));
+    await callActionWithToast(
+      () => updateFutureAction({ id, value: currentValue, category }),
+      t as (key: string) => string,
+    );
   };
 
   return (

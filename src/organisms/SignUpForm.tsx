@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button';
 import { signUpAction } from '@/actions/signUp.action';
 import Container from '@/atoms/Container';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import CodeField from '@/molecules/CodeField';
 import EmailField from '@/molecules/EmailField';
 import NameField from '@/molecules/NameField';
 import PasswordField from '@/molecules/PasswordField';
 import useAsyncAction from '@/hooks/useAsyncAction';
 import { FADEIN_HIDDEN, FADEIN_VIEW } from '@/constants/TRANSITION';
+import { useTranslations } from 'next-intl';
 
 const FieldContainer = ({
   trigger,
@@ -43,9 +44,11 @@ export default function SignUpForm() {
   const [passwordConfirmError, setPasswordConfirmError] = useState<string | null>(null);
   const route = useRouter();
 
+  const t = useTranslations();
+
   const { run, loading } = useAsyncAction(() => signUpAction({ email, password, passwordConfirm, name }), {
     onSuccess: () => {
-      toast.success('가입 완료!');
+      toast.success(t('Toast.SignUp.signUpSuccessToast'));
       route.replace('/sign/in');
     },
     onError: (e) => {
@@ -57,7 +60,7 @@ export default function SignUpForm() {
       if (e?.passwordConfirm) setPasswordConfirmError(e.passwordConfirm.errors[0]);
       else setPasswordConfirmError(null);
     },
-    loadingMessage: '가입 처리중...',
+    loadingMessage: t('Toast.SignUp.signUpLoadingToast'),
   });
   return (
     <Container direction="column">
@@ -97,7 +100,7 @@ export default function SignUpForm() {
           onClick={run}
           disabled={!isEmailValidated || !password || !passwordConfirm || !name || !isValidated || loading}
         >
-          가입하기
+          {t('SignUp.signUpSubmit')}
         </Button>
       </FieldContainer>
     </Container>

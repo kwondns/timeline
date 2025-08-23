@@ -1,0 +1,171 @@
+{
+  "Navigation": {
+    "present": "Present",
+    "past": "Past",
+    "calendar": "Calendar",
+    "future": "Future",
+    "time": "Time",
+    "chatbot": "Ask",
+    "Setting": {
+      "theme": "Change Theme",
+      "language" : "Change Language"
+    },
+    "signOut": "Sign Out"
+  },
+  "Auth": {
+    "signIn": "Sign In",
+    "name": "Name",
+    "signUp": "Sign Up",
+    "demo": "Demo Version"
+  },
+  "SignUp": {
+    "title": "Sign Up",
+    "back": "Back",
+    "Email": {
+      "emailPlaceholder": "Enter Email",
+      "emailSubmit": "Verify"
+    },
+    "Code": {
+      "code": "Verification Code",
+      "codePlaceholder": "Enter Verification Code",
+      "codeSubmit": "Confirm"
+    },
+    "Password": {
+      "passwordPlaceholder": "Enter Password",
+      "passwordConfirmPlaceholder": "Confirm Password"
+    },
+    "Name": {
+      "userName": "Name",
+      "namePlaceholder": "Enter Name"
+    },
+    "signUpSubmit": "Sign Up"
+  },
+  "Splash": {
+    "splashContent": "Recording the Flow of Time",
+    "skip": "Click to Skip"
+  },
+  "Present": {
+    "resting": "Resting",
+    "working": "Working",
+    "titlePlaceholder": "Enter Title",
+    "contentPlaceholder": "Keep Going!",
+    "tempSave": "Save Draft",
+    "save": "Finish Work",
+    "start": "Start Work"
+  },
+  "Past": {
+    "noContent": "No activities found!",
+    "skeletonTime": "--h --m",
+    "skeletonLoading": "Loading..."
+  },
+  "Calendar": {
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat"
+  },
+  "Future": {
+    "title": "Future Plans",
+    "subTitle": "Set Goals",
+    "newBoxButton": "New Plan",
+    "newBoxTitle": "New Future Plan",
+    "newFutureTitle": "New Future",
+    "newSubTitle": "Design Your New Future!",
+    "newBoxTitlePlaceholder": "Write Plan",
+    "newFutureTitlePlaceholder": "Write Content",
+    "newBoxTypeCheckBox": "Checkbox",
+    "newBoxTypeProgress": "Progress",
+    "cancelButton": "Cancel",
+    "submitButton": "Create",
+    "priority": "Priority",
+    "priorityHigh": "High",
+    "priorityMedium": "Medium",
+    "priorityLow": "Low",
+    "noFutureBox": "Please add a plan!",
+    "noFuture": "Please add a task!"
+  },
+  "Time": {
+    "lastOneMonthActivity": "Last Month's Activity",
+    "future": "Future",
+    "chartActivities": "Posts Created",
+    "chartTime": "Working Hours",
+    "lastCompletedFuture": "Recently Completed Tasks"
+  },
+  "ValidateInput": {
+    "email": "Please enter a valid email!",
+    "password": "Please enter your password!",
+    "passwordMin": "Password must be at least 8 characters!",
+    "passwordNum": "Password must include at least 1 number!",
+    "passwordSymbol": "Password must include at least 1 special character!",
+    "passwordDiff": "Passwords do not match!",
+    "name": "Please enter your name!"
+  },
+  "Error": {
+    "unknownError": "An unknown error occurred.",
+    "GlobalErrorPage": {
+      "systemError": "System Error",
+      "errorText": "An issue has occurred in the Timeline app.",
+      "tryLater": "Please try again later.",
+      "tryAgain": "Try Again",
+      "backToHome": "Go to Home",
+      "description1": "If the problem persists, try refreshing the page",
+      "description2": "or restart your browser."
+    },
+    "NotFoundPage": {
+      "title": "Page Not Found",
+      "description1": "The requested page does not exist or may have been moved.",
+      "description2": "Lost in the flow of time?",
+      "backToPresent": "Return to Present",
+      "backToPast": "View Past",
+      "subDescription1": "If you're still having issues,",
+      "subDescription2": "restart from the Present page",
+      "subDescription3": "."
+    }
+  },
+  "Toast": {
+    "Present": {
+      "loading": "Recording...",
+      "startSuccess": "Recording Started!",
+      "saveSuccess": "Recording Completed!",
+      "cleanUpStorage": " Storage Cleaned!",
+      "error": "Recording Failed!",
+      "startFirst": "Please start the task first!"
+    },
+    "SignUp": {
+      "signUpLoadingToast": "Processing Sign Up...",
+      "signUpSuccessToast": "Sign Up Completed!",
+      "codeLoadingToast": "Verifying Code...",
+      "codeSuccessToast": "Verification Completed!",
+      "emailLoadingToast": "Sending Email...",
+      "emailSuccessToast": "Please Check Your Email!"
+    },
+    "Auth": {
+      "authLoadingToast": "Authenticating...",
+      "authSuccessToast": "Authentication Successful!",
+      "authErrorToast": "Authentication Failed!",
+      "loginRequiredToast": "Login Required!",
+      "demoAuthLoadingToast": "Checking Demo Account...",
+      "demoAuthSuccessToast": "Demo Authentication Completed!"
+    },
+    "Future": {
+      "createLoading": "Creating...",
+      "createSuccess": "Creation Completed!",
+      "createError": "Creation Failed!",
+      "updateLoading": "Updating...",
+      "updateSuccess": "Update Completed!",
+      "updateError": "Update Failed!"
+    }
+  },
+  "Date": {
+    "diff": "From {start}, {diff}",
+    "minutes": "{minutes} min",
+    "hours": "{hours} hr",
+    "hoursMinutes": "{hours} hr {minutes} min"
+  },
+  "Chat": {
+    "description": "You can search through past work.\nExamples:\n- \"What did I work on related to GSAP in February 2024?\"\n- \"What was the most recent markdown styling I did?\"\n- \"How can I implement CSS animations?\"\n- \"Find past timeline-related tasks.\"\n- \"What was my most recent work on React?\"\n- \"Summarize my most recent tasks.\"\n- \"What was my last React task?\"\n- \"Last task details.\"\n- \"When did I work on caching in Next?\""
+  }
+}

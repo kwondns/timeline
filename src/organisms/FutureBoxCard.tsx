@@ -5,6 +5,7 @@ import Container from '@/atoms/Container';
 import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
 import NewFutureDialog from '@/organisms/NewFutureDialog';
 import FutureInputOrDisplay from '@/molecules/FutureInputOrDisplay';
+import { getTranslations } from 'next-intl/server';
 
 export type FutureBoxCardProps = {
   title: string;
@@ -15,8 +16,9 @@ export type FutureBoxCardProps = {
   futures: FutureContentProps[];
 };
 
-export default function FutureBoxCard(props: FutureBoxCardProps) {
+export default async function FutureBoxCard(props: FutureBoxCardProps) {
   const { title, id, checked, type, futures } = props;
+  const t = await getTranslations('Future');
   return (
     <Card className="p-6 max-h-[450px]" id={id}>
       <CardHeader>
@@ -32,7 +34,7 @@ export default function FutureBoxCard(props: FutureBoxCardProps) {
         {futures.map((future) => (
           <FutureContent key={future.id} {...future} />
         ))}
-        {futures.length < 1 && <Typography.h4 className="pl-2">작업을 추가 해주세요!</Typography.h4>}
+        {futures.length < 1 && <Typography.h4 className="pl-2">{t('noFuture')}</Typography.h4>}
       </CardContent>
     </Card>
   );

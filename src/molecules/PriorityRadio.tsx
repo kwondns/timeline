@@ -2,9 +2,9 @@
 
 import Container from '@/atoms/Container';
 import { Button } from '@/components/ui/button';
-import PriorityBadge from '@/atoms/PriorityBadge';
 import { useState, MouseEvent } from 'react';
 import { Input } from '@/components/ui/input';
+import PriorityBadgeClient from '@/atoms/PriorityBadgeClient';
 
 const PRIORITY = ['1', '2', '3'];
 type PRIORITY = 1 | 2 | 3;
@@ -20,7 +20,7 @@ export default function PriorityRadio() {
     <Container className="gap-2">
       {PRIORITY.map((priority) => (
         <Button type="button" key={priority} id={priority} variant="ghost" className="p-0 flex-1" onClick={onClick}>
-          <PriorityBadge
+          <PriorityBadgeClient
             priority={Number(priority) as PRIORITY}
             className={`size-full ${Number(priority) === currentPriority ? 'ring-2 ring-foreground/40' : 'ring-0'}`}
           />

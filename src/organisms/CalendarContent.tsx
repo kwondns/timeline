@@ -2,7 +2,7 @@
 
 import { PastListType } from '@/types/past.type';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { createPastLink } from '@/lib/utils/date';
 
 type CalendarContentProps = {

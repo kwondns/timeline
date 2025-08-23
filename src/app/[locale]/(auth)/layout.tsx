@@ -1,0 +1,29 @@
+import { getUser } from '@/lib/dal/user';
+import ChatbotTemplate from '@/templates/Chatbot.template';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { callGetWithAuth } from '@/lib/dal/http';
+import AppSidebarWrapper from '@/organisms/AppSidebarWrapper';
+import { getTokenAndUserId } from '@/lib/auth/token';
+import PresentClientTemplate from '@/templates/PresentClient.template';
+import { PresentType } from '@/types/present.type';
+
+export const experimental_ppr = true;
+
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const { userId } = await getTokenAndUserId();
+  let user = await getUser();
+  const present = await callGetWithAuth<PresentType>('/present', {
+    next: { revalidate: false },
+    tag: 'present',
+  });
+
+  return (
+    <SidebarProvider className="block" defaultOpen={false}>
+      <PresentClientTemplate title={present.title} startTime={present.startTime} initialContent={present.content}>
+        <AppSidebarWrapper active={!!present?.startTime} name={user?.name ?? ''} />
+        <main className="p-2 md:pl-18 w-dvw h-dvh">{children}</main>
+      </PresentClientTemplate>
+      <ChatbotTemplate userId={userId} />
+    </SidebarProvider>
+  );
+}

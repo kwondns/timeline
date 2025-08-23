@@ -4,12 +4,15 @@ import { Progress } from '@/components/ui/progress';
 import Typography from '@/atoms/Typography';
 import Container from '@/atoms/Container';
 import FutureContent from '@/molecules/FutureContent';
+import { getTranslations } from 'next-intl/server';
 
 type TimeFutureProgressProps = {
   futureBox: TimeFutureType;
 };
-export default function TimeFutureProgress(props: TimeFutureProgressProps) {
+export default async function TimeFutureProgress(props: TimeFutureProgressProps) {
   const { futureBox } = props;
+
+  const t = await getTranslations('Time');
   return (
     <Card className="p-4 bg-card/20 border-card-foreground/30">
       <Container className="justify-between">
@@ -23,7 +26,7 @@ export default function TimeFutureProgress(props: TimeFutureProgressProps) {
           <Progress value={futureBox.progressRatio * 100} />
           <Typography.p>{Math.floor(futureBox.progressRatio * 100)}%</Typography.p>
         </Container>
-        {futureBox.lastCompletedFuture.length > 0 && <Typography.p>최근 완료 작업</Typography.p>}
+        {futureBox.lastCompletedFuture.length > 0 && <Typography.p>{t('lastCompletedFuture')}</Typography.p>}
         <Container className="gap-2 flex-1">
           {futureBox.lastCompletedFuture.map((future) => (
             <FutureContent key={future.id} {...future} />
