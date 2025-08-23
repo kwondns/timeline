@@ -6,12 +6,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { AlertTriangle, RefreshCcw, Home } from 'lucide-react';
 import { useEffect } from 'react';
 import { ThemeProvider } from 'next-themes';
+import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
-    // 에러 로깅 (선택사항)
     console.error('Global error:', error);
   }, [error]);
+
+  const route = useRouter();
+  const onClickBackToPresent = () => {
+    route.push('/present');
+  };
+  const t = useTranslations('Error');
 
   return (
     <html lang="ko">
@@ -30,38 +37,36 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
                   <div className="flex justify-center mb-4">
                     <AlertTriangle className="h-16 w-16 text-destructive animate-pulse" />
                   </div>
-                  <CardTitle className="text-2xl font-bold text-destructive">시스템 오류</CardTitle>
-                  <CardDescription className="text-base">예상치 못한 오류가 발생했습니다</CardDescription>
+                  <CardTitle className="text-2xl font-bold text-destructive">
+                    {t('GlobalErrorPage.systemError')}
+                  </CardTitle>
+                  <CardDescription className="text-base">{t('unknownError')}</CardDescription>
                 </CardHeader>
 
                 <CardContent className="space-y-3">
                   <p className="text-muted-foreground">
-                    타임라인 앱에서 문제가 발생했습니다.
+                    {t('GlobalErrorPage.errorText')}
                     <br />
-                    잠시 후 다시 시도해주세요.
+                    {t('GlobalErrorPage.tryLater')}
                   </p>
 
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button onClick={reset} className="flex items-center gap-2">
                       <RefreshCcw className="h-4 w-4" />
-                      다시 시도
+                      {t('GlobalErrorPage.tryAgain')}
                     </Button>
 
-                    <Button
-                      variant="outline"
-                      onClick={() => (window.location.href = '/present')}
-                      className="flex items-center gap-2"
-                    >
+                    <Button variant="outline" onClick={onClickBackToPresent} className="flex items-center gap-2">
                       <Home className="h-4 w-4" />
-                      홈으로 이동
+                      {t('GlobalErrorPage.backToHome')}
                     </Button>
                   </div>
 
                   <div className="pt-4 border-t">
                     <p className="text-xs text-muted-foreground">
-                      문제가 계속 발생한다면 페이지를 새로고침하거나
+                      {t('GlobalErrorPage.description1')}
                       <br />
-                      브라우저를 다시 시작해보세요.
+                      {t('GlobalErrorPage.description2')}
                     </p>
                   </div>
                 </CardContent>

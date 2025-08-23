@@ -10,12 +10,11 @@ import { PresentType } from '@/types/present.type';
 export const experimental_ppr = true;
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const { userId, token } = await getTokenAndUserId();
-  let user = await getUser(userId, token);
+  const { userId } = await getTokenAndUserId();
+  let user = await getUser();
   const present = await callGetWithAuth<PresentType>('/present', {
-    next: { revalidate: false, tags: [`present-${userId}`] },
-    userId,
-    token,
+    next: { revalidate: false },
+    tag: 'present',
   });
 
   return (

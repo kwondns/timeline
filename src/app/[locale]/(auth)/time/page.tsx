@@ -1,7 +1,7 @@
 import TimeTemplate from '@/templates/Time.template';
-import ActivitySlot from '@/app/(auth)/time/_slot/ActivitySlot';
-import TimeChartSlot from '@/app/(auth)/time/_slot/TimeChartSlot';
-import FuturesSlot from '@/app/(auth)/time/_slot/FuturesSlot';
+import ActivitySlot from '@/app/[locale]/(auth)/time/_slot/ActivitySlot';
+import TimeChartSlot from '@/app/[locale]/(auth)/time/_slot/TimeChartSlot';
+import FuturesSlot from '@/app/[locale]/(auth)/time/_slot/FuturesSlot';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 

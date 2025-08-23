@@ -1,9 +1,12 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Home, ArrowLeft, Clock, AlertCircle } from 'lucide-react';
+import { getLocale, getTranslations } from 'next-intl/server';
 
-export default function NotFound() {
+export default async function NotFound() {
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: 'Error.NotFoundPage' });
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
       <div className="w-full max-w-md">
@@ -16,39 +19,39 @@ export default function NotFound() {
               </div>
             </div>
             <CardTitle className="text-3xl font-bold">404</CardTitle>
-            <CardDescription className="text-lg">페이지를 찾을 수 없습니다</CardDescription>
+            <CardDescription className="text-lg">{t('title')}</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
             <p className="text-muted-foreground">
-              요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.
+              {t('description1')}
               <br />
-              시간의 흐름 속에서 길을 잃으셨나요?
+              {t('description2')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button asChild variant="default">
                 <Link href="/present" className="flex items-center gap-2">
                   <Home className="h-4 w-4" />
-                  현재로 돌아가기
+                  {t('backToPresent')}
                 </Link>
               </Button>
 
               <Button asChild variant="outline">
                 <Link href="/past" className="flex items-center gap-2">
                   <ArrowLeft className="h-4 w-4" />
-                  과거 보기
+                  {t('backToPast')}
                 </Link>
               </Button>
             </div>
 
             <div className="pt-4 border-t">
               <p className="text-sm text-muted-foreground">
-                여전히 문제가 있다면{' '}
+                {t('subDescription1')}{' '}
                 <Link href="/present" className="underline underline-offset-4 hover:text-foreground transition-colors">
-                  현재 페이지
+                  {t('subDescription2')}
                 </Link>
-                에서 다시 시작해보세요.
+                {t('subDescription3')}
               </p>
             </div>
           </CardContent>

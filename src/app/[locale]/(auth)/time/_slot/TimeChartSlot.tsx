@@ -1,10 +1,8 @@
 import TimeChart from '@/organisms/TimeChart';
-import { getPasts } from '@/app/(auth)/time/_api/getPasts';
-import { getTokenAndUserId } from '@/lib/auth/token';
+import { getPasts } from '@/app/[locale]/(auth)/time/_api/getPasts';
 
 export default async function TimeChartSlot() {
-  const { userId, token } = await getTokenAndUserId();
-  const pasts = await getPasts(userId, token);
+  const pasts = await getPasts();
 
   return <TimeChart pasts={pasts} />;
 }

@@ -1,19 +1,18 @@
 import { PastActivityType } from '@/types/past.type';
 import { callGetWithAuth } from '@/lib/dal/http';
 import PastDynamic from '@/organisms/PastDynamic';
-import { getTokenAndUserId } from '@/lib/auth/token';
+import { Locale } from '@/i18n/routing';
 
 export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ date: string }>;
+  params: Promise<{ locale: Locale; date: string }>;
   searchParams: Promise<{ index: string }>;
 }) {
-  const { date } = await params;
+  const { locale, date } = await params;
   const { index } = await searchParams;
 
-  const { userId, token } = await getTokenAndUserId();
   const todayStr = new Date().toISOString().slice(0, 10);
 
   const yesterday = new Date();
@@ -28,10 +27,9 @@ export default async function Page({
   }
 
   const activities = await callGetWithAuth<PastActivityType[]>(`/past/${date}`, {
-    next: { revalidate, tags: [`past-${userId}-${date}`] },
-    userId,
-    token,
+    next: { revalidate },
+    tag: `past-${date}`,
   });
 
-  return <PastDynamic activities={activities} defaultOpenIndex={index} />;
+  return <PastDynamic locale={locale} activities={activities} defaultOpenIndex={index} />;
 }

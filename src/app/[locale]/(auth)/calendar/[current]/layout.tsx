@@ -1,4 +1,5 @@
 import CalendarTemplate from '@/templates/Calendar.template';
+import { Locale } from '@/i18n/routing';
 
 export async function generateStaticParams() {
   const params: { current: string }[] = [];
@@ -15,9 +16,13 @@ export default async function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ current: string }>;
+  params: Promise<{ locale: Locale; current: string }>;
 }) {
-  const { current: currentString } = await params;
+  const { locale, current: currentString } = await params;
   const current = new Date(currentString === undefined ? new Date().toISOString().slice(0, 7) : currentString);
-  return <CalendarTemplate current={current}>{children}</CalendarTemplate>;
+  return (
+    <CalendarTemplate locale={locale} current={current}>
+      {children}
+    </CalendarTemplate>
+  );
 }

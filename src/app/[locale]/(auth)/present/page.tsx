@@ -1,20 +1,17 @@
 import PresentTemplate from '@/templates/Present.template';
 import { Suspense } from 'react';
-import IndicatorSlot from '@/app/(auth)/present/_slot/IndicatorSlot';
-import TitleSlot from '@/app/(auth)/present/_slot/TitleSlot';
-import PresentTimeSlot from '@/app/(auth)/present/_slot/PresentTimeSlot';
-import ActionButtonSlot from '@/app/(auth)/present/_slot/ActionButtonSlot';
-import EditorSlot from '@/app/(auth)/present/_slot/EditorSlot';
+import IndicatorSlot from '@/app/[locale]/(auth)/present/_slot/IndicatorSlot';
+import TitleSlot from '@/app/[locale]/(auth)/present/_slot/TitleSlot';
+import PresentTimeSlot from '@/app/[locale]/(auth)/present/_slot/PresentTimeSlot';
+import ActionButtonSlot from '@/app/[locale]/(auth)/present/_slot/ActionButtonSlot';
+import EditorSlot from '@/app/[locale]/(auth)/present/_slot/EditorSlot';
 import { callGetWithAuth } from '@/lib/dal/http';
 import { PresentType } from '@/types/present.type';
-import { getTokenAndUserId } from '@/lib/auth/token';
 
 export default async function Page() {
-  const { userId, token } = await getTokenAndUserId();
   const present = await callGetWithAuth<PresentType>('/present', {
-    next: { revalidate: false, tags: [`present-${userId}`] },
-    userId,
-    token,
+    next: { revalidate: false },
+    tag: 'present',
   });
 
   return (
