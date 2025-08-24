@@ -56,7 +56,7 @@ export const fromToDiffDateFormat = (
   t: (key: string, values?: Record<string, any>) => string,
   locale: Locale,
 ): string => {
-  const start = ensureDate(endDate).toLocaleTimeString(locale, {
+  const start = ensureDate(startDate).toLocaleTimeString(locale, {
     timeStyle: 'short',
     hour12: false,
     timeZone: 'Asia/Seoul',
