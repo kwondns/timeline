@@ -1,5 +1,6 @@
 import { ChatBubbleProps } from '@/molecules/ChatBubble';
 import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Locale } from '@/i18n/routing';
 
 interface UseChatType {
   setCurrentChat: Dispatch<SetStateAction<string>>;
@@ -8,7 +9,7 @@ interface UseChatType {
 }
 const useChat = ({ setCurrentChat, setIsChatGenerating, setChatHistory }: UseChatType) => {
   const callChat = useCallback(
-    async (payload: { query: string; user_id: string }) => {
+    async (payload: { query: string; user_id: string; locale: Locale }) => {
       let responseContent = '';
       const response = await fetch(`${process.env.NEXT_PUBLIC_CHATBOT_URL}chat`, {
         method: 'POST',

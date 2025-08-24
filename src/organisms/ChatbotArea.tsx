@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import useChat from '@/hooks/useChat';
 import ChatInput from '@/molecules/ChatInput';
 import ChatCard from '@/molecules/ChatCard';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 type ChatbotAreaProps = {
   isOpen: boolean;
@@ -22,6 +22,7 @@ export default function ChatbotArea(props: ChatbotAreaProps) {
   const chatRef = useRef<HTMLDivElement>(null);
   const chatBubblesRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('Chat');
+  const locale = useLocale();
 
   const { callChat } = useChat({ setCurrentChat, setChatHistory, setIsChatGenerating });
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function ChatbotArea(props: ChatbotAreaProps) {
     setIsChatGenerating(true);
     setChatHistory((prev) => prev.concat({ isBot: false, text: currentInput }));
     setCurrentInput('');
-    if (userId) callChat({ query: currentInput, user_id: userId });
+    if (userId) callChat({ query: currentInput, user_id: userId, locale });
   };
 
   if (isMounted)
