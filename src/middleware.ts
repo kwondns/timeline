@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifySessionInMiddleware, refreshTokenInMiddleware } from '@/lib/middleware';
+import { refreshTokenInMiddleware } from '@/lib/middleware';
 import { routing } from '@/i18n/routing';
 import createMiddleware from 'next-intl/middleware';
 import { getLocale, setLocaleCookie, stripLocale } from '@/lib/middleware/i18n';
@@ -28,9 +28,9 @@ const isProtectedRoute = (pathname: string): boolean => {
   );
 };
 
-const handleAuthPages = async (request: NextRequest, response: NextResponse) => {
+const handleAuthPages = async (request: NextRequest, intlResponse: NextResponse) => {
   // 토큰 갱신 시도 후 다시 검증
-  const refreshResult = await refreshTokenInMiddleware(request);
+  const refreshResult = await refreshTokenInMiddleware(request, intlResponse);
 
   const locale = getLocale(request.nextUrl.pathname);
 
@@ -52,22 +52,12 @@ const handleAuthPages = async (request: NextRequest, response: NextResponse) => 
     return successRedirectResponse;
   }
 
-  // 기존 토큰으로 체크
-  const session = await verifySessionInMiddleware(request);
-  const access = request.cookies.get('auth-token')?.value;
-
-  if (session?.isAuth && session.userId && access) {
-    const redirectResponse = NextResponse.redirect(new URL(`/${locale}/present`, request.url));
-    setLocaleCookie(request, redirectResponse);
-    return redirectResponse;
-  }
-
-  return response;
+  return intlResponse;
 };
 
-const handleProtectedPages = async (request: NextRequest) => {
+const handleProtectedPages = async (request: NextRequest, intlResponse: NextResponse) => {
   // 토큰 갱신 시도
-  const result = await refreshTokenInMiddleware(request);
+  const result = await refreshTokenInMiddleware(request, intlResponse);
   const locale = getLocale(request.nextUrl.pathname);
 
   // 갱신 성공이거나 기존 세션이 유효한 경우
@@ -93,7 +83,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   if (isProtectedRoute(pathname)) {
-    return handleProtectedPages(request);
+    return handleProtectedPages(request, intlResponse);
   }
 
   return NextResponse.next();

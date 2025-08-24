@@ -8,7 +8,6 @@ import {
   shouldRefreshToken,
 } from '@/lib/middleware/core';
 import { verifySessionInMiddleware } from '@/lib/middleware/verifySessionInMiddleware';
-import { setLocaleCookie } from '@/lib/middleware/i18n';
 
 /**
  * @function refreshTokenInMiddleware
@@ -35,7 +34,10 @@ import { setLocaleCookie } from '@/lib/middleware/i18n';
  * @see performTokenRefresh — 토큰 갱신을 담당하는 함수입니다.
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise
  */
-export async function refreshTokenInMiddleware(request: NextRequest): Promise<{
+export async function refreshTokenInMiddleware(
+  request: NextRequest,
+  response: NextResponse,
+): Promise<{
   success: boolean;
   session: { isAuth: boolean; userId: string; expiresAt?: number } | null;
   response?: NextResponse;
@@ -50,7 +52,6 @@ export async function refreshTokenInMiddleware(request: NextRequest): Promise<{
     // auth-token 존재 여부와 세션 시간을 함께 고려하여 갱신 필요성 확인
     const needsRefresh = await shouldRefreshToken(request, session);
     if (!needsRefresh) {
-      const response = NextResponse.next();
       setUserIdHeader(response, session.userId);
       return { success: true, session, response };
     }
@@ -75,13 +76,11 @@ export async function refreshTokenInMiddleware(request: NextRequest): Promise<{
     const sessionToken = await encrypt({ userId, expiresAt: newExpiresAt });
 
     // 응답에 새 쿠키 설정
-    const response = NextResponse.next();
     setCookieInResponse(response, 'session', sessionToken, TOKEN_EXPIRY.SESSION);
     setCookieInResponse(response, 'auth-token', accessToken, TOKEN_EXPIRY.ACCESS);
     setCookieInResponse(response, 'refresh-token', refreshToken, TOKEN_EXPIRY.REFRESH);
 
     setUserIdHeader(response, userId);
-    setLocaleCookie(request, response);
 
     // 갱신 성공 시 새로운 세션 정보 반환
     const newSession = { isAuth: true, userId, expiresAt: newExpiresAt };
