@@ -1,4 +1,5 @@
 import { Locale, LOCALE, routing } from '@/i18n/routing';
+import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * @function getLocale
@@ -62,4 +63,36 @@ export function stripLocale(pathname: string) {
     return '/' + parts.slice(2).join('/') || '/';
   }
   return pathname;
+}
+
+/**
+ * @function setLocaleCookie
+ * @description 요청 경로를 기준으로 로케일을 설정하고 해당 정보를
+ * 쿠키에 저장하여 응답 객체에 반환합니다.
+ *
+ * @param {NextRequest} request — 클라이언트로부터 들어온 요청 객체입니다.
+ * 로케일 정보를 추출하기 위해 사용됩니다 (필수).
+ * @param {NextResponse} response — 쿠키가 설정된 새로운 응답 객체입니다.
+ * 클라이언트로 반환되며 로케일 정보가 포함됩니다 (필수).
+ * @returns {NextResponse} — 로케일 정보가 포함된 응답 객체를 반환합니다.
+ *
+ * @example
+ * // 요청 URL이 '/en/home'일 경우 'en' 로케일 설정
+ * import { NextRequest, NextResponse } from 'next/server';
+ *
+ * const request = new NextRequest('https://example.com/en/home');
+ * const response = new NextResponse();
+ *
+ * const updatedResponse = setLocaleCookie(request, response);
+ * console.log(updatedResponse.cookies.get('NEXT_LOCALE')); // 'en'
+ *
+ * @see https://nextjs.org/docs/api-reference/next/server — Next.js 서버측 API 참조
+ */
+export function setLocaleCookie(request: NextRequest, response: NextResponse) {
+  const locale = getLocale(request.nextUrl.pathname);
+  response.cookies.set('NEXT_LOCALE', locale, {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 365,
+  });
+  return response;
 }

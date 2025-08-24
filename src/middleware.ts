@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifySessionInMiddleware, refreshTokenInMiddleware } from '@/lib/middleware';
 import { routing } from '@/i18n/routing';
 import createMiddleware from 'next-intl/middleware';
-import { getLocale, stripLocale } from '@/lib/middleware/i18n';
+import { getLocale, setLocaleCookie, stripLocale } from '@/lib/middleware/i18n';
 import { clearAuthCookies } from '@/lib/middleware/core';
 
 const intlMiddleware = createMiddleware(routing);
@@ -28,7 +28,7 @@ const isProtectedRoute = (pathname: string): boolean => {
   );
 };
 
-const handleAuthPages = async (request: NextRequest) => {
+const handleAuthPages = async (request: NextRequest, response: NextResponse) => {
   // 토큰 갱신 시도 후 다시 검증
   const refreshResult = await refreshTokenInMiddleware(request);
 
@@ -36,11 +36,11 @@ const handleAuthPages = async (request: NextRequest) => {
 
   // 갱신 성공 시 즉시 present로 이동
   if (refreshResult.success && refreshResult.session?.userId) {
-    const response = NextResponse.redirect(new URL(`/${locale}/present`, request.url));
+    const successRedirectResponse = NextResponse.redirect(new URL(`/${locale}/present`, request.url));
     // 갱신된 쿠키를 응답에 복사
     if (refreshResult.response) {
       refreshResult.response.cookies.getAll().forEach((cookie) => {
-        response.cookies.set(cookie.name, cookie.value, {
+        successRedirectResponse.cookies.set(cookie.name, cookie.value, {
           httpOnly: cookie.httpOnly,
           secure: cookie.secure,
           expires: cookie.expires,
@@ -49,7 +49,7 @@ const handleAuthPages = async (request: NextRequest) => {
         });
       });
     }
-    return response;
+    return successRedirectResponse;
   }
 
   // 기존 토큰으로 체크
@@ -57,10 +57,12 @@ const handleAuthPages = async (request: NextRequest) => {
   const access = request.cookies.get('auth-token')?.value;
 
   if (session?.isAuth && session.userId && access) {
-    return NextResponse.redirect(new URL(`/${request.nextUrl.locale}/present`, request.url));
+    const redirectResponse = NextResponse.redirect(new URL(`/${locale}/present`, request.url));
+    setLocaleCookie(request, redirectResponse);
+    return redirectResponse;
   }
 
-  return NextResponse.next();
+  return response;
 };
 
 const handleProtectedPages = async (request: NextRequest) => {
@@ -74,6 +76,7 @@ const handleProtectedPages = async (request: NextRequest) => {
   }
   const redirectResponse = NextResponse.redirect(new URL(`/${locale}/sign/in`, request.url));
   clearAuthCookies(redirectResponse);
+  setLocaleCookie(request, redirectResponse);
 
   return redirectResponse;
 };
@@ -81,16 +84,12 @@ const handleProtectedPages = async (request: NextRequest) => {
 export default async function middleware(request: NextRequest) {
   const intlResponse = intlMiddleware(request) ?? NextResponse.next();
 
-  const locale = getLocale(request.nextUrl.pathname);
-  intlResponse.cookies.set('NEXT_LOCALE', locale, {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 365,
-  });
+  setLocaleCookie(request, intlResponse);
 
   const { pathname } = request.nextUrl;
 
   if (AUTH_ROUTES.some((route) => stripLocale(pathname) === route)) {
-    return handleAuthPages(request);
+    return handleAuthPages(request, intlResponse);
   }
 
   if (isProtectedRoute(pathname)) {

@@ -8,6 +8,7 @@ import {
   shouldRefreshToken,
 } from '@/lib/middleware/core';
 import { verifySessionInMiddleware } from '@/lib/middleware/verifySessionInMiddleware';
+import { setLocaleCookie } from '@/lib/middleware/i18n';
 
 /**
  * @function refreshTokenInMiddleware
@@ -80,6 +81,7 @@ export async function refreshTokenInMiddleware(request: NextRequest): Promise<{
     setCookieInResponse(response, 'refresh-token', refreshToken, TOKEN_EXPIRY.REFRESH);
 
     setUserIdHeader(response, userId);
+    setLocaleCookie(request, response);
 
     // 갱신 성공 시 새로운 세션 정보 반환
     const newSession = { isAuth: true, userId, expiresAt: newExpiresAt };
