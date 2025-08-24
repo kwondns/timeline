@@ -32,9 +32,11 @@ const handleAuthPages = async (request: NextRequest) => {
   // 토큰 갱신 시도 후 다시 검증
   const refreshResult = await refreshTokenInMiddleware(request);
 
+  const locale = getLocale(request.nextUrl.pathname);
+
   // 갱신 성공 시 즉시 present로 이동
   if (refreshResult.success && refreshResult.session?.userId) {
-    const response = NextResponse.redirect(new URL(`/${request.nextUrl.locale}/present`, request.url));
+    const response = NextResponse.redirect(new URL(`/${locale}/present`, request.url));
     // 갱신된 쿠키를 응답에 복사
     if (refreshResult.response) {
       refreshResult.response.cookies.getAll().forEach((cookie) => {
@@ -64,12 +66,13 @@ const handleAuthPages = async (request: NextRequest) => {
 const handleProtectedPages = async (request: NextRequest) => {
   // 토큰 갱신 시도
   const result = await refreshTokenInMiddleware(request);
+  const locale = getLocale(request.nextUrl.pathname);
 
   // 갱신 성공이거나 기존 세션이 유효한 경우
   if (result.success && result.response) {
     return result.response;
   }
-  const redirectResponse = NextResponse.redirect(new URL(`/${request.nextUrl.locale}/sign/in`, request.url));
+  const redirectResponse = NextResponse.redirect(new URL(`/${locale}/sign/in`, request.url));
   clearAuthCookies(redirectResponse);
 
   return redirectResponse;
