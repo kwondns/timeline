@@ -207,3 +207,24 @@ export function clearAuthCookies(response: NextResponse) {
     });
   });
 }
+
+/**
+ * @function setUserIdHeader
+ * @description HTTP 응답 객체에 사용자의 ID를 표시하는 헤더를 설정합니다.
+ *
+ * @param {NextResponse} response — 수정할 HTTP 응답 객체입니다. 필수입니다.
+ * @param {string} userId — 설정할 사용자 ID입니다. 필수입니다.
+ * @returns {NextResponse} — 수정된 HTTP 응답 객체를 반환합니다.
+ *
+ * @example
+ * // 'x-user-id' 헤더를 응답에 추가
+ * const response = new NextResponse();
+ * setUserIdHeader(response, '12345');
+ *
+ * @see https://developer.mozilla.org/ko/docs/Web/HTTP/Headers
+ * @see https://nextjs.org/docs/api-reference/next/server#nextresponse
+ */
+export function setUserIdHeader(response: NextResponse, userId: string) {
+  response.headers.set('x-user-id', userId);
+  return response;
+}

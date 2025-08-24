@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TOKEN_EXPIRY } from '@/constants/TOKEN_TTL';
-import { clearAuthCookies, performTokenRefresh, setCookieInResponse, shouldRefreshToken } from '@/lib/middleware/core';
+import {
+  clearAuthCookies,
+  performTokenRefresh,
+  setCookieInResponse,
+  setUserIdHeader,
+  shouldRefreshToken,
+} from '@/lib/middleware/core';
 import { verifySessionInMiddleware } from '@/lib/middleware/verifySessionInMiddleware';
 
 /**
@@ -43,7 +49,9 @@ export async function refreshTokenInMiddleware(request: NextRequest): Promise<{
     // auth-token 존재 여부와 세션 시간을 함께 고려하여 갱신 필요성 확인
     const needsRefresh = await shouldRefreshToken(request, session);
     if (!needsRefresh) {
-      return { success: true, session };
+      const response = NextResponse.next();
+      setUserIdHeader(response, session.userId);
+      return { success: true, session, response };
     }
 
     // 토큰 갱신 수행
@@ -70,6 +78,8 @@ export async function refreshTokenInMiddleware(request: NextRequest): Promise<{
     setCookieInResponse(response, 'session', sessionToken, TOKEN_EXPIRY.SESSION);
     setCookieInResponse(response, 'auth-token', accessToken, TOKEN_EXPIRY.ACCESS);
     setCookieInResponse(response, 'refresh-token', refreshToken, TOKEN_EXPIRY.REFRESH);
+
+    setUserIdHeader(response, userId);
 
     // 갱신 성공 시 새로운 세션 정보 반환
     const newSession = { isAuth: true, userId, expiresAt: newExpiresAt };

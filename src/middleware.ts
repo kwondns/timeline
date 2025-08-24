@@ -3,6 +3,7 @@ import { verifySessionInMiddleware, refreshTokenInMiddleware } from '@/lib/middl
 import { routing } from '@/i18n/routing';
 import createMiddleware from 'next-intl/middleware';
 import { getLocale, stripLocale } from '@/lib/middleware/i18n';
+import { clearAuthCookies } from '@/lib/middleware/core';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -65,27 +66,23 @@ const handleProtectedPages = async (request: NextRequest) => {
   const result = await refreshTokenInMiddleware(request);
 
   // 갱신 성공이거나 기존 세션이 유효한 경우
-  if (result.success || result.session?.isAuth) {
-    const session = result.session;
-    if (session?.userId) {
-      const res = result.response || NextResponse.next();
-      res.headers.set('x-user-id', session.userId);
-      return res;
-    }
+  if (result.success && result.response) {
+    return result.response;
   }
-  return NextResponse.redirect(new URL(`/${request.nextUrl.locale}/sign/in`, request.url));
+  const redirectResponse = NextResponse.redirect(new URL(`/${request.nextUrl.locale}/sign/in`, request.url));
+  clearAuthCookies(redirectResponse);
+
+  return redirectResponse;
 };
 
 export default async function middleware(request: NextRequest) {
-  const intlResponse = intlMiddleware(request);
-  if (intlResponse) {
-    const locale = getLocale(request.nextUrl.pathname);
-    intlResponse.cookies.set('NEXT_LOCALE', locale, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 365,
-    });
-    return intlResponse;
-  }
+  const intlResponse = intlMiddleware(request) ?? NextResponse.next();
+
+  const locale = getLocale(request.nextUrl.pathname);
+  intlResponse.cookies.set('NEXT_LOCALE', locale, {
+    path: '/',
+    maxAge: 60 * 60 * 24 * 365,
+  });
 
   const { pathname } = request.nextUrl;
 
