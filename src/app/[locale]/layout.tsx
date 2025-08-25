@@ -9,6 +9,8 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { Metadata } from 'next';
 import { ROOT_METADATA } from '@/constants/METADATA';
+import WebApplicationSchema from '@/components/StructuredData/WebApplicationSchema';
+import OrganizationSchema from '@/components/StructuredData/OrganizationSchema';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -65,6 +67,8 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="bg-background h-dvh">
+        <WebApplicationSchema locale={locale} />
+        <OrganizationSchema />
         <NextIntlClientProvider locale={locale}>
           <ThemeProvider
             attribute="class"
