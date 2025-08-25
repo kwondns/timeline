@@ -166,6 +166,64 @@
     "hoursMinutes": "{hours}小时{minutes}分钟"
   },
   "Chat": {
-    "description":"您可以搜索过去的工作。\n示例：\n- “2024年2月，我在GSAP相关工作了什么？”\n- “我最近做的 Markdown 样式是什么？”\n- “如何实现 CSS 动画？”\n- “请查找与时间线相关的过去工作”\n- “我最近的 React 工作是什么？”\n- “总结我最近的工作内容”\n- “我最后一个 React 工作是什么？”\n- “最后的工作内容”\n- “我什么时候在 Next 中处理缓存工作？”"
+    "description": "您可以搜索过去的工作。\n示例：\n- “2024年2月，我在GSAP相关工作了什么？”\n- “我最近做的 Markdown 样式是什么？”\n- “如何实现 CSS 动画？”\n- “请查找与时间线相关的过去工作”\n- “我最近的 React 工作是什么？”\n- “总结我最近的工作内容”\n- “我最后一个 React 工作是什么？”\n- “最后的工作内容”\n- “我什么时候在 Next 中处理缓存工作？”"
+  },
+  "a11y": {
+    "buttons": {
+      "addNewFuture": "添加新未来",
+      "addNewFutureBox": "添加新未来计划",
+      "openSettings": "打开设置菜单",
+      "closeDialog": "关闭对话框",
+      "submit": "提交",
+      "cancel": "取消",
+      "edit": "编辑",
+      "delete": "删除",
+      "save": "保存",
+      "refresh": "刷新",
+      "search": "搜索"
+    },
+    "priority": {
+      "high": "高",
+      "medium": "中",
+      "low": "低",
+      "groupLabel": "选择优先级",
+      "help": "使用方向键或数字键1、2、3来选择优先级"
+    },
+    "status": {
+      "active": "活跃",
+      "inactive": "非活跃",
+      "loading": "加载中",
+      "completed": "已完成",
+      "inProgress": "进行中",
+      "pending": "待处理",
+      "error": "发生错误"
+    },
+    "navigation": {
+      "sidebarHeader": "侧边栏标题",
+      "mainMenu": "主菜单",
+      "userSettings": "用户设置",
+      "settingsMenu": "设置菜单",
+      "settingsDescription": "语言、主题设置和登出菜单",
+      "currentPage": "当前页面：{page}",
+      "userName": "用户：{name}",
+      "languageOption": "将语言更改为{language}"
+    },
+    "forms": {
+      "required": "必填字段",
+      "optional": "可选字段",
+      "priority": "优先级设置",
+      "titleInput": "标题输入",
+      "descriptionInput": "描述输入",
+      "dateInput": "日期输入",
+      "invalidInput": "无效输入"
+    },
+    "themes": {
+      "light": "明亮主题",
+      "dark": "暗色主题",
+      "system": "系统主题",
+      "selectLight": "切换到明亮主题",
+      "selectDark": "切换到暗色主题",
+      "selectSystem": "切换到系统主题"
+    }
   }
 }

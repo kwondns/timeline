@@ -167,5 +167,63 @@
   },
   "Chat": {
     "description": "Puedes buscar trabajos pasados.\nEjemplos:\n- \"¿Qué trabajé relacionado con GSAP en febrero de 2024?\"\n- \"¿Cuál fue el último estilo de Markdown que realicé?\"\n- \"¿Cómo puedo implementar animaciones CSS?\"\n- \"Encuentra trabajos anteriores relacionados con la línea de tiempo\"\n- \"¿Cuál fue mi trabajo más reciente en React?\"\n- \"Resume mis tareas más recientes\"\n- \"¿Cuál fue mi última tarea de React?\"\n- \"Detalles de la última tarea\"\n- \"¿Cuándo trabajé en el manejo de caché en Next?\""
+  },
+  "a11y": {
+    "buttons": {
+      "addNewFuture": "Agregar nuevo futuro",
+      "addNewFutureBox": "Agregar nuevo plan futuro",
+      "openSettings": "Abrir menú de configuración",
+      "closeDialog": "Cerrar diálogo",
+      "submit": "Enviar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "save": "Guardar",
+      "refresh": "Actualizar",
+      "search": "Buscar"
+    },
+    "priority": {
+      "high": "Alta",
+      "medium": "Media",
+      "low": "Baja",
+      "groupLabel": "Seleccionar prioridad",
+      "help": "Usa las teclas de flecha o las teclas numéricas 1, 2, 3 para seleccionar prioridad"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "loading": "Cargando",
+      "completed": "Completado",
+      "inProgress": "En progreso",
+      "pending": "Pendiente",
+      "error": "Error ocurrido"
+    },
+    "navigation": {
+      "sidebarHeader": "Encabezado de la Barra Lateral",
+      "mainMenu": "Menú Principal",
+      "userSettings": "Configuración de Usuario",
+      "settingsMenu": "Menú de Configuración",
+      "settingsDescription": "Configuración de idioma, tema y menú de cerrar sesión",
+      "currentPage": "Página actual: {page}",
+      "userName": "Usuario: {name}",
+      "languageOption": "Cambiar idioma a {language}"
+    },
+    "forms": {
+      "required": "Campo requerido",
+      "optional": "Campo opcional",
+      "priority": "Configuración de prioridad",
+      "titleInput": "Entrada de título",
+      "descriptionInput": "Entrada de descripción",
+      "dateInput": "Entrada de fecha",
+      "invalidInput": "Entrada inválida"
+    },
+    "themes": {
+      "light": "Tema Claro",
+      "dark": "Tema Oscuro",
+      "system": "Tema del Sistema",
+      "selectLight": "Cambiar a tema claro",
+      "selectDark": "Cambiar a tema oscuro",
+      "selectSystem": "Cambiar a tema del sistema"
+    }
   }
 }

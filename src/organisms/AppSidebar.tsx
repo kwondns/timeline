@@ -51,8 +51,17 @@ const LanguageTypoWrapper = ({
   locale: Locale;
   onCheckedChange: () => void;
 }) => {
+  const t = useTranslations('a11y');
   return (
-    <DropdownMenuCheckboxItem checked={checked} onCheckedChange={onCheckedChange}>
+    <DropdownMenuCheckboxItem
+      checked={checked}
+      onCheckedChange={onCheckedChange}
+      onSelect={(e) => {
+        e.preventDefault();
+        onCheckedChange();
+      }}
+      aria-label={t('navigation.languageOption', { language: locale.toUpperCase() })}
+    >
       <LanguageTypo locale={locale} />
     </DropdownMenuCheckboxItem>
   );
@@ -64,7 +73,7 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
   const [init, setInit] = useState(false);
   const { open } = useSidebar();
   const segment = useSelectedLayoutSegments('children');
-  const t = useTranslations('Navigation');
+  const t = useTranslations();
   const locale = useLocale();
   const pathname = usePathname();
   const route = useRouter();
@@ -94,7 +103,7 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
 
   return (
     <>
-      <SidebarHeader>
+      <SidebarHeader aria-label={t('a11y.navigation.sidebarHeader')}>
         <SidebarGroup>
           <SidebarGroupContent className="overflow-x-hidden">
             <Typography.h4 className="pl-0.5">
@@ -103,20 +112,27 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent role="navigation" aria-label={t('a11y.navigation.mainMenu')}>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu role="list">
               {MENU.map((menu) => (
-                <SidebarMenuItem key={menu.key}>
+                <SidebarMenuItem key={menu.key} role="listitem">
                   <SidebarMenuButton asChild isActive={segment[0] === menu.url.slice(1)}>
-                    <Link href={menu.url}>
-                      {menu.icon}
+                    <Link
+                      href={menu.url}
+                      aria-label={t(`Navigation.${menu.key}`)}
+                      aria-current={open ? 'page' : undefined}
+                    >
+                      <span aria-hidden="true" className="flex-shrink-0">
+                        {menu.icon}
+                      </span>
                       {open && (
                         <Typography.p
                           className={`transition-opacity duration-200 ease-in-out ${transitionClass} text-foreground`}
+                          aria-hidden={!open}
                         >
-                          {t(menu.key)}
+                          {t(`Navigation.${menu.key}`)}
                         </Typography.p>
                       )}
                     </Link>
@@ -127,7 +143,7 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="w-full">
+      <SidebarFooter className="w-full" role="contentinfo" aria-label={t('a11y.navigation.userSettings')}>
         {init && (
           <Container className="flex-1 gap-4 items-center overflow-x-hidden">
             <DropdownMenu>
@@ -135,15 +151,25 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="flex-shrink-0 w-8 h-8 focus-visible:ring-0 [&_svg]:!size-6" // 고정 크기
+                  className="flex-shrink-0 w-8 h-8 [&_svg]:!size-6 rounded-full focus-visible:ring-1 p-0.5" // 고정 크기
+                  aria-label={t('a11y.buttons.openSettings')}
+                  aria-expanded="false"
+                  aria-haspopup="menu"
+                  aria-describedby="settings-description"
                 >
                   {Icon.setting}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[214px] ml-6">
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel>{t('Setting.language')}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+              <DropdownMenuContent
+                className="w-[214px] ml-6"
+                role="menu"
+                aria-label={t('a11y.navigation.settingsMenu')}
+              >
+                <DropdownMenuGroup role="group" aria-labelledby="language-group-label">
+                  <DropdownMenuLabel id="language-group-label" role="presentation">
+                    {t('Navigation.Setting.language')}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator role="separator" />
                   {LOCALE.map((lang) => (
                     <LanguageTypoWrapper
                       key={lang}
@@ -153,25 +179,48 @@ export default function AppSidebar(props: AppSidebarWrapperProps) {
                     />
                   ))}
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel>{t('Setting.theme')}</DropdownMenuLabel>
+                <DropdownMenuSeparator role="separator" />
+                <DropdownMenuGroup role="group" aria-labelledby="theme-group-label">
+                  <DropdownMenuLabel id="theme-group-label" role="presentation">
+                    {t('Navigation.Setting.theme')}
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem checked={theme === 'light'} onCheckedChange={() => setTheme('light')}>
-                    Light
+                  <DropdownMenuCheckboxItem
+                    checked={theme === 'light'}
+                    onCheckedChange={() => setTheme('light')}
+                    aria-label={t('a11y.themes.selectLight')}
+                  >
+                    {t('a11y.themes.light')}
                   </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem checked={theme === 'dark'} onCheckedChange={() => setTheme('dark')}>
-                    Dark
+                  <DropdownMenuCheckboxItem
+                    checked={theme === 'dark'}
+                    onCheckedChange={() => setTheme('dark')}
+                    aria-label={t('a11y.themes.selectDark')}
+                  >
+                    {t('a11y.themes.dark')}
                   </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem checked={theme === 'system'} onCheckedChange={() => setTheme('system')}>
-                    System
+                  <DropdownMenuCheckboxItem
+                    checked={theme === 'system'}
+                    onCheckedChange={() => setTheme('system')}
+                    aria-label={t('a11y.themes.selectSystem')}
+                  >
+                    {t('a11y.themes.system')}
                   </DropdownMenuCheckboxItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onClickSignOut}>{t('signOut')}</DropdownMenuItem>
+                <DropdownMenuSeparator role="separator" />
+                <DropdownMenuItem role="menuitem" aria-label={t('Navigation.signOut')} onClick={onClickSignOut}>
+                  {t('Navigation.signOut')}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Typography.p className={`transition-all whitespace-nowrap ${open ? 'w-full' : 'w-0'}`}>
+            <span id="settings-description" className="sr-only">
+              {t('a11y.navigation.settingsDescription')}
+            </span>
+            <Typography.p
+              className={`transition-all whitespace-nowrap ${open ? 'w-full' : 'w-0'}`}
+              aria-label={t('a11y.navigation.userName', { name })}
+              aria-hidden={!open}
+            >
               {name}
             </Typography.p>
           </Container>

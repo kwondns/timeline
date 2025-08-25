@@ -8,7 +8,7 @@
     "chatbot": "Ask",
     "Setting": {
       "theme": "Change Theme",
-      "language" : "Change Language"
+      "language": "Change Language"
     },
     "signOut": "Sign Out"
   },
@@ -167,5 +167,63 @@
   },
   "Chat": {
     "description": "You can search through past work.\nExamples:\n- \"What did I work on related to GSAP in February 2024?\"\n- \"What was the most recent markdown styling I did?\"\n- \"How can I implement CSS animations?\"\n- \"Find past timeline-related tasks.\"\n- \"What was my most recent work on React?\"\n- \"Summarize my most recent tasks.\"\n- \"What was my last React task?\"\n- \"Last task details.\"\n- \"When did I work on caching in Next?\""
+  },
+  "a11y": {
+    "buttons": {
+      "addNewFuture": "Add new future",
+      "addNewFutureBox": "Add new future plan",
+      "openSettings": "Open settings menu",
+      "closeDialog": "Close dialog",
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "refresh": "Refresh",
+      "search": "Search"
+    },
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "groupLabel": "Select priority",
+      "help": "Use arrow keys or number keys 1, 2, 3 to select priority"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "loading": "Loading",
+      "completed": "Completed",
+      "inProgress": "In Progress",
+      "pending": "Pending",
+      "error": "Error occurred"
+    },
+    "navigation": {
+      "sidebarHeader": "Sidebar Header",
+      "mainMenu": "Main Menu",
+      "userSettings": "User Settings",
+      "settingsMenu": "Settings Menu",
+      "settingsDescription": "Language, theme settings and logout menu",
+      "currentPage": "Current page: {page}",
+      "userName": "User: {name}",
+      "languageOption": "Change language to {language}"
+    },
+    "forms": {
+      "required": "Required field",
+      "optional": "Optional field",
+      "priority": "Priority setting",
+      "titleInput": "Title input",
+      "descriptionInput": "Description input",
+      "dateInput": "Date input",
+      "invalidInput": "Invalid input"
+    },
+    "themes": {
+      "light": "Light Theme",
+      "dark": "Dark Theme",
+      "system": "System Theme",
+      "selectLight": "Switch to light theme",
+      "selectDark": "Switch to dark theme",
+      "selectSystem": "Switch to system theme"
+    }
   }
 }

@@ -13,6 +13,8 @@ export default function Indicator(props: IndicatorProps) {
   return (
     <Typography.p
       className={`relative  text-blue-300 px-5 ${indicatorStyle} ${active ? 'before:animate-pulse' : 'before:bg-rose/40 text-rose/40'} ${className}`}
+      aria-label={active ? t('working') : t('resting')}
+      aria-live="polite"
     >
       {active ? t('working') : t('resting')}
     </Typography.p>

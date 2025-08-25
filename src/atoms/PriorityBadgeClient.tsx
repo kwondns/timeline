@@ -16,7 +16,7 @@ export default function PriorityBadgeClient(props: PriorityBadgeProps) {
   const { badgeContent, badgeColor } = generatePriorityBadgeContent(t as (key: string) => string, priority);
 
   return (
-    <Badge className={className} variant={badgeColor}>
+    <Badge className={className} variant={badgeColor} role="status" aria-label={badgeContent}>
       {badgeContent}
     </Badge>
   );

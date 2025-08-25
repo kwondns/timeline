@@ -167,5 +167,63 @@
   },
   "Chat": {
     "description":"과거의 작업을 검색할 수 있습니다.\n예시)\n- \"2024년 2월에 GSAP 관련해서 뭘 작업했나요?\"\n- \"가장 최근에 작업한 마크다운 스타일링 내용이 뭔가요?\"\n- \"CSS 애니메이션 구현하는 방법이 뭐가 있나요?\"\n- \"타임라인 관련 과거 작업들을 찾아주세요\"\n- \"가장 최근에 작업한 React에 대한 내용은 뭐야?\"\n- \"가장 최근에 작업한 내용들을 요약해줘\"\n- \"가장 마지막 React 작업은 뭐였지?\"\n- \"가장 마지막 작업 내용\"\n- \"Next에서 캐싱을 다루는 작업은 언제했지?\""
+  },
+  "a11y": {
+    "buttons": {
+      "addNewFuture": "새로운 미래 추가",
+      "addNewFutureBox": "새로운 미래 계획 추가",
+      "openSettings": "설정 메뉴 열기",
+      "closeDialog": "대화상자 닫기",
+      "submit": "제출하기",
+      "cancel": "취소하기",
+      "edit": "편집하기",
+      "delete": "삭제하기",
+      "save": "저장하기",
+      "refresh": "새로고침",
+      "search": "검색하기"
+    },
+    "priority": {
+      "high": "높음",
+      "medium": "중간",
+      "low": "낮음",
+      "groupLabel": "우선순위 선택",
+      "help": "화살표 키 또는 1, 2, 3 숫자 키로 우선순위를 선택하세요"
+    },
+    "status": {
+      "active": "활성 상태",
+      "inactive": "비활성 상태",
+      "loading": "로딩 중",
+      "completed": "완료됨",
+      "inProgress": "진행 중",
+      "pending": "대기 중",
+      "error": "오류 발생"
+    },
+    "navigation": {
+      "sidebarHeader": "사이드바 헤더",
+      "mainMenu": "메인 메뉴",
+      "userSettings": "사용자 설정",
+      "settingsMenu": "설정 메뉴",
+      "settingsDescription": "언어, 테마 설정 및 로그아웃 메뉴",
+      "currentPage": "현재 페이지: {page}",
+      "userName": "사용자: {name}",
+      "languageOption": "언어를 {language}로 변경"
+    },
+    "forms": {
+      "required": "필수 입력 항목",
+      "optional": "선택 입력 항목",
+      "priority": "우선순위 설정",
+      "titleInput": "제목 입력",
+      "descriptionInput": "설명 입력",
+      "dateInput": "날짜 입력",
+      "invalidInput": "잘못된 입력"
+    },
+    "themes": {
+      "light": "밝은 테마",
+      "dark": "어두운 테마",
+      "system": "시스템 테마",
+      "selectLight": "밝은 테마로 변경",
+      "selectDark": "어두운 테마로 변경",
+      "selectSystem": "시스템 테마로 변경"
+    }
   }
 }

@@ -166,6 +166,64 @@
     "hoursMinutes": "{hours} h {minutes} min"
   },
   "Chat": {
-    "description":"Vous pouvez rechercher les travaux passés.\nExemples :\n- « Qu'ai-je fait concernant GSAP en février 2024 ? »\n- « Quel a été mon dernier style Markdown ? »\n- « Comment implémenter des animations CSS ? »\n- « Trouvez les tâches passées liées à la timeline »\n- « Quel a été mon travail le plus récent sur React ? »\n- « Résumez mes tâches les plus récentes »\n- « Quelle a été ma dernière tâche React ? »\n- « Détails de la dernière tâche »\n- « Quand ai-je travaillé sur la mise en cache dans Next ? »"
+    "description": "Vous pouvez rechercher les travaux passés.\nExemples :\n- « Qu'ai-je fait concernant GSAP en février 2024 ? »\n- « Quel a été mon dernier style Markdown ? »\n- « Comment implémenter des animations CSS ? »\n- « Trouvez les tâches passées liées à la timeline »\n- « Quel a été mon travail le plus récent sur React ? »\n- « Résumez mes tâches les plus récentes »\n- « Quelle a été ma dernière tâche React ? »\n- « Détails de la dernière tâche »\n- « Quand ai-je travaillé sur la mise en cache dans Next ? »"
+  },
+  "a11y": {
+    "buttons": {
+      "addNewFuture": "Ajouter un nouveau futur",
+      "addNewFutureBox": "Ajouter un nouveau plan futur",
+      "openSettings": "Ouvrir le menu des paramètres",
+      "closeDialog": "Fermer la boîte de dialogue",
+      "submit": "Soumettre",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "save": "Sauvegarder",
+      "refresh": "Actualiser",
+      "search": "Rechercher"
+    },
+    "priority": {
+      "high": "Élevée",
+      "medium": "Moyenne",
+      "low": "Faible",
+      "groupLabel": "Sélectionner la priorité",
+      "help": "Utilisez les touches fléchées ou les touches numériques 1, 2, 3 pour sélectionner la priorité"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "loading": "Chargement",
+      "completed": "Terminé",
+      "inProgress": "En cours",
+      "pending": "En attente",
+      "error": "Erreur survenue"
+    },
+    "navigation": {
+      "sidebarHeader": "En-tête de la Barre Latérale",
+      "mainMenu": "Menu Principal",
+      "userSettings": "Paramètres Utilisateur",
+      "settingsMenu": "Menu Paramètres",
+      "settingsDescription": "Paramètres de langue, thème et menu de déconnexion",
+      "currentPage": "Page actuelle : {page}",
+      "userName": "Utilisateur : {name}",
+      "languageOption": "Changer la langue en {language}"
+    },
+    "forms": {
+      "required": "Champ requis",
+      "optional": "Champ optionnel",
+      "priority": "Paramètre de priorité",
+      "titleInput": "Saisie du titre",
+      "descriptionInput": "Saisie de description",
+      "dateInput": "Saisie de date",
+      "invalidInput": "Saisie invalide"
+    },
+    "themes": {
+      "light": "Thème Clair",
+      "dark": "Thème Sombre",
+      "system": "Thème Système",
+      "selectLight": "Basculer vers le thème clair",
+      "selectDark": "Basculer vers le thème sombre",
+      "selectSystem": "Basculer vers le thème système"
+    }
   }
 }

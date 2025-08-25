@@ -17,27 +17,46 @@ import FormWrapper from '@/molecules/FormWrapper';
 import { getTranslations } from 'next-intl/server';
 
 export default async function NewFutureBoxDialog() {
-  const t = await getTranslations('Future');
+  const t = await getTranslations();
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">{t('newBoxButton')}</Button>
+        <Button variant="outline" aria-label={t('a11y.buttons.addNewFutureBox')}>
+          {t('Future.newBoxButton')}
+        </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" aria-modal="true">
         <FormWrapper serverAction={addFutureBoxAction}>
           <DialogHeader>
-            <DialogTitle>{t('newBoxTitle')}</DialogTitle>
-            <DialogDescription className="pb-2">{t('newSubTitle')}</DialogDescription>
+            <DialogTitle>{t('Future.newBoxTitle')}</DialogTitle>
+            <DialogDescription className="pb-2">{t('Future.newSubTitle')}</DialogDescription>
           </DialogHeader>
           <Container className="grid gap-4">
-            <Input name="title" placeholder={t('newBoxTitlePlaceholder')} />
-            <FutureBoxTypeRadio />
+            <Input
+              name="title"
+              placeholder={t('Future.newBoxTitlePlaceholder')}
+              aria-label={t('a11y.forms.titleInput')}
+              aria-describedby="box-title-help"
+              required
+              aria-required="true"
+            />
+            <span id="box-title-help" className="sr-only">
+              {t('a11y.forms.required')}
+            </span>
+            <FutureBoxTypeRadio aria-describedby="box-type-help" />
+            <span id="box-type-help" className="sr-only">
+              {t('a11y.forms.required')}
+            </span>
           </Container>
           <DialogFooter className="pt-6">
             <DialogClose asChild>
-              <Button variant="outline">{t('cancelButton')}</Button>
+              <Button variant="outline" aria-label={t('a11y.buttons.cancel')}>
+                {t('Future.cancelButton')}
+              </Button>
             </DialogClose>
-            <Button type="submit">{t('submitButton')}</Button>
+            <Button type="submit" aria-label={t('a11y.buttons.submit')}>
+              {t('Future.submitButton')}
+            </Button>
           </DialogFooter>
         </FormWrapper>
       </DialogContent>

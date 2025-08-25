@@ -167,5 +167,63 @@
   },
   "Chat": {
     "description": "過去の作業を検索できます。\n例：\n- 「2024年2月にGSAPに関連して何を作業しましたか？」\n- 「一番最近に行ったマークダウンのスタイリングは何ですか？」\n- 「CSSアニメーションを実装する方法は何がありますか？」\n- 「タイムライン関連の過去作業を探してください」\n- 「最新のReact作業内容は何ですか？」\n- 「最近の作業内容を要約してください」\n- 「最後のReact作業は何でしたか？」\n- 「最後の作業内容」\n- 「Nextでキャッシュを扱った作業はいつでしたか？」"
+  },
+  "a11y": {
+    "buttons": {
+      "addNewFuture": "新しい未来を追加",
+      "addNewFutureBox": "新しい未来計画を追加",
+      "openSettings": "設定メニューを開く",
+      "closeDialog": "ダイアログを閉じる",
+      "submit": "送信",
+      "cancel": "キャンセル",
+      "edit": "編集",
+      "delete": "削除",
+      "save": "保存",
+      "refresh": "更新",
+      "search": "検索"
+    },
+    "priority": {
+      "high": "高",
+      "medium": "中",
+      "low": "低",
+      "groupLabel": "優先度を選択",
+      "help": "矢印キーまたは数字キー1、2、3で優先度を選択してください"
+    },
+    "status": {
+      "active": "アクティブ",
+      "inactive": "非アクティブ",
+      "loading": "読み込み中",
+      "completed": "完了",
+      "inProgress": "進行中",
+      "pending": "待機中",
+      "error": "エラーが発生しました"
+    },
+    "navigation": {
+      "sidebarHeader": "サイドバーヘッダー",
+      "mainMenu": "メインメニュー",
+      "userSettings": "ユーザー設定",
+      "settingsMenu": "設定メニュー",
+      "settingsDescription": "言語、テーマ設定およびログアウトメニュー",
+      "currentPage": "現在のページ: {page}",
+      "userName": "ユーザー: {name}",
+      "languageOption": "言語を{language}に変更"
+    },
+    "forms": {
+      "required": "必須項目",
+      "optional": "任意項目",
+      "priority": "優先度設定",
+      "titleInput": "タイトル入力",
+      "descriptionInput": "説明入力",
+      "dateInput": "日付入力",
+      "invalidInput": "無効な入力"
+    },
+    "themes": {
+      "light": "ライトテーマ",
+      "dark": "ダークテーマ",
+      "system": "システムテーマ",
+      "selectLight": "ライトテーマに切り替え",
+      "selectDark": "ダークテーマに切り替え",
+      "selectSystem": "システムテーマに切り替え"
+    }
   }
 }
