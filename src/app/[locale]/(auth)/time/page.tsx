@@ -4,6 +4,18 @@ import TimeChartSlot from '@/app/[locale]/(auth)/time/_slot/TimeChartSlot';
 import FuturesSlot from '@/app/[locale]/(auth)/time/_slot/FuturesSlot';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TIME_METADATA } from '@/constants/METADATA';
+import { Metadata } from 'next';
+import { Locale } from '@/i18n/routing';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const { locale } = await params;
+
+  return {
+    title: TIME_METADATA.title[locale],
+    description: TIME_METADATA.description[locale],
+  };
+}
 
 export default async function Page() {
   return (
