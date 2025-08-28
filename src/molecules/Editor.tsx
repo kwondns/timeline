@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import NextImage from '@/atoms/NextImage';
 import { useEffect } from 'react';
-import { clearInterval } from 'node:timers';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor').then((mod) => mod.default), { ssr: false });
 
