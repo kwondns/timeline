@@ -101,7 +101,7 @@ export default function PriorityRadio() {
           <Button
             type="button"
             key={priority}
-            id={priority}
+            id={`priority-${priority}`}
             variant="ghost"
             className="p-0 flex-1"
             onClick={onClick}
