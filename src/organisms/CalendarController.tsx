@@ -3,8 +3,9 @@
 import Container from '@/atoms/Container';
 import Typography from '@/atoms/Typography';
 import { Icon, IconType } from '@/atoms/Icon';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
+import { useLocale } from 'next-intl';
 
 type CalendarControllerProps = {
   current: Date;
@@ -27,15 +28,22 @@ const ControllerButton = ({
 export default function CalendarController(props: Readonly<CalendarControllerProps>) {
   const { current } = props;
   const today = new Date();
+  const locale = useLocale();
   const onClickPrevMonth = () => {
-    redirect(`/calendar/${new Date(current.getFullYear(), current.getMonth() - 1, 2).toISOString().slice(0, 7)}`);
+    redirect({
+      href: `/calendar/${new Date(current.getFullYear(), current.getMonth() - 1, 2).toISOString().slice(0, 7)}`,
+      locale,
+    });
   };
   const onClickNextMonth = () => {
-    redirect(`/calendar/${new Date(current.getFullYear(), current.getMonth() + 1, 2).toISOString().slice(0, 7)}`);
+    redirect({
+      href: `/calendar/${new Date(current.getFullYear(), current.getMonth() + 1, 2).toISOString().slice(0, 7)}`,
+      locale,
+    });
   };
 
   const onClickResetMonth = () => {
-    redirect(`/calendar/${new Date().toISOString().slice(0, 7)}`);
+    redirect({ href: `/calendar/${new Date().toISOString().slice(0, 7)}`, locale });
   };
   return (
     <Container className="justify-center ">
