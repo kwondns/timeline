@@ -1,5 +1,5 @@
 import { Locale } from '@/i18n/routing';
-import { differenceInMinutes } from 'date-fns';
+import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { ensureDate } from '@/lib/utils/date/ensureDate';
 
 /**

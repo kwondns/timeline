@@ -1,4 +1,5 @@
-import { formatDuration, intervalToDuration } from 'date-fns';
+import { formatDuration } from 'date-fns/formatDuration';
+import { intervalToDuration } from 'date-fns/intervalToDuration';
 import { ko, enUS } from 'date-fns/locale';
 import { Locale } from '@/i18n/routing';
 

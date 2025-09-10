@@ -1,5 +1,5 @@
 import { formattingDateDiff } from '@/lib/utils/date/formattingDateDiff';
-import { differenceInMinutes } from 'date-fns';
+import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { Locale } from '@/i18n/routing';
 
 export function calculateDateDiff(
