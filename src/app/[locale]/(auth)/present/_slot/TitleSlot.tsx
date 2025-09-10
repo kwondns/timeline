@@ -1,5 +1,5 @@
-import PresentInputOrDisplay from '@/molecules/PresentInputOrDisplay';
+import PresentInputOrDisplayClient from '@/molecules/PresentInputOrDisplay.client';
 
 export default function TitleSlot({ title }: { title: string }) {
-  return <PresentInputOrDisplay title={title} />;
+  return <PresentInputOrDisplayClient title={title} />;
 }

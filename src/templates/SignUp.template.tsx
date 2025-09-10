@@ -1,6 +1,6 @@
 import { CardContent, CardHeader } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
-import SignUpForm from '@/organisms/SignUpForm';
+import SignUpFormClient from '@/organisms/SignUpForm.client';
 import { Button } from '@/components/ui/button';
 import Container from '@/atoms/Container';
 import { Link } from '@/i18n/navigation';
@@ -19,7 +19,7 @@ export default async function SignUpTemplate() {
         </Container>
       </CardHeader>
       <CardContent>
-        <SignUpForm />
+        <SignUpFormClient />
       </CardContent>
     </>
   );

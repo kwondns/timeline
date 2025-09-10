@@ -1,10 +1,10 @@
 import { getUser } from '@/lib/dal/user';
-import ChatbotTemplate from '@/templates/Chatbot.template';
+import ChatbotTemplateClient from '@/templates/Chatbot.template.client';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { callGetWithAuth } from '@/lib/dal/http';
-import AppSidebarWrapper from '@/organisms/AppSidebarWrapper';
+import AppSidebarWrapperClient from '@/organisms/AppSidebarWrapper.client';
 import { getTokenAndUserId } from '@/lib/auth/token';
-import PresentClientTemplate from '@/templates/PresentClient.template';
+import PresentTemplateClient from '@/templates/Present.template.client';
 import { PresentType } from '@/types/present.type';
 
 export const experimental_ppr = true;
@@ -19,11 +19,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
   return (
     <SidebarProvider className="block" defaultOpen={false}>
-      <PresentClientTemplate title={present.title} startTime={present.startTime} initialContent={present.content}>
-        <AppSidebarWrapper active={!!present?.startTime} name={user?.name ?? ''} />
+      <PresentTemplateClient title={present.title} startTime={present.startTime} initialContent={present.content}>
+        <AppSidebarWrapperClient active={!!present?.startTime} name={user?.name ?? ''} />
         <main className="p-2 md:pl-18 w-dvw h-dvh">{children}</main>
-      </PresentClientTemplate>
-      <ChatbotTemplate userId={userId} />
+      </PresentTemplateClient>
+      <ChatbotTemplateClient userId={userId} />
     </SidebarProvider>
   );
 }

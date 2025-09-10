@@ -1,5 +1,5 @@
 import { PastListType } from '@/types/past.type';
-import CalendarContent from '@/organisms/CalendarContent';
+import CalendarContentClient from '@/organisms/CalendarContent.client';
 import { callGetWithAuth } from '@/lib/dal/http';
 import { Suspense } from 'react';
 import { Locale } from '@/i18n/routing';
@@ -55,7 +55,7 @@ export default async function Page({ params }: { params: Promise<{ current: stri
 
   return (
     <Suspense>
-      <CalendarContent pasts={pasts} />
+      <CalendarContentClient pasts={pasts} />
     </Suspense>
   );
 }

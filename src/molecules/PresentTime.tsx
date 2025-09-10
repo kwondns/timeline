@@ -1,5 +1,5 @@
 import { calculateDateDiff } from '@/lib/utils/date';
-import PresentTimeClient from '@/molecules/PresentTimeClient';
+import PresentTimeClient from '@/molecules/PresentTime.client';
 import { getLocale } from 'next-intl/server';
 
 type PresentTimeProps = {

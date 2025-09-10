@@ -1,5 +1,5 @@
-import Editor from '@/molecules/Editor';
+import EditorClient from '@/molecules/Editor.client';
 
 export default function EditorSlot({ startTime }: { startTime: string }) {
-  return <Editor startTimeString={startTime} />;
+  return <EditorClient startTimeString={startTime} />;
 }

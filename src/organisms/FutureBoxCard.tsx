@@ -2,9 +2,9 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 import FutureContent, { FutureContentProps } from '@/molecules/FutureContent';
 import Container from '@/atoms/Container';
-import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
+import CheckBoxWithActionClient from '@/atoms/CheckBoxWithAction.client';
 import NewFutureDialog from '@/organisms/NewFutureDialog';
-import FutureInputOrDisplay from '@/molecules/FutureInputOrDisplay';
+import FutureInputOrDisplayClient from '@/molecules/FutureInputOrDisplay.client';
 import { getTranslations } from 'next-intl/server';
 
 export type FutureBoxCardProps = {
@@ -23,10 +23,10 @@ export default async function FutureBoxCard(props: FutureBoxCardProps) {
     <Card className="p-6 max-h-[450px]" id={id}>
       <CardHeader>
         <Container className="justify-between">
-          <FutureInputOrDisplay id={id} value={title} category="box" />
+          <FutureInputOrDisplayClient id={id} value={title} category="box" />
           <Container className="items-center gap-2">
             <NewFutureDialog boxId={id} type={type} />
-            <CheckBoxWithAction id={id} initState={checked} category="box" />
+            <CheckBoxWithActionClient id={id} initState={checked} category="box" />
           </Container>
         </Container>
       </CardHeader>

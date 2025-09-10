@@ -1,5 +1,5 @@
-import ActionButtonGroup from '@/molecules/ActionButtonGroup';
+import ActionButtonGroupClient from '@/molecules/ActionButtonGroup.client';
 
 export default function ActionButtonSlot({ startTime }: { startTime: string }) {
-  return <ActionButtonGroup isStarted={!!startTime} />;
+  return <ActionButtonGroupClient isStarted={!!startTime} />;
 }

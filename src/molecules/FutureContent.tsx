@@ -1,9 +1,9 @@
 import { Card } from '@/components/ui/card';
 import Container from '@/atoms/Container';
 import PriorityBadge from '@/atoms/PriorityBadge';
-import CheckBoxWithAction from '@/atoms/CheckBoxWithAction';
-import SliderWithAction from '@/atoms/SliderWithAction';
-import FutureInputOrDisplay from '@/molecules/FutureInputOrDisplay';
+import CheckBoxWithActionClient from '@/atoms/CheckBoxWithAction.client';
+import SliderWithActionClient from '@/atoms/SliderWithAction.client';
+import FutureInputOrDisplayClient from '@/molecules/FutureInputOrDisplay.client';
 
 export type FutureContentProps = FutureCheckContentProps | FuturePercentageContentProps;
 
@@ -27,9 +27,9 @@ const FutureCheckContent = (props: FutureCheckContentProps) => {
     <Container className="justify-between items-center">
       <Container className="gap-4 flex-1 pr-3">
         <PriorityBadge priority={priority} />
-        <FutureInputOrDisplay id={id} value={content} category="future" />
+        <FutureInputOrDisplayClient id={id} value={content} category="future" />
       </Container>
-      <CheckBoxWithAction id={id} initState={checked} />
+      <CheckBoxWithActionClient id={id} initState={checked} />
     </Container>
   );
 };
@@ -38,8 +38,8 @@ const FuturePercentageContent = (props: FuturePercentageContentProps) => {
   const { percentage, content, id } = props;
   return (
     <Container direction="column" className="gap-3">
-      <FutureInputOrDisplay id={id} value={content} category="future" />
-      <SliderWithAction percentage={percentage} id={id} />
+      <FutureInputOrDisplayClient id={id} value={content} category="future" />
+      <SliderWithActionClient percentage={percentage} id={id} />
     </Container>
   );
 };

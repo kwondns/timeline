@@ -15,8 +15,8 @@ import Container from '@/atoms/Container';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import Typography from '@/atoms/Typography';
-import PriorityRadio from '@/molecules/PriorityRadio';
-import FormWrapper from '@/molecules/FormWrapper';
+import PriorityRadioClient from '@/molecules/PriorityRadio.client';
+import FormWrapperClient from '@/molecules/FormWrapper.client';
 import { getTranslations } from 'next-intl/server';
 
 type NewFutureDialogProps = { boxId: string; type: 'check' | 'progress' };
@@ -31,7 +31,7 @@ export default async function NewFutureDialog(props: NewFutureDialogProps) {
         {Icon['add']}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]" aria-modal="true">
-        <FormWrapper serverAction={addFutureAction}>
+        <FormWrapperClient serverAction={addFutureAction}>
           <input type="hidden" name="boxId" value={boxId} />
           <DialogHeader>
             <DialogTitle>{t('Future.newFutureTitle')}</DialogTitle>
@@ -52,7 +52,7 @@ export default async function NewFutureDialog(props: NewFutureDialogProps) {
               <>
                 <Separator />
                 <Typography.p>{t('Future.priority')}</Typography.p>
-                <PriorityRadio />
+                <PriorityRadioClient />
               </>
             )}
           </Container>
@@ -66,7 +66,7 @@ export default async function NewFutureDialog(props: NewFutureDialogProps) {
               {t('Future.submitButton')}
             </Button>
           </DialogFooter>
-        </FormWrapper>
+        </FormWrapperClient>
       </DialogContent>
     </Dialog>
   );

@@ -3,8 +3,8 @@ import Container from '@/atoms/Container';
 import { useRef, useState, useEffect } from 'react';
 import { Separator } from '@/components/ui/separator';
 import useChat from '@/hooks/useChat';
-import ChatInput from '@/molecules/ChatInput';
-import ChatCard from '@/molecules/ChatCard';
+import ChatInputClient from '@/molecules/ChatInput.client';
+import ChatCardClient from '@/molecules/ChatCard.client';
 import { useLocale, useTranslations } from 'next-intl';
 
 type ChatbotAreaProps = {
@@ -55,7 +55,7 @@ export default function ChatbotArea(props: ChatbotAreaProps) {
 
   if (isMounted)
     return (
-      <ChatCard isOpen={isOpen} isMounted={isMounted} ref={chatRef}>
+      <ChatCardClient isOpen={isOpen} isMounted={isMounted} ref={chatRef}>
         <Container direction="column" className="gap-4 overflow-y-scroll scroll-smooth" ref={chatBubblesRef}>
           <ChatBubble isBot text={t('description')} />
           {chatHistory.map((chat, index) => (
@@ -64,13 +64,13 @@ export default function ChatbotArea(props: ChatbotAreaProps) {
           {isChatGenerating && <ChatBubble isBot text={currentChat} />}
         </Container>
         <Separator />
-        <ChatInput
+        <ChatInputClient
           currentInput={currentInput}
           isChatGenerating={isChatGenerating}
           changeAction={setCurrentInput}
           sendAction={sendAction}
         />
-      </ChatCard>
+      </ChatCardClient>
     );
   return null;
 }

@@ -1,4 +1,4 @@
-import ActivityCalendarItem from '@/molecules/ActivityCalendarItem';
+import ActivityCalendarItemClient from '@/molecules/ActivityCalendarItem.client';
 import { getPasts } from '@/app/[locale]/(auth)/time/_api/getPasts';
 
 export default async function ActivitySlot() {
@@ -13,6 +13,6 @@ export default async function ActivitySlot() {
     }
     // 실제 데이터 영역: idx - emptyCount
     const activity = pasts[idx - emptyCount];
-    return <ActivityCalendarItem key={activity.id} date={activity.date} count={activity.count} />;
+    return <ActivityCalendarItemClient key={activity.id} date={activity.date} count={activity.count} />;
   });
 }

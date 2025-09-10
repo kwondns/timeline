@@ -1,5 +1,5 @@
 import SignInTemplate from '@/templates/SignIn.template';
-import SignInToastTemplate from '@/templates/SignInToast.template';
+import SignInToastTemplateClient from '@/templates/SignInToast.template.client';
 import { Suspense } from 'react';
 
 export const revalidate = false;
@@ -7,9 +7,9 @@ export const revalidate = false;
 export default async function Page() {
   return (
     <Suspense fallback={<SignInTemplate />}>
-      <SignInToastTemplate>
+      <SignInToastTemplateClient>
         <SignInTemplate />
-      </SignInToastTemplate>
+      </SignInToastTemplateClient>
     </Suspense>
   );
 }

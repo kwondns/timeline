@@ -12,8 +12,8 @@ import { Button } from '@/components/ui/button';
 import Container from '@/atoms/Container';
 import { Input } from '@/components/ui/input';
 import { addFutureBoxAction } from '@/actions/addFutureBox.action';
-import FutureBoxTypeRadio from '@/molecules/FutureBoxTypeRadio';
-import FormWrapper from '@/molecules/FormWrapper';
+import FutureBoxTypeRadioClient from '@/molecules/FutureBoxTypeRadio.client';
+import FormWrapperClient from '@/molecules/FormWrapper.client';
 import { getTranslations } from 'next-intl/server';
 
 export default async function NewFutureBoxDialog() {
@@ -26,7 +26,7 @@ export default async function NewFutureBoxDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]" aria-modal="true">
-        <FormWrapper serverAction={addFutureBoxAction}>
+        <FormWrapperClient serverAction={addFutureBoxAction}>
           <DialogHeader>
             <DialogTitle>{t('Future.newBoxTitle')}</DialogTitle>
             <DialogDescription className="pb-2">{t('Future.newSubTitle')}</DialogDescription>
@@ -43,7 +43,7 @@ export default async function NewFutureBoxDialog() {
             <span id="box-title-help" className="sr-only">
               {t('a11y.forms.required')}
             </span>
-            <FutureBoxTypeRadio aria-describedby="box-type-help" />
+            <FutureBoxTypeRadioClient aria-describedby="box-type-help" />
             <span id="box-type-help" className="sr-only">
               {t('a11y.forms.required')}
             </span>
@@ -58,7 +58,7 @@ export default async function NewFutureBoxDialog() {
               {t('Future.submitButton')}
             </Button>
           </DialogFooter>
-        </FormWrapper>
+        </FormWrapperClient>
       </DialogContent>
     </Dialog>
   );
