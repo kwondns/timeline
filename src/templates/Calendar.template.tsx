@@ -1,5 +1,5 @@
 import Container from '@/atoms/Container';
-import CalendarControllerClient from '@/organisms/CalendarController.client';
+import CalendarController from '@/organisms/CalendarController';
 import Calendar from '@/organisms/Calendar';
 import { Locale } from '@/i18n/routing';
 
@@ -10,7 +10,7 @@ export default function CalendarTemplate(props: Readonly<CalendarTemplateProps>)
 
   return (
     <Container direction="column" className="h-full">
-      <CalendarControllerClient current={current} />
+      <CalendarController current={current} />
       <Calendar locale={locale} current={current} />
       {children}
     </Container>
