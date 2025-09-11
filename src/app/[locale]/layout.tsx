@@ -12,8 +12,8 @@ import { ROOT_METADATA } from '@/constants/METADATA';
 import WebApplicationSchema from '@/components/StructuredData/WebApplicationSchema';
 import OrganizationSchema from '@/components/StructuredData/OrganizationSchema';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
-  const { locale } = await params;
+export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Promise<Metadata> {
+  const { locale } = (await params) as { locale: Locale };
   return {
     title: ROOT_METADATA[locale].title,
     description: ROOT_METADATA[locale].description,
@@ -54,11 +54,8 @@ export async function generateStaticParams() {
   return LOCALE.map((locale) => ({ locale }));
 }
 
-export default async function LocaleLayout({
-  children,
-  params,
-}: Readonly<{ children: React.ReactNode; params: Promise<{ locale: Locale }> }>) {
-  const { locale } = await params;
+export default async function LocaleLayout({ children, params }: LayoutProps<'/[locale]'>) {
+  const { locale } = (await params) as { locale: Locale };
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();

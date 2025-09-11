@@ -7,6 +7,7 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer(
   withNextIntl({
+    typedRoutes: true,
     images: {
       formats: ['image/avif', 'image/webp'],
       remotePatterns: [

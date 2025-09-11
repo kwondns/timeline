@@ -14,13 +14,7 @@ export async function generateStaticParams() {
   return params;
 }
 
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ date: string }>;
-}) {
+export default async function Layout({ children, params }: LayoutProps<'/[locale]/past/[date]'>) {
   const { date } = await params;
 
   return (

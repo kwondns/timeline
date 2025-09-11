@@ -11,14 +11,8 @@ export async function generateStaticParams() {
   }
   return params;
 }
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: Locale; current: string }>;
-}) {
-  const { locale, current: currentString } = await params;
+export default async function Layout({ children, params }: LayoutProps<'/[locale]/calendar/[current]'>) {
+  const { locale, current: currentString } = (await params) as { locale: Locale; current: string };
   const current = new Date(currentString === undefined ? new Date().toISOString().slice(0, 7) : currentString);
   return (
     <CalendarTemplate locale={locale} current={current}>
