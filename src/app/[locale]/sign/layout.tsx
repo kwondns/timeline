@@ -2,10 +2,7 @@ import Container from '@/atoms/Container';
 import { Card } from '@/components/ui/card';
 import SignSelectLanguageClient from '@/organisms/SignSelectLanguage.client';
 
-type LayoutProps = {
-  children: React.ReactNode;
-};
-export default async function Layout(props: Readonly<LayoutProps>) {
+export default async function Layout(props: LayoutProps<'/[locale]/sign'>) {
   const { children } = props;
   return (
     <Container direction="column" className="absolute inset-0 justify-center align-center gap-6">

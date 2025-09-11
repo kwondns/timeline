@@ -3,13 +3,9 @@ import { Suspense } from 'react';
 import { Card } from '@/components/ui/card';
 import Typography from '@/atoms/Typography';
 
-type LayoutProps = {
-  children: React.ReactNode;
-};
-
 export const revalidate = false;
 
-export default function Layout(props: LayoutProps) {
+export default function Layout(props: LayoutProps<'/[locale]/future'>) {
   const { children } = props;
   return (
     <FutureTemplate>

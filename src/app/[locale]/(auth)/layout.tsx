@@ -9,7 +9,7 @@ import { PresentType } from '@/types/present.type';
 
 export const experimental_ppr = true;
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: LayoutProps<'/[locale]'>) {
   const { userId } = await getTokenAndUserId();
   let user = await getUser();
   const present = await callGetWithAuth<PresentType>('/present', {
