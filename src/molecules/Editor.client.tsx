@@ -29,12 +29,12 @@ export default function EditorClient(props: EditorProps) {
   useEffect(() => {
     const intervalTempSave = setInterval(
       () => {
-        onTempSave();
+        if (startTimeString) onTempSave();
       },
       1000 * 60 * 5,
     );
     return () => clearInterval(intervalTempSave);
-  }, [onTempSave]);
+  }, [onTempSave, startTimeString]);
   return (
     <MDEditor
       id="content"
