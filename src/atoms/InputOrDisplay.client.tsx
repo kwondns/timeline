@@ -4,7 +4,7 @@ import Typography, { TypographyComponentType, TypographyPropsType } from '@/atom
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 
-type InputOrDisplayProps = {
+export type InputOrDisplayProps = {
   typo: TypographyComponentType;
   action: () => void;
   initValue?: string;

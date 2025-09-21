@@ -16,7 +16,7 @@ export type TypographyPropsType = {
   [key in TypographyComponentType]: (props: TypographyComponentPropsType) => React.ReactNode;
 };
 
-const typoType: { defaultClassName: string; component: TypographyComponentType }[] = [
+export const typoType: { defaultClassName: string; component: TypographyComponentType }[] = [
   {
     defaultClassName: 'scroll-m-20 text-center text-xl md:text-4xl font-extrabold tracking-tight text-balance',
     component: 'h1',
