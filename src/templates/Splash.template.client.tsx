@@ -6,7 +6,7 @@ import { Icon } from '@/atoms/Icon';
 import Typography from '@/atoms/Typography';
 import { useRouter } from '@/i18n/navigation';
 
-export default function SplashTemplateClient({ duration = 500 }) {
+export default function SplashTemplateClient({ duration = 1000 }) {
   const route = useRouter();
   const [progress, setProgress] = useState(0);
   useEffect(() => {
@@ -17,6 +17,11 @@ export default function SplashTemplateClient({ duration = 500 }) {
   const handleComplete = () => {
     setTimeout(() => route.replace('/present'), 100);
   };
+
+  useEffect(() => {
+    route.prefetch(`/present`);
+    route.prefetch(`/sign/in`);
+  }, [route]);
   useEffect(() => {
     const progressInterval = setInterval(() => {
       setProgress((prev) => {

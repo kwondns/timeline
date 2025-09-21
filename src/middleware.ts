@@ -64,7 +64,7 @@ const handleProtectedPages = async (request: NextRequest, intlResponse: NextResp
   if (result.success && result.response) {
     return result.response;
   }
-  const redirectResponse = NextResponse.redirect(new URL(`/${locale}/sign/in`, request.url));
+  const redirectResponse = NextResponse.rewrite(new URL(`/${locale}/sign/in`, request.url));
   clearAuthCookies(redirectResponse);
   setLocaleCookie(request, redirectResponse);
 
