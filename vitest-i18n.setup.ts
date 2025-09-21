@@ -46,9 +46,23 @@ vi.mock('next-intl/server', () => {
 vi.mock('next-intl', async (defaultImport) => {
   return {
     ...defaultImport,
+    useLocale: vi.fn(() => (global as any).__TEST_LOCALE__ ?? 'ko'),
     useTranslations: vi.fn((ns?: string) => {
       const locale: Locale = (global as any).__TEST_LOCALE__ ?? 'ko';
       return createTranslations(locale, ns ?? '');
     }),
+  };
+});
+
+const mockRouter = {
+  push: vi.fn(),
+  replace: vi.fn(),
+  back: vi.fn(),
+  refresh: vi.fn(),
+  prefetch: vi.fn(),
+};
+vi.mock('@/i18n/navigation', () => {
+  return {
+    useRouter: () => mockRouter,
   };
 });
