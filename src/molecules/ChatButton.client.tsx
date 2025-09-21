@@ -25,7 +25,7 @@ export default function ChatButtonClient(props: Readonly<ChatButtonProps>) {
       onClick={onClickButton}
     >
       <div
-        className={`absolute inset-0 flex items-center justify-center space-x-1 transition-all duration-200 ease-in-out [&_svg]:!size-10 ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}}}`}
+        className={`absolute inset-0 flex items-center justify-center space-x-1 transition-all duration-200 ease-in-out [&_svg]:!size-10 ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}
       >
         {Icon.close}
       </div>
