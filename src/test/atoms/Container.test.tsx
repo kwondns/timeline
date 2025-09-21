@@ -1,4 +1,4 @@
-import Container from './Container';
+import Container from '@/atoms/Container';
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
