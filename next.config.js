@@ -23,6 +23,9 @@ const nextConfig = withBundleAnalyzer(
     },
     experimental: {
       ppr: 'incremental',
+      serverActions: {
+        bodySizeLimit: '3mb',
+      },
       optimizePackageImports: [
         '@radix-ui/react-dialog',
         '@radix-ui/react-dropdown-menu',
