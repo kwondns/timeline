@@ -1,3 +1,5 @@
+import { flow, pipe } from 'fp-ts/function';
+import * as O from 'fp-ts/Option';
 import { ensureDate } from '@/lib/utils/date/ensureDate';
 
 /**
@@ -22,8 +24,22 @@ import { ensureDate } from '@/lib/utils/date/ensureDate';
  *
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date
  */
-export const createPastLink = (date: string, index: string = '0'): string => {
-  const count = index === '0' ? '' : `?index=${index}`;
+export const createPastLink = (date: string, index: string = '0'): string =>
+  pipe(
+    date,
+    generatePastPath,
+    O.fold(
+      () => `/past/${O.getOrElse(() => generatePastPath(new Date()))}`,
+      (pastPath) => `/past/${pastPath}${generateIndexIfExist(index)}`,
+    ),
+  );
 
-  return `/past/${new Date(ensureDate(date).getTime() + 9 * 1000 * 60 * 60).toISOString().slice(0, 10)}${count}`;
-};
+const dateToMs = (date: Date) => date.getTime();
+const utcToKst = (ms: number) => ms + 9 * 60 * 60 * 1000;
+const msToDate = (ms: number) => new Date(ms);
+const formatYMD = flow(
+  (date: Date) => date.toISOString(),
+  (date: string) => date.slice(0, 10),
+);
+const generatePastPath = flow(ensureDate, O.map(dateToMs), O.map(utcToKst), O.map(msToDate), O.map(formatYMD));
+const generateIndexIfExist = (index: string) => (index === '0' ? '' : `?index=${index}`);

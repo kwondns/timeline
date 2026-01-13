@@ -7,7 +7,9 @@
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "function-call-argument-newline": ["error", "always"],
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 0 }]
   },
   "env": {
     "browser": true,

@@ -1,6 +1,18 @@
 import { redirect } from '@/i18n/navigation';
-import { isJsonResponse, safeParseJSON } from '@/lib/dal/http/core';
-import { getTokenAndUserId } from '@/lib/auth/token';
+import {
+  checkResponseOk,
+  checkUnAuthorized,
+  isJsonResponse,
+  parseErrorResponse,
+  safeParseJSONWrapper,
+  UnauthorizedError,
+} from '@/lib/dal/http/core';
+import { identity, pipe } from 'fp-ts/function';
+import * as T from 'fp-ts/Task';
+import * as TE from 'fp-ts/TaskEither';
+import * as E from 'fp-ts/Either';
+import { getLocaleTask } from '@/lib/auth/cookie';
+import { generateHeader } from '@/lib/auth/header';
 
 // 204일 경우
 export function callFetchForAction<T extends Record<string, any>>(
@@ -55,11 +67,7 @@ export async function callFetchForAction<T, R>(
   payload: T,
   options: RequestInit & { expectNoContent?: boolean; auth?: boolean } = {},
 ): Promise<R | void> {
-  const { token, locale } = await getTokenAndUserId();
-
-  const header = new Headers(options?.headers);
-  header.set('Content-Type', 'application/json');
-  if (options.auth && token) header.set('Authorization', `Bearer ${token}`);
+  const header = await generateHeader(options?.headers)();
 
   const response = await fetch(`${process.env.API_SERVER_URL}${url}`, {
     ...options,
@@ -67,24 +75,43 @@ export async function callFetchForAction<T, R>(
     headers: header,
   });
 
-  // 401은 미들웨어에서 이미 처리되었으므로 여기서는 간단히 리다이렉트
-  if (response.status === 401) {
-    redirect({ href: '/sign/in?toast=loginRequired', locale });
-  }
-
-  if (!response.ok) {
-    const error = await response.json();
-    const errorMessage = Array.isArray(error.message) ? error.message[0] : error.message;
-    throw new Error(errorMessage || '알 수 없는 오류');
-  }
-
-  if (response.status === 204 || options.expectNoContent) {
-    return;
-  }
-
-  if (response.status === 201 || isJsonResponse(response)) {
-    return (await safeParseJSON(response)) as R;
-  }
-
-  return undefined as unknown as R;
+  const result = await returnResponse<R>(response, options.expectNoContent)();
+  return redirectOrReturnValue<R>(result);
 }
+
+const checkNoContent = (response: Response, expectNoContent?: boolean): TE.TaskEither<Error, Response | void> =>
+  response.status === 204 || expectNoContent ? TE.right(undefined) : TE.right(response);
+
+const parseBody = <T>(response: Response | void) => {
+  if (response instanceof Response) {
+    return response.status === 201 || isJsonResponse(response)
+      ? pipe(safeParseJSONWrapper<T>(response), TE.map(identity))
+      : TE.right(undefined);
+  }
+  return TE.right(undefined);
+};
+
+const returnResponse = <R>(response: Response, expectNoContent?: boolean): TE.TaskEither<Error, R | void> =>
+  pipe(
+    response,
+    checkUnAuthorized,
+    TE.chain((res) => pipe(res, checkResponseOk, TE.orElse(parseErrorResponse))),
+    TE.chain((res) => pipe(checkNoContent(res, expectNoContent))),
+    TE.chain((res) => parseBody<R>(res)),
+  );
+
+const redirectOrReturnValue = <R>(result: E.Either<Error, void | R>) =>
+  pipe(
+    result,
+    E.match(
+      (error) => {
+        if (error instanceof UnauthorizedError) {
+          pipe(
+            getLocaleTask,
+            T.map((locale) => redirect({ href: '/sign/in?toast=loginRequired', locale })),
+          )();
+        } else throw error;
+      },
+      (data) => data,
+    ),
+  );

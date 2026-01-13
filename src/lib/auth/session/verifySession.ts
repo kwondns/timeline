@@ -1,8 +1,13 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import { decrypt } from '@/lib/auth/session/decrypt';
 import { TOKEN_EXPIRY } from '@/constants/TOKEN_TTL';
+import { pipe } from 'fp-ts/function';
+import * as TE from 'fp-ts/TaskEither';
+import * as O from 'fp-ts/Option';
+import { getSessionTask } from '@/lib/auth/cookie';
+import { sessionDecryptWrapper } from '@/lib/auth/session/sessionDecryptWrapper';
+import { SessionPayload } from '@/lib/auth/session/index';
+import { verifySessionWrapper } from '@/lib/auth/session/verifySessionWrapper';
 
 /**
  * @function verifySession
@@ -33,17 +38,5 @@ import { TOKEN_EXPIRY } from '@/constants/TOKEN_TTL';
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise — Promise에 대한 자료
  */
 export async function verifySession(): Promise<{ isAuth: boolean; userId: string; expiresAt: number } | null> {
-  const cookieStore = await cookies();
-  const cookie = cookieStore.get('session')?.value;
-  let session = await decrypt(cookie);
-  if (!session?.userId) return null;
-
-  const now = Date.now();
-  const timeLeft = session.expiresAt - now;
-
-  if (timeLeft > TOKEN_EXPIRY.THRESHOLD) {
-    return { isAuth: true, userId: session.userId, expiresAt: session.expiresAt };
-  }
-
-  return null;
+  return verifySessionWrapper()();
 }

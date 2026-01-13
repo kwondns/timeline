@@ -1,6 +1,7 @@
 'use server';
 
 import { AuthResponseType } from '@/types/auth.type';
+import { refreshWrapper } from '@/lib/auth/token/refreshWrapper';
 
 /**
  * @function refresh
@@ -23,16 +24,17 @@ import { AuthResponseType } from '@/types/auth.type';
  * @see https://developer.mozilla.org/ko/docs/Web/API/Fetch_API — Fetch API 관련 정보
  */
 export async function refresh(refreshToken?: string): Promise<null | AuthResponseType> {
-  if (!refreshToken) return null;
-
-  const res = await fetch(`${process.env.API_SERVER_URL}/user/refresh`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Cookie: `refresh-token=${refreshToken}`,
-    },
-    cache: 'no-cache',
-  });
-  if (!res.ok) return null;
-  return (await res.json()) as AuthResponseType;
+  return await refreshWrapper(refreshToken)();
+  // if (!refreshToken) return null;
+  //
+  // const res = await fetch(`${process.env.API_SERVER_URL}/user/refresh`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     Cookie: `refresh-token=${refreshToken}`,
+  //   },
+  //   cache: 'no-cache',
+  // });
+  // if (!res.ok) return null;
+  // return (await res.json()) as AuthResponseType;
 }

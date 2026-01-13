@@ -1,8 +1,12 @@
+import * as O from 'fp-ts/Option';
+import { pipe } from 'fp-ts/function';
+import { sequenceT } from 'fp-ts/Apply';
+
 /**
  * @function ensureDate
  * @description 문자열 또는 Date 객체를 입력받아 Date 객체로 변환합니다.
  *
- * @param {string | Date} date — 변환할 날짜입니다.
+ * @param {string | Date} input — 변환할 날짜입니다.
  * 문자열 형식일 경우 "YYYY-MM-DD" 또는 "MM/DD/YYYY"와 같은 유효한 날짜 포맷이어야 하며,
  * Date 객체일 경우 그대로 반환됩니다.
  *
@@ -22,6 +26,13 @@
  *
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date
  */
-export const ensureDate = (date: string | Date): Date => {
-  return typeof date === 'string' ? new Date(date) : date;
+export const ensureDate = (input: string | Date): O.Option<Date> => {
+  const date = typeof input === 'string' ? new Date(input) : input;
+  return isNaN(date.getTime()) ? O.none : O.some(date);
 };
+
+export const ensureStartAndEndDate = (startDate: string | Date, endDate: string | Date | undefined) =>
+  pipe(
+    sequenceT(O.Applicative)(ensureDate(startDate), ensureDate(endDate ?? new Date())),
+    O.map(([start, end]) => ({ start, end })),
+  );

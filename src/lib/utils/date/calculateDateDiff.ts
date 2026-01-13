@@ -1,19 +1,14 @@
 import { formattingDateDiff } from '@/lib/utils/date/formattingDateDiff';
-import { differenceInMinutes } from 'date-fns/differenceInMinutes';
 import { Locale } from '@/i18n/routing';
+import { ensureStartAndEndDate } from '@/lib/utils/date/ensureDate';
+import { pipe } from 'fp-ts/function';
+import { calculateDifferenceInMinutes } from '@/lib/utils/date/calculateDifferenceInMinutes';
+import * as O from 'fp-ts/Option';
 
-export function calculateDateDiff(
-  startDate: string | Date,
-  endDate?: string | Date,
-  toNumber?: false,
-  locale?: Locale,
-): string;
-export function calculateDateDiff(
-  startDate: string | Date,
-  endDate?: string | Date,
-  toNumber?: true,
-  locale?: never,
-): number;
+type CalculateDateDiff = {
+  (startDate: string | Date, endDate?: string | Date, toNumber?: false, locale?: Locale): string;
+  (startDate: string | Date, endDate?: string | Date, toNumber?: true, locale?: never): number;
+};
 /**
  * @function calculateDateDiff
  * @description 두 날짜 간의 차이를 계산하여 문자열 또는 숫자로 반환합니다.
@@ -47,19 +42,22 @@ export function calculateDateDiff(
  * @see https://date-fns.org/v2.29.2/docs/differenceInMinutes
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date
  */
-export function calculateDateDiff(
+
+const calculateDateDiffImpl = (
   startDate: string | Date,
   endDate?: string | Date,
   toNumber: boolean = false,
-  locale?: Locale,
-): string | number {
-  const start = typeof startDate === 'string' ? new Date(startDate) : startDate;
-  let end: Date;
-  if (typeof endDate === 'string') {
-    end = endDate ? new Date(endDate) : new Date();
-  } else {
-    end = endDate ?? new Date();
-  }
-  const diffMinute = differenceInMinutes(end, start);
-  return toNumber ? differenceInMinutes(end, start) : formattingDateDiff(diffMinute, locale ?? 'ko');
-}
+  locale: Locale = 'ko',
+): string | number =>
+  pipe(
+    ensureStartAndEndDate(startDate, endDate),
+    O.map(({ start, end }) => calculateDifferenceInMinutes(start, end)),
+    O.flatten,
+    O.map((diffMinute) => buildReturnValue(diffMinute, toNumber, locale)),
+    O.getOrElse<string | number>(() => (toNumber ? 0 : '')),
+  );
+
+const buildReturnValue = (diffMinute: number, toNumber: boolean, locale: Locale) =>
+  toNumber ? diffMinute : formattingDateDiff(diffMinute, locale);
+
+export const calculateDateDiff = calculateDateDiffImpl as CalculateDateDiff;

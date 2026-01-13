@@ -6,7 +6,7 @@
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
-    "start": "next start",
+    "start": "PORT=3002 next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -28,7 +28,9 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "fp-ts": "^2.16.11",
     "jose": "^6.0.12",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.536.0",
     "next": "15.5.1-canary.39",
     "next-intl": "^4.3.5",
@@ -47,6 +49,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^15.5.0",
     "@tailwindcss/postcss": "^4.1.11",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

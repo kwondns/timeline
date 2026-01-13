@@ -1,2 +1,2 @@
 export * from './refresh';
-export * from './getTokenAndUserId';
+export * from './getFromCookieAndHeader';

@@ -1,5 +1,10 @@
 import { cookies } from 'next/headers';
-
+import * as T from 'fp-ts/Task';
+import * as O from 'fp-ts/Option';
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
+import { pipe } from 'fp-ts/function';
+import { Locale } from '@/i18n/routing';
+// import { curry } from 'lodash';
 /**
  * @function setCookie
  * 주어진 키와 값을 기반으로 HTTP 쿠키를 설정하는 함수입니다.
@@ -43,3 +48,42 @@ export async function setCookie(key: string, value: string, expiresAt: number): 
     path: '/',
   });
 }
+
+export const createCookieTask: T.Task<ReadonlyRequestCookies> = () => cookies();
+export const extractFromCookie = (key: string, cookieStore: ReadonlyRequestCookies) =>
+  pipe(
+    cookieStore.get(key),
+    O.fromNullable,
+    O.chain((cookie) =>
+      pipe(
+        cookie.value,
+        O.fromNullable,
+        O.filter((v) => v.trim() !== ''),
+      ),
+    ),
+  );
+export const extractFromCookieWithDefault = (key: string, defaultValue: string, cookieStore: ReadonlyRequestCookies) =>
+  pipe(
+    extractFromCookie(key, cookieStore),
+    O.getOrElse(() => defaultValue),
+  );
+
+export const getTokenTask: T.Task<O.Option<string>> = pipe(
+  createCookieTask,
+  T.map((cookie) => extractFromCookie('auth-token', cookie)),
+);
+
+export const getLocaleTask: T.Task<Locale> = pipe(
+  createCookieTask,
+  T.map((cookieStore) => extractFromCookieWithDefault('NEXT_LOCALE', 'ko', cookieStore) as Locale),
+);
+
+export const getSessionTask: T.Task<O.Option<string>> = pipe(
+  createCookieTask,
+  T.map((cookie) => extractFromCookie('session', cookie)),
+);
+
+export const getRefreshTokenTask: T.Task<O.Option<string>> = pipe(
+  createCookieTask,
+  T.map((cookie) => extractFromCookie('refresh-token', cookie)),
+);

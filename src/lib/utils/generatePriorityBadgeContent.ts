@@ -1,3 +1,15 @@
+import { pipe } from 'fp-ts/function';
+import * as O from 'fp-ts/Option';
+
+type Priority = 1 | 2 | 3;
+type BadgeInfo = { badgeContentKey: string; badgeColor: 'rose' | 'info' | 'green' };
+
+const badgeMap: Record<Priority, BadgeInfo> = {
+  1: { badgeContentKey: 'priorityHigh', badgeColor: 'rose' },
+  2: { badgeContentKey: 'priorityMedium', badgeColor: 'info' },
+  3: { badgeContentKey: 'priorityLow', badgeColor: 'green' },
+};
+
 /**
  * @function generatePriorityBadgeContent
  * @description 우선순위에 따라 배지 콘텐츠와 색상을 생성합니다.
@@ -20,21 +32,17 @@
  *
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Statements/switch
  */
-export default function generatePriorityBadgeContent(t: (key: string) => string, priority: 1 | 2 | 3) {
-  let badgeContent: string;
-  let badgeColor: 'rose' | 'info' | 'green';
-  switch (priority) {
-    case 1:
-      badgeContent = t('priorityHigh');
-      badgeColor = 'rose';
-      break;
-    case 2:
-      badgeContent = t('priorityMedium');
-      badgeColor = 'info';
-      break;
-    case 3:
-      badgeContent = t('priorityLow');
-      badgeColor = 'green';
-  }
-  return { badgeContent, badgeColor };
+
+export default function generatePriorityBadgeContent(
+  t: (key: string) => string,
+  priority: 1 | 2 | 3,
+): { badgeContent: string; badgeColor: 'rose' | 'info' | 'green' } {
+  return pipe(
+    O.fromNullable(badgeMap[priority]),
+    O.getOrElse(() => badgeMap[3]),
+    ({ badgeContentKey, badgeColor }) => ({
+      badgeContent: t(badgeContentKey),
+      badgeColor,
+    }),
+  );
 }

@@ -1,3 +1,7 @@
+import { pipe } from 'fp-ts/function';
+import { ensureDate } from '@/lib/utils/date/ensureDate';
+import * as O from 'fp-ts/Option';
+
 /**
  * @function calcPreviousMonth
  * @description 주어진 날짜(date)와 기준 첫 번째 일(day)을 기준으로 이전 달의
@@ -21,5 +25,9 @@
  * @see https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Date
  */
 export const calcPreviousMonth = (date: Date, firstDay: number): Date =>
-  new Date(date.getFullYear(), date.getMonth(), -firstDay + 1);
-
+  pipe(
+    ensureDate(date),
+    O.map((dateObj) => ({ year: dateObj.getFullYear(), month: dateObj.getMonth() })),
+    O.map(({ year, month }) => new Date(year, month, -firstDay + 1)),
+    O.getOrElse(() => new Date()),
+  );

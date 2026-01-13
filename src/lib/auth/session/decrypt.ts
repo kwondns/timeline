@@ -1,7 +1,7 @@
 'use server';
 
-import { encodedKey, SessionPayload } from '@/lib/auth/session/index';
-import { jwtVerify } from 'jose';
+import { SessionPayload } from '@/lib/auth/session/index';
+import { sessionDecryptWrapper } from '@/lib/auth/session/sessionDecryptWrapper';
 
 /**
  * @function decrypt
@@ -29,10 +29,7 @@ import { jwtVerify } from 'jose';
  * @see https://www.npmjs.com/package/jose
  */
 export async function decrypt(session: string | undefined = ''): Promise<SessionPayload | null> {
-  try {
-    const { payload } = await jwtVerify(session, encodedKey, { algorithms: ['HS256'] });
-    return payload as SessionPayload;
-  } catch (e) {
-    return null;
-  }
+  const result = await sessionDecryptWrapper(session)();
+  if (result._tag === 'Right') return result.right;
+  return null;
 }

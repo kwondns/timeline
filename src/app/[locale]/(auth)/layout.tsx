@@ -3,14 +3,14 @@ import ChatbotTemplateClient from '@/templates/Chatbot.template.client';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { callGetWithAuth } from '@/lib/dal/http';
 import AppSidebarWrapperClient from '@/organisms/AppSidebarWrapper.client';
-import { getTokenAndUserId } from '@/lib/auth/token';
+import { getFromCookieAndHeader } from '@/lib/auth/token';
 import PresentTemplateClient from '@/templates/Present.template.client';
 import { PresentType } from '@/types/present.type';
 
 export const experimental_ppr = true;
 
 export default async function Layout({ children }: LayoutProps<'/[locale]'>) {
-  const { userId } = await getTokenAndUserId();
+  const { userId } = await getFromCookieAndHeader();
   let user = await getUser();
   const present = await callGetWithAuth<PresentType>('/present', {
     next: { revalidate: false },
